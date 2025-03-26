@@ -6,20 +6,19 @@ import { Server } from "socket.io";
 import config from "./start/config.js";
 import logging from "./start/logging.js";
 import chat from "./socketHandlers/chat.js";
+import router from "./api/index.js";
 
 const port = process.env.PORT || 3000;
 const app = e();
 const server = createServer(app);
 const io = new Server(server);
 const log = debug("app:server");
-const __dirname = path.resolve();
+export const __dirname = path.resolve();
 
 config(e, app);
 logging();
 
-app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "client/public/templates/index.html"));
-});
+app.use("/", router);
 
 io.on("connection", (socket) => {
   log("a user connected");

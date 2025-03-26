@@ -1,3 +1,11 @@
+document.addEventListener('DOMContentLoaded', () => {
+  const chatMessages = document.querySelector('.chat-messages');
+  const observer = new MutationObserver(() => {
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+  });
+  observer.observe(chatMessages, { childList: true, subtree: true });
+});
+
 document.querySelector(".settings-btn").addEventListener("click", (e) => {
   console.log(1)
   document.getElementById("settings-sidebar").classList.toggle("active");
