@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self' https: localhost:* 'unsafe-inline' 'unsafe-eval'; script-src 'self' https: localhost:* 'unsafe-inline' 'unsafe-eval'; connect-src 'self' https: localhost:* ws://localhost:*; img-src 'self' https: localhost:* data: blob: 'unsafe-inline'; frame-src 'self'; style-src 'self' https: localhost:* 'unsafe-inline';"
+    />
+    <title>Online Chat</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    />
+    <link rel="stylesheet" href="/public/style/auth.css" />
+  </head>
+  <body>
+    <div
+      class="auth-container d-flex align-items-center justify-content-center p-4"
+    >
+      <div class="auth-card p-4 w-100" style="max-width: 450px">
+        <ul class="nav nav-tabs mb-4" id="authTab" role="tablist">
+          <li class="nav-item flex-fill" role="presentation">
+            <button
+              class="nav-link active w-100"
+              data-bs-toggle="tab"
+              data-bs-target="#login"
+              type="button"
+            >
+              <i class="fas fa-sign-in-alt"></i> Login
+            </button>
+          </li>
+          <li class="nav-item flex-fill" role="presentation">
+            <button
+              class="nav-link w-100"
+              data-bs-toggle="tab"
+              data-bs-target="#register"
+              type="button"
+            >
+              <i class="fas fa-user-plus"></i> Register
+            </button>
+          </li>
+        </ul>
+
+        <div class="tab-content" id="authTabContent">
+          <!-- Login Form -->
+          <div class="tab-pane fade show active" id="login">
+            <form>
+              <div class="mb-3">
+                <label class="form-label"
+                  ><i class="fas fa-envelope me-2"></i>Email</label
+                >
+                <input
+                  type="email"
+                  class="form-control"
+                  placeholder="Enter your email"
+                  required
+                />
+              </div>
+              <div class="mb-3">
+                <label class="form-label"
+                  ><i class="fas fa-lock me-2"></i>Password</label
+                >
+                <input
+                  type="password"
+                  class="form-control"
+                  placeholder="Enter your password"
+                  required
+                />
+              </div>
+              <button type="submit" class="btn btn-primary w-100">
+                <i class="fas fa-sign-in-alt me-2"></i>Login
+              </button>
+            </form>
+          </div>
+
+          <!-- Register Form -->
+          <div class="tab-pane fade" id="register">
+            <form>
+              <div class="mb-3">
+                <label class="form-label"
+                  ><i class="fas fa-user me-2"></i>Username</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Choose a username"
+                  required
+                />
+              </div>
+              <div class="mb-3">
+                <label class="form-label"
+                  ><i class="fas fa-envelope me-2"></i>Email</label
+                >
+                <input
+                  type="email"
+                  class="form-control"
+                  placeholder="Enter your email"
+                  required
+                />
+              </div>
+              <div class="mb-3">
+                <label class="form-label"
+                  ><i class="fas fa-lock me-2"></i>Password</label
+                >
+                <input
+                  type="password"
+                  class="form-control"
+                  placeholder="Choose a password"
+                  required
+                />
+              </div>
+              <div class="mb-3">
+                <label class="form-label"
+                  ><i class="fas fa-check-circle me-2"></i>Confirm
+                  Password</label
+                >
+                <input
+                  type="password"
+                  class="form-control"
+                  placeholder="Confirm your password"
+                  required
+                />
+              </div>
+              <button type="submit" class="btn btn-primary w-100">
+                <i class="fas fa-user-plus me-2"></i>Register
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../../src/components/auth.js"></script>
+  </body>
+</html>
