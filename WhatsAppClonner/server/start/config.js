@@ -1,4 +1,5 @@
 import helmet from "helmet";
+import cookieParser from "cookie-parser";
 
 export default function (e, app) {
   app.use(e.json());
@@ -7,11 +8,27 @@ export default function (e, app) {
       contentSecurityPolicy: {
         directives: {
           defaultSrc: ["'self'"],
-          scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'", "https://cdn.jsdelivr.net"],
-          styleSrc: ["'self'", "'unsafe-inline'", "https://cdn.jsdelivr.net", "https://cdnjs.cloudflare.com"],
+          scriptSrc: [
+            "'self'",
+            "'unsafe-inline'",
+            "'unsafe-eval'",
+            "https://cdn.jsdelivr.net",
+            "https://unpkg.com",
+          ],
+          styleSrc: [
+            "'self'",
+            "'unsafe-inline'",
+            "https://cdn.jsdelivr.net",
+            "https://cdnjs.cloudflare.com",
+            "https://unpkg.com",
+          ],
           imgSrc: ["'self'", "data:", "https:"],
           connectSrc: ["'self'", "wss:", "ws:"],
-          fontSrc: ["'self'", "https://cdnjs.cloudflare.com"],
+          fontSrc: [
+            "'self'",
+            "https://cdnjs.cloudflare.com",
+            "https://unpkg.com",
+          ],
           objectSrc: ["'none'"],
           mediaSrc: ["'self'"],
           frameSrc: ["'self'"],
@@ -21,4 +38,5 @@ export default function (e, app) {
   );
   app.use(e.urlencoded({ extended: true }));
   app.use(e.static("client"));
+  app.use(cookieParser());
 }

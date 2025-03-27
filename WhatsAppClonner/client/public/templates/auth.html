@@ -3,10 +3,6 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta
-      http-equiv="Content-Security-Policy"
-      content="default-src 'self' https: localhost:* 'unsafe-inline' 'unsafe-eval'; script-src 'self' https: localhost:* 'unsafe-inline' 'unsafe-eval'; connect-src 'self' https: localhost:* ws://localhost:*; img-src 'self' https: localhost:* data: blob: 'unsafe-inline'; frame-src 'self'; style-src 'self' https: localhost:* 'unsafe-inline';"
-    />
     <title>Online Chat</title>
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
@@ -49,7 +45,7 @@
         <div class="tab-content" id="authTabContent">
           <!-- Login Form -->
           <div class="tab-pane fade show active" id="login">
-            <form>
+            <form id="login-form">
               <div class="mb-3">
                 <label class="form-label"
                   ><i class="fas fa-envelope me-2"></i>Email</label
@@ -80,7 +76,7 @@
 
           <!-- Register Form -->
           <div class="tab-pane fade" id="register">
-            <form>
+            <form id="register-form">
               <div class="mb-3">
                 <label class="form-label"
                   ><i class="fas fa-user me-2"></i>Username</label
@@ -89,6 +85,7 @@
                   type="text"
                   class="form-control"
                   placeholder="Choose a username"
+                  name="username"
                   required
                 />
               </div>
@@ -99,6 +96,7 @@
                 <input
                   type="email"
                   class="form-control"
+                  name="email"
                   placeholder="Enter your email"
                   required
                 />
@@ -111,6 +109,7 @@
                   type="password"
                   class="form-control"
                   placeholder="Choose a password"
+                  name="password"
                   required
                 />
               </div>
@@ -122,6 +121,7 @@
                 <input
                   type="password"
                   class="form-control"
+                  name="cpassword"
                   placeholder="Confirm your password"
                   required
                 />
@@ -135,7 +135,10 @@
       </div>
     </div>
 
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="../../src/components/auth.js"></script>
+    <script src="../../src/components/login.js"></script>
+    <script src="../../src/components/register.js"></script>
   </body>
 </html>

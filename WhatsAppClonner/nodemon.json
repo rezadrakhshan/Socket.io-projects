@@ -1,6 +1,0 @@
-{
-    "watch": ["server.js"],
-    "ext": "js",
-    "ignore": [],
-    "exec": "node server/server.js"
-}

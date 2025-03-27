@@ -5,6 +5,7 @@ import path from "path";
 import { Server } from "socket.io";
 import config from "./start/config.js";
 import logging from "./start/logging.js";
+import db from "./start/db.js";
 import chat from "./socketHandlers/chat.js";
 import router from "./api/index.js";
 
@@ -17,6 +18,7 @@ export const __dirname = path.resolve();
 
 config(e, app);
 logging();
+db()
 
 app.use("/", router);
 
