@@ -5,6 +5,7 @@ import debug from "debug";
 import path from "path";
 import config from "./start/config.js";
 import logging from "./start/logging.js";
+import router from "./routes/index.js";
 
 const app = e();
 const port = process.env.PORT || 3000;
@@ -15,6 +16,8 @@ export const __dirname = path.resolve();
 
 config(e, app);
 logging();
+
+app.use("/", router);
 
 io.on("connection", (socket) => {
   log("user connected");
