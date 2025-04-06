@@ -13,11 +13,23 @@
     />
   </head>
   <body>
-    <div class="menu">
-        <h1>Tic-Tac-Toe</h1>
+    <div class="container">
+      <button id="toggle-music">🔊</button>
+      <div class="menu">
+        <img src="/public/image/logo.png" alt="">
         <a href="">Create Room</a>
         <a href="">Join Room</a>
         <a href="">Play With Bot</a>
+      </div>
+      <hr color="#FFDDAB">
+      <div class="profile">
+        <img src="/public/image/bg.gif" alt="">
+        <h3>John Doe</h3>
+      </div>
     </div>
+    <audio id="background-music" autoplay muted loop>
+      <source src="/public/music/bg-music.mp3" type="audio/mpeg" />
+    </audio>
+    <script src="/src/components/index.js"></script>
   </body>
 </html>

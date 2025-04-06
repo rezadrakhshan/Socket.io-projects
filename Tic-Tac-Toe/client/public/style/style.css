@@ -3,25 +3,37 @@
   padding: 0%;
   font-family: "Poppins";
 }
+html {
+  padding: 3%;
+}
 body {
   background-image: url("/public/image/bg.gif");
   background-size: cover;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  height: 100%;
+  width: 100%;
 }
-.menu h1 {
+
+.menu a {
+  display: block;
+  text-decoration: none;
   color: white;
+  font-size: 3vh;
+}
+
+.menu h1 {
   font-size: 10vh;
 }
 
-.menu {
+.container {
+  color: white;
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-around;
   align-items: center;
-  flex-direction: column;
-  height: 40vh;
+  height: 100%;
+  width: 100%;
   padding: 5%;
   background: rgba(255, 255, 255, 0.15);
   border-radius: 16px;
@@ -32,9 +44,103 @@ body {
 }
 
 .menu a {
+  margin-top: 1vh;
+  background-color: rgba(0, 0, 0, 0.2);
+  padding: 1vh 2vh;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+  transition: 0.3s ease;
+}
+
+
+.profile{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.profile img{
+  width: 50vh;
+  height: 50vh;
+  border-radius: 100%;
+}
+.profile {
+  background: rgba(0, 0, 0, 0.2);
+  padding: 3vh;
+  border-radius: 16px;
+  box-shadow: 0 0 20px rgba(255, 221, 171, 0.3);
+  backdrop-filter: blur(4px);
+  transition: transform 0.3s ease;
+}
+
+.profile:hover {
+  transform: scale(1.02);
+}
+
+
+.profile img {
+  width: 50vh;
+  height: 50vh;
+  border-radius: 50%;
+  border: 6px solid transparent;
+  box-shadow: 0 0 20px #ffddab, 0 0 40px #ffddab;
+  transition: transform 0.3s ease;
+}
+
+.profile img:hover {
+  transform: scale(1.05) rotate(1deg);
+}
+
+
+.profile h3{
   text-align: center;
-  display: block;
-  text-decoration: none;
-  color: white;
-  font-size: 3vh;
+  background-color: #FFDDAB;
+  color: black;
+  width: fit-content;
+  padding: 2%;
+  border-radius: 5%;
+  margin-top: 4%;
+}
+
+
+.menu a:hover {
+  color: #FFDDAB;
+  transform: scale(1.05);
+  transition: all 0.3s ease;
+}
+
+
+.menu img {
+  width: 30vh;
+  filter: drop-shadow(0 0 10px rgba(255, 221, 171, 0.7));
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+  100% { transform: translateY(0); }
+}
+
+
+#toggle-music {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  padding: 10px;
+  font-size: 1.5rem;
+  background: rgba(255, 221, 171, 0.4);
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: 0.3s;
+}
+#toggle-music:hover {
+  background: rgba(255, 221, 171, 0.7);
+}
+
+
+hr{
+  height: 60vh;
 }
