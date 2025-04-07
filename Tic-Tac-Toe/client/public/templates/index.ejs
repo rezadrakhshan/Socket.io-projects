@@ -16,17 +16,29 @@
     <div class="container">
       <button id="toggle-music">🔊</button>
       <div class="menu">
-        <img src="/public/image/logo.png" alt="">
-        <a href="">Create Room</a>
-        <a href="">Join Room</a>
+        <img src="/public/image/logo.png" alt="" />
+        <a href="">Play With Friend</a>
         <a href="">Play With Bot</a>
+        <a href="#add-friend" id="open-modal-btn">Add Friend</a>
       </div>
-      <hr color="#FFDDAB">
+      <hr color="#FFDDAB" />
       <div class="profile">
-        <img src="<%= user.profile %>" alt="">
+        <img src="<%= user.profile %>" alt="" />
         <h3><%= user.username %></h3>
       </div>
     </div>
+
+    <div id="friend-modal" class="modal hidden">
+      <form class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Add a Friend</h2>
+        <input required name="username" type="text" placeholder="Enter username..." />
+        <button id="add-friend-btn">Add</button>
+      </form>
+    </div>
+
+    <div id="toast-container"></div>
+    <script type="module" src="/src/components/invite.js"></script>
     <audio id="background-music" autoplay muted loop>
       <source src="/public/music/bg-music.mp3" type="audio/mpeg" />
     </audio>

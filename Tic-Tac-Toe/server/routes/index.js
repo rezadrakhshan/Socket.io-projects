@@ -1,9 +1,10 @@
 import e from "express";
 import controller from "../controller/index.js";
-import user from "../middleware/user.js";
+import inviteRouter from "./invite.js";
 
 const router = e.Router();
 
-router.get("/", user, controller.homePage);
+router.get("/", controller.homePage);
+router.use("/api", inviteRouter);
 
 export default router;

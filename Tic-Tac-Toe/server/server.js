@@ -7,6 +7,7 @@ import config from "./start/config.js";
 import logging from "./start/logging.js";
 import db from "./start/db.js";
 import router from "./routes/index.js";
+import user from "./middleware/user.js";
 
 const app = e();
 const port = process.env.PORT || 3000;
@@ -19,7 +20,7 @@ config(e, app);
 logging();
 db();
 
-app.use("/", router);
+app.use("/", user, router);
 
 io.on("connection", (socket) => {
   log("user connected");
@@ -27,6 +28,5 @@ io.on("connection", (socket) => {
     log("user disconnected");
   });
 });
-
 
 server.listen(port, () => log(`server running on port ${port}`));
