@@ -21,12 +21,15 @@ logging();
 db();
 
 app.use("/", user, router);
-
 io.on("connection", (socket) => {
-  log("user connected");
+  log("a user connected");
+  socket.on("invite", (data) => {
+    log(data);
+  });
   socket.on("disconnect", () => {
     log("user disconnected");
   });
 });
+
 
 server.listen(port, () => log(`server running on port ${port}`));

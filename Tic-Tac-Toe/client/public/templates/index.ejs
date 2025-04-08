@@ -15,16 +15,30 @@
   <body>
     <div class="container">
       <button id="toggle-music">🔊</button>
-      <div class="menu">
-        <img src="/public/image/logo.png" alt="" />
-        <a href="">Play With Friend</a>
-        <a href="">Play With Bot</a>
-        <a href="#add-friend" id="open-modal-btn">Add Friend</a>
+      <button id="toggle-notif">🔔</button>
+      <div class="notification-wrapper">
+        <div id="notification-box" class="hidden">
+          <h4>Notifications</h4>
+          <ul id="notification-list">
+            <% for (let i = 0; i < invites.length; i++) { %>
+              <p><%= invites[i].receiver.username %></p>
+          <% } %>
+          </ul>
+        </div>
       </div>
-      <hr color="#FFDDAB" />
-      <div class="profile">
-        <img src="<%= user.profile %>" alt="" />
-        <h3><%= user.username %></h3>
+      <div class="content">
+        <div class="menu">
+          <img src="/public/image/logo.png" alt="" />
+          <a href="">Play With Friend</a>
+          <a href="">Play With Bot</a>
+          <a href="#add-friend" id="open-modal-btn">Add Friend</a>
+        </div>
+  
+        <hr color="#FFDDAB" />
+        <div class="profile">
+          <img src="<%= user.profile %>" alt="" />
+          <h3><%= user.username %></h3>
+        </div>
       </div>
     </div>
 
@@ -32,16 +46,22 @@
       <form class="modal-content">
         <span class="close">&times;</span>
         <h2>Add a Friend</h2>
-        <input required name="username" type="text" placeholder="Enter username..." />
+        <input
+          required
+          name="username"
+          type="text"
+          placeholder="Enter username..."
+        />
         <button id="add-friend-btn">Add</button>
       </form>
     </div>
 
     <div id="toast-container"></div>
-    <script type="module" src="/src/components/invite.js"></script>
     <audio id="background-music" autoplay muted loop>
       <source src="/public/music/bg-music.mp3" type="audio/mpeg" />
     </audio>
+    <script src="/socket.io/socket.io.js"></script>
+    <script type="module" src="/src/components/invite.js"></script>
     <script src="/src/components/index.js"></script>
   </body>
 </html>

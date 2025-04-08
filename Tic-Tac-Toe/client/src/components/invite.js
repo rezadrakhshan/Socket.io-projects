@@ -1,4 +1,5 @@
 const form = document.getElementsByClassName("modal-content")[0];
+let socket = io()
 
 function showToast(message, type = "success") {
   const toast = document.createElement("div");
@@ -38,8 +39,9 @@ form.addEventListener("submit", async (e) => {
       showToast("User Invited", "error");
       return;
     }
-
+    
     const inviteResult = await inviteResponse.json();
+    socket.emit("invite","user invited")
     showToast(inviteResult);
   } catch (err) {
     showToast(err.message, "error");

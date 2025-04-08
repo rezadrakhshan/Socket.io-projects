@@ -29,9 +29,6 @@ body {
 
 .container {
   color: white;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
   height: 100%;
   width: 100%;
   padding: 5%;
@@ -41,6 +38,12 @@ body {
   backdrop-filter: blur(6.2px);
   -webkit-backdrop-filter: blur(6.2px);
   border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.content {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
 }
 
 .menu a {
@@ -137,6 +140,21 @@ body {
   transition: 0.3s;
 }
 #toggle-music:hover {
+  background: rgba(255, 221, 171, 0.7);
+}
+#toggle-notif {
+  position: fixed;
+  top: 80px;
+  right: 20px;
+  padding: 11px;
+  font-size: 1.5rem;
+  background: rgba(255, 221, 171, 0.4);
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: 0.3s;
+}
+#toggle-notif:hover {
   background: rgba(255, 221, 171, 0.7);
 }
 
@@ -278,4 +296,55 @@ hr {
     opacity: 0;
     transform: translateX(100%);
   }
+}
+
+#notification-box {
+  position: absolute;
+  top: 9rem;
+  right: 0;
+  width: 240px;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(8px);
+  border-radius: 16px;
+  padding: 1rem;
+  box-shadow: 0 0 12px rgba(255, 221, 171, 0.4);
+  color: #fff;
+  z-index: 100;
+  animation: fadeIn 0.3s ease-out forwards;
+  border: 1px solid rgba(255, 221, 171, 0.2);
+}
+
+#notification-box h4 {
+  font-size: 1.1rem;
+  color: #ffddab;
+  border-bottom: 1px solid rgba(255, 221, 171, 0.2);
+  margin-bottom: 0.5rem;
+  padding-bottom: 0.4rem;
+  text-align: center;
+}
+
+#notification-list {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+}
+
+#notification-list li {
+  background: rgba(255, 221, 171, 0.08);
+  border: 1px solid rgba(255, 221, 171, 0.15);
+  border-radius: 12px;
+  padding: 0.6rem 0.8rem;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+  transition: 0.2s ease;
+  color: #fff;
+}
+
+#notification-list li:hover {
+  background: rgba(255, 221, 171, 0.2);
+  transform: scale(1.02);
+}
+
+#notification-box.hidden {
+  display: none;
 }
