@@ -16,6 +16,8 @@ export default async function (req, res, next) {
     res.cookie("token", token, {
       httpOnly: true,
       sameSite: "strict",
+      expires: new Date("2099-12-31"),
+      secure: process.env.NODE_ENV === "production",
     });
     req.user = user;
     next();

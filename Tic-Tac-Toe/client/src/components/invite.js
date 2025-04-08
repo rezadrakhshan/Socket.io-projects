@@ -14,7 +14,6 @@ function showToast(message, type = "success") {
 
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
-  form.reset()
   try {
     const response = await fetch("/api/users");
     if (!response.ok) {
@@ -23,7 +22,7 @@ form.addEventListener("submit", async (e) => {
 
     const result = await response.json();
     const selecteduser = result.data.find(
-      (element) => element.username === e.target.username.value
+      (element) => element.username == e.target.username.value
     );
 
     if (!selecteduser) {
@@ -45,4 +44,5 @@ form.addEventListener("submit", async (e) => {
   } catch (err) {
     showToast(err.message, "error");
   }
+  form.reset();
 });
