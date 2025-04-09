@@ -21,7 +21,13 @@
           <h4>Notifications</h4>
           <ul id="notification-list">
             <% for (let i = 0; i < invites.length; i++) { %>
-              <p><%= invites[i].receiver.username %></p>
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span><strong><%= invites[i].sender.username %></strong> sent you an invite</span>
+              </div>
+              <div style="margin-top: 0.5rem; display: flex; justify-content: flex-end; gap: 0.5rem;">
+                <button class="notif-btn accept" data-id="">Accept</button>
+                <button class="notif-btn reject" data-id="">Reject</button>
+              </div> 
           <% } %>
           </ul>
         </div>
@@ -55,7 +61,7 @@
         <button id="add-friend-btn">Add</button>
       </form>
     </div>
-
+    <input type="hidden" id="userID" value="<%= user._id %>">
     <div id="toast-container"></div>
     <audio id="background-music" autoplay muted loop>
       <source src="/public/music/bg-music.mp3" type="audio/mpeg" />
@@ -63,5 +69,6 @@
     <script src="/socket.io/socket.io.js"></script>
     <script type="module" src="/src/components/invite.js"></script>
     <script src="/src/components/index.js"></script>
+    <script src="/src/services/notif.js"></script>
   </body>
 </html>

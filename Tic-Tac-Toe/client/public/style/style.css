@@ -348,3 +348,27 @@ hr {
 #notification-box.hidden {
   display: none;
 }
+
+
+.notif-btn {
+  padding: 0.3rem 0.7rem;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  border: none;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.notif-btn.accept {
+  background-color: #50fa7b;
+  color: #000;
+}
+
+.notif-btn.reject {
+  background-color: #ff5555;
+  color: #fff;
+}
+
+.notif-btn:hover {
+  opacity: 0.9;
+}
