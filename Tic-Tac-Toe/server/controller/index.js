@@ -1,11 +1,13 @@
 import { __dirname } from "../server.js";
 import Invite from "../models/invite.js";
+import Notification from "../models/notif.js";
 
 export default new (class {
   async homePage(req, res) {
     const invites = await Invite.find({ receiver: req.user.id }).populate(
       "sender"
     );
-    res.render("index", { user: req.user, invites: invites });
+    const notifs = await Notification.find({ user: req.user.id });
+    res.render("index", { user: req.user, invites: invites, notif: notifs });
   }
 })();

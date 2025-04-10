@@ -23,6 +23,14 @@ export default new (class {
       sender: req.user.id,
     });
     await invite.save();
-    return res.status(200).json("Invite Sent");
+    return res.status(200).json(invite);
+  }
+  async rejectInvite(req, res) {
+    try {
+      const invite = await Invite.findByIdAndDelete(req.params.id,{new:true}).populate("receiver");
+      return res.json(invite);
+    } catch (error) {
+      console.log(error)
+    }
   }
 })();

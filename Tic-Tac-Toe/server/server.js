@@ -9,8 +9,9 @@ import db from "./start/db.js";
 import router from "./routes/index.js";
 import user from "./middleware/user.js";
 import User from "./models/user.js";
-import jwt from "jsonwebtoken"
+import jwt from "jsonwebtoken";
 import c from "config";
+import notif from "./controller/notif.js"
 
 const app = e();
 const port = process.env.PORT || 3000;
@@ -29,18 +30,18 @@ const onlineUsers = new Map();
 
 io.use(async (socket, next) => {
   const token = socket.handshake.headers.cookie
-    .split('; ')
-    .find(row => row.startsWith('token='))
-    ?.split('=')[1];
+    .split("; ")
+    .find((row) => row.startsWith("token="))
+    ?.split("=")[1];
 
   if (token) {
     jwt.verify(token, c.get("jwt_key"), async (err, decoded) => {
-      if (err) return next(new Error('Authentication error'));
+      if (err) return next(new Error("Authentication error"));
       socket.user = await User.findById(decoded._id);
       next();
     });
   } else {
-    next(new Error('Authentication error'));
+    next(new Error("Authentication error"));
   }
 });
 
@@ -52,10 +53,18 @@ io.on("connection", (socket) => {
     log(`User ${userId} connected with socket ${socket.id}`);
   });
 
-  socket.on("invite", ({ toUserId, message }) => {
+  socket.on("invite", ({ toUserId, inviteId, message }) => {
     const targetSocketId = onlineUsers.get(toUserId);
     if (targetSocketId) {
-      io.to(targetSocketId).emit("invite", [message,socket.user]);
+      io.to(targetSocketId).emit("invite", [message, socket.user, inviteId]);
+    }
+  });
+
+  socket.on("reject invite", async ({ userId, message }) => {
+    const userTarget = onlineUsers.get(userId);
+    await notif.createNotif(message,userId)
+    if (userTarget) {
+      io.to(userTarget).emit("notif", [message, socket.user]);
     }
   });
 

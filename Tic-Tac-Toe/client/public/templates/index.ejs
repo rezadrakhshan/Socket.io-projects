@@ -21,6 +21,7 @@
           <h4>Notifications</h4>
           <ul id="notification-list">
             <% for (let i = 0; i < invites.length; i++) { %>
+              <li data=<%= invites[i]._id %>>
               <div style="display: flex; justify-content: space-between; align-items: center;">
                 <span><strong><%= invites[i].sender.username %></strong> sent you an invite</span>
               </div>
@@ -28,6 +29,14 @@
                 <button class="notif-btn accept" data-id="">Accept</button>
                 <button class="notif-btn reject" data-id="">Reject</button>
               </div> 
+              </li>
+          <% } %>
+            <% for (let i = 0; i < notif.length; i++) { %>
+              <li>
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span><%= notif[i].text %></span>
+              </div>
+              </li>
           <% } %>
           </ul>
         </div>

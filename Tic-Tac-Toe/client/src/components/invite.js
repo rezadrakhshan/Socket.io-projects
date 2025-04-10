@@ -1,14 +1,13 @@
 const form = document.getElementsByClassName("modal-content")[0];
-const userId = document.getElementById("userID").value
-let socket = io()
+const userId = document.getElementById("userID").value;
+const notificationList = document.querySelector("#notification-list");
+let socket = io();
 
 socket.emit("register", userId);
 
-
 function addInviteNotification(data) {
-  const notificationList = document.getElementById("notification-list");
-
   const li = document.createElement("li");
+  li.setAttribute("data", data[2]);
   li.innerHTML = `
     <div style="display: flex; justify-content: space-between; align-items: center;">
       <span><strong>${data[1].username}</strong> sent you an invite</span>
@@ -22,6 +21,13 @@ function addInviteNotification(data) {
   notificationList.appendChild(li);
 }
 
+function addNotif(data) {
+  const li = document.createElement("li");
+  li.innerHTML = `<div style="display: flex; justify-content: space-between; align-items: center;">
+      <span>${data[0]}</span>
+    </div>`;
+  notificationList.appendChild(li)
+}
 
 function showToast(message, type = "success") {
   const toast = document.createElement("div");
@@ -61,21 +67,45 @@ form.addEventListener("submit", async (e) => {
       showToast("User Invited", "error");
       return;
     }
-    
+
     const inviteResult = await inviteResponse.json();
     socket.emit("invite", {
       toUserId: selecteduser._id,
-      message: "You have been invited!"
+      inviteId: inviteResult._id,
+      message: "You have been invited!",
     });
-    
-    showToast(inviteResult);
+
+    showToast("Invite Sent");
   } catch (err) {
     showToast(err.message, "error");
   }
   form.reset();
 });
 
-
 socket.on("invite", (data) => {
   addInviteNotification(data);
+});
+
+notificationList.addEventListener("click", async (e) => {
+  if (e.target.classList.contains("reject")) {
+    const inviteId = e.target.parentElement.parentElement.getAttribute("data");
+    const rejectResponse = await fetch(`/api/reject-invite/${inviteId}`, {
+      method: "DELETE",
+    });
+    if (!rejectResponse.ok) {
+      showToast("Server Error", "error");
+      return;
+    }
+    const result = await rejectResponse.json();
+    showToast("Invite Rejected");
+    e.target.parentElement.parentElement.remove();
+    socket.emit("reject invite", {
+      userId: result.sender,
+      message: `${result.receiver.username} rejected your invite`,
+    });
+  }
+});
+
+socket.on("notif", (data) => {
+  addNotif(data)
 });
