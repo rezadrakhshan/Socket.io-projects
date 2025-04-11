@@ -2,6 +2,7 @@
   margin: 0%;
   padding: 0%;
   font-family: "Poppins";
+  cursor: url('/public/image/cursor.png') 16 16, auto;
 }
 html {
   padding: 3%;
@@ -136,7 +137,6 @@ body {
   background: rgba(255, 221, 171, 0.4);
   border: none;
   border-radius: 50%;
-  cursor: pointer;
   transition: 0.3s;
 }
 #toggle-music:hover {
@@ -151,7 +151,6 @@ body {
   background: rgba(255, 221, 171, 0.4);
   border: none;
   border-radius: 50%;
-  cursor: pointer;
   transition: 0.3s;
 }
 #toggle-notif:hover {
@@ -213,7 +212,6 @@ hr {
   font-weight: bold;
   border: none;
   border-radius: 10px;
-  cursor: pointer;
   transition: 0.2s ease;
 }
 .modal-content button:hover {
@@ -225,7 +223,6 @@ hr {
   right: 25px;
   font-size: 1.5rem;
   color: white;
-  cursor: pointer;
 }
 
 @keyframes fadeScaleIn {
@@ -355,7 +352,6 @@ hr {
   border-radius: 8px;
   font-size: 0.8rem;
   border: none;
-  cursor: pointer;
   transition: 0.2s ease;
 }
 
