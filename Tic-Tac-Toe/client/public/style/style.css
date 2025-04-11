@@ -314,6 +314,8 @@ hr {
   top: 9rem;
   right: 0;
   width: 240px;
+  height: 300px;
+  overflow-y: scroll;
   background: rgba(0, 0, 0, 0.6);
   backdrop-filter: blur(8px);
   border-radius: 16px;
@@ -323,6 +325,12 @@ hr {
   z-index: 100;
   animation: fadeIn 0.3s ease-out forwards;
   border: 1px solid rgba(255, 221, 171, 0.2);
+  scroll-behavior: smooth;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    &::-webkit-scrollbar {
+        display: none;
+    }
 }
 
 #notification-box h4 {

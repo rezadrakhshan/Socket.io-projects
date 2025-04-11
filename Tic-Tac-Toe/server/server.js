@@ -11,7 +11,8 @@ import user from "./middleware/user.js";
 import User from "./models/user.js";
 import jwt from "jsonwebtoken";
 import c from "config";
-import notif from "./controller/notif.js"
+import notif from "./controller/notif.js";
+import friend from "./controller/friend.js";
 
 const app = e();
 const port = process.env.PORT || 3000;
@@ -62,17 +63,22 @@ io.on("connection", (socket) => {
 
   socket.on("reject invite", async ({ userId, message }) => {
     const userTarget = onlineUsers.get(userId);
-    await notif.createNotif(message,userId)
+    await notif.createNotif(message, userId);
     if (userTarget) {
       io.to(userTarget).emit("notif", [message, socket.user]);
     }
   });
   socket.on("accept invite", async ({ userId, message }) => {
     const userTarget = onlineUsers.get(userId);
-    await notif.createNotif(message,userId)
+    await notif.createNotif(message, userId);
     if (userTarget) {
       io.to(userTarget).emit("notif", [message, socket.user]);
     }
+  });
+
+  socket.on("remove friend", async ({ friendID }) => {
+    const userTarget = onlineUsers.get(socket.user.id);
+    const result = await friend.removeFriend(socket.user.id, friendID);
   });
 
   socket.on("disconnect", () => {

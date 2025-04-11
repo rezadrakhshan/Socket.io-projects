@@ -81,7 +81,7 @@
       </div>
       <ul id="friend-list">
         <% for (let i = 0; i < user.friends.length; i++) { %>
-          <li>
+          <li data=<%= user.friends[i]._id %>>
             <div>
               <img src=<%= user.friends[i].profile %>>
             <span><%= user.friends[i].username %></span>
@@ -99,8 +99,8 @@
     </audio>
     <script src="/socket.io/socket.io.js"></script>
     <script type="module" src="/src/components/invite.js"></script>
-    <script src="/src/components/index.js"></script>
-    <script src="/src/components/friend.js"></script>
+    <script type="module" src="/src/components/index.js"></script>
+    <script type="module" src="/src/components/friend.js"></script>
     <script src="/src/services/notif.js"></script>
   </body>
 </html>

@@ -29,7 +29,7 @@ function addNotif(data) {
   notificationList.appendChild(li);
 }
 
-function showToast(message, type = "success") {
+export function showToast(message, type = "success") {
   const toast = document.createElement("div");
   toast.classList.add("toast", type);
   toast.textContent = message;
