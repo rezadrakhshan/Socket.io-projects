@@ -18,6 +18,9 @@ export default new (class {
     if (searchInDatabse.length > 0) {
       return res.status(401).json("User invited");
     }
+    if (req.user.friends.includes(req.params.id)) {
+      return res.status(401).json("This user must be a friend");
+    }
     const invite = new Invite({
       receiver: req.params.id,
       sender: req.user.id,
@@ -27,10 +30,28 @@ export default new (class {
   }
   async rejectInvite(req, res) {
     try {
-      const invite = await Invite.findByIdAndDelete(req.params.id,{new:true}).populate("receiver");
+      const invite = await Invite.findByIdAndDelete(req.params.id, {
+        new: true,
+      }).populate("receiver");
       return res.json(invite);
     } catch (error) {
-      console.log(error)
+      console.log(error);
+    }
+  }
+  async acceptInvite(req, res) {
+    try {
+      const invite = await Invite.findByIdAndDelete(req.params.id, {
+        new: true,
+      }).populate("receiver");
+      const user = await User.findById(req.user.id);
+      const sender = await User.findById(invite.sender);
+      user.friends.push(invite.sender);
+      await user.save();
+      sender.friends.push(req.user.id);
+      await sender.save();
+      return res.json(invite);
+    } catch (error) {
+      console.log(error);
     }
   }
 })();

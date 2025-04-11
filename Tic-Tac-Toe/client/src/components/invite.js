@@ -26,7 +26,7 @@ function addNotif(data) {
   li.innerHTML = `<div style="display: flex; justify-content: space-between; align-items: center;">
       <span>${data[0]}</span>
     </div>`;
-  notificationList.appendChild(li)
+  notificationList.appendChild(li);
 }
 
 function showToast(message, type = "success") {
@@ -63,12 +63,13 @@ form.addEventListener("submit", async (e) => {
       method: "POST",
     });
 
+    const inviteResult = await inviteResponse.json();
+
     if (!inviteResponse.ok) {
-      showToast("User Invited", "error");
+      showToast(String(inviteResult), "error");
       return;
     }
 
-    const inviteResult = await inviteResponse.json();
     socket.emit("invite", {
       toUserId: selecteduser._id,
       inviteId: inviteResult._id,
@@ -104,8 +105,26 @@ notificationList.addEventListener("click", async (e) => {
       message: `${result.receiver.username} rejected your invite`,
     });
   }
+  if (e.target.classList.contains("accept")) {
+    const inviteId = e.target.parentElement.parentElement.getAttribute("data");
+    const acceptResponse = await fetch(`/api/accept-invite/${inviteId}`, {
+      method: "DELETE",
+    });
+    if (!acceptResponse.ok) {
+      showToast("Server Error", "error");
+      return;
+    }
+    const acceptResult = await acceptResponse.json();
+    console.log(acceptResult.receiver.username)
+    showToast("Invite Accepted");
+    e.target.parentElement.parentElement.remove()
+    socket.emit("accept invite", {
+      userId: acceptResult.sender,
+      message: `${acceptResult.receiver.username} accepted your invite`,
+    });
+  }
 });
 
 socket.on("notif", (data) => {
-  addNotif(data)
+  addNotif(data);
 });
