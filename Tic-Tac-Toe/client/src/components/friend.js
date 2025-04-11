@@ -1,22 +1,26 @@
-const friendModal = document.querySelector(".modal-friend");
-const friendModalContent = document.querySelector(".modal-content-friend");
+document.addEventListener("DOMContentLoaded", () => {
+  const toggleFriendBtn = document.getElementById("toggle-friend");
+  const sidebar = document.getElementById("friend-sidebar");
+  const closeSidebar = document.getElementById("close-sidebar");
+  const overlay = document.getElementById("overlay");
 
-const openFriendModal = () => {
-  friendModal.classList.remove("hidden");
-  friendModalContent.style.animation = "fadeScaleIn 0.4s ease forwards";
-};
+  const openSidebar = () => {
+    sidebar.classList.add("show");
+    overlay.classList.add("show");
+  };
 
-const closeFriendModal = () => {
-  friendModalContent.style.animation = "fadeScaleOut 0.3s ease forwards";
-  setTimeout(() => {
-    friendModal.classList.add("hidden");
-  }, 300);
-};
+  const closeSidebarFunc = () => {
+    sidebar.classList.remove("show");
+    overlay.classList.remove("show");
+  };
 
-document.getElementById("toggle-friend").addEventListener("click", openFriendModal);
+  toggleFriendBtn.addEventListener("click", openSidebar);
+  closeSidebar.addEventListener("click", closeSidebarFunc);
+  overlay.addEventListener("click", closeSidebarFunc);
 
-friendModal.addEventListener("click", (e) => {
-    if (e.target === friendModal) {
-      closeFriendModal();
+  window.addEventListener("click", (e) => {
+    if (!sidebar.contains(e.target) && !toggleFriendBtn.contains(e.target)) {
+      closeSidebarFunc();
     }
   });
+});
