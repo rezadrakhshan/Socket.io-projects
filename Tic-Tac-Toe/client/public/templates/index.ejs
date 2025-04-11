@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Tic-Tac-Toe</title>
     <link rel="stylesheet" href="public/style/style.css" />
+    <link rel="stylesheet" href="public/style/friend.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -17,6 +18,7 @@
     <div class="container">
       <button id="toggle-music">🔊</button>
       <button id="toggle-notif">🔔</button>
+      <button id="toggle-friend">👥</button>
       <div class="notification-wrapper">
         <div id="notification-box" class="hidden">
           <h4>Notifications</h4>
@@ -71,6 +73,22 @@
         <button id="add-friend-btn">Add</button>
       </form>
     </div>
+    <div class="modal-friend hidden">
+      <div class="modal-content-friend">
+        <h2>friend List</h2>
+        <ul id="friend-list">
+          <% for (let i = 0; i < friends.length; i++) { %>
+            <li>
+              <div class="info" style="">
+                <img src=<%= friends[i].profile %>>
+                <span>  <%= friends[i].username %> </span>
+              </div>
+            <button class="notif-btn reject" data-id="">Remove</button>
+            </li>
+        <% } %>
+        </ul>
+      </div>
+    </div>
     <input type="hidden" id="userID" value="<%= user._id %>">
     <div id="toast-container"></div>
     <audio id="background-music" autoplay muted loop>
@@ -79,6 +97,7 @@
     <script src="/socket.io/socket.io.js"></script>
     <script type="module" src="/src/components/invite.js"></script>
     <script src="/src/components/index.js"></script>
+    <script src="/src/components/friend.js"></script>
     <script src="/src/services/notif.js"></script>
   </body>
 </html>

@@ -1,0 +1,73 @@
+.modal-friend {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+.modal-friend.hidden {
+  display: none;
+}
+.modal-content-friend {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(8px);
+  padding: 3rem;
+  border-radius: 16px;
+  box-shadow: 0 0 10px #00000060;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 90%;
+  max-width: 400px;
+  animation: fadeScaleIn 0.4s ease forwards;
+}
+.modal-content-friend h2 {
+  font-size: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.modal-content-friend .close {
+  position: absolute;
+  top: 20px;
+  right: 25px;
+  font-size: 1.5rem;
+  color: white;
+}
+
+#friend-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+#friend-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(255, 221, 171, 0.1);
+  margin-bottom: 0.5rem;
+  padding: 0.5rem 0.8rem;
+  border-radius: 10px;
+  color: #fff;
+  img {
+    width: 40px;
+    border-radius: 100%;
+  }
+}
+
+#friend-list li .info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 110px;
+}

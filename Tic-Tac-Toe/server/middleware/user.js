@@ -6,7 +6,7 @@ import { generateUsername } from "unique-username-generator";
 export default async function (req, res, next) {
   if (req.cookies.token) {
     const decoded = jwt.verify(req.cookies.token, c.get("jwt_key"));
-    req.user = await User.findById(decoded._id);
+    req.user = await User.findById(decoded._id).populate("friends");
     next();
   } else {
     const username = generateUsername("-", 0, 6);

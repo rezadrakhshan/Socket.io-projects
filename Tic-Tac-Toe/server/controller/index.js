@@ -8,6 +8,11 @@ export default new (class {
       "sender"
     );
     const notifs = await Notification.find({ user: req.user.id });
-    res.render("index", { user: req.user, invites: invites, notif: notifs });
+    res.render("index", {
+      user: req.user,
+      invites: invites,
+      notif: notifs,
+      friends: req.user.friends,
+    });
   }
 })();

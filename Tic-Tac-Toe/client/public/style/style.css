@@ -156,6 +156,20 @@ body {
 #toggle-notif:hover {
   background: rgba(255, 221, 171, 0.7);
 }
+#toggle-friend {
+  position: fixed;
+  top: 141px;
+  right: 20px;
+  padding: 11px;
+  font-size: 1.5rem;
+  background: rgba(255, 221, 171, 0.4);
+  border: none;
+  border-radius: 50%;
+  transition: 0.3s;
+}
+#toggle-friend:hover {
+  background: rgba(255, 221, 171, 0.7);
+}
 
 hr {
   height: 60vh;
@@ -368,3 +382,5 @@ hr {
 .notif-btn:hover {
   opacity: 0.9;
 }
+
+
