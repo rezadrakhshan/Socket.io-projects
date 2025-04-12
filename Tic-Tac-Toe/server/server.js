@@ -69,6 +69,7 @@ io.on("connection", (socket) => {
     }
   });
   socket.on("accept invite", async ({ userId, message }) => {
+
     const userTarget = onlineUsers.get(userId);
     await notif.createNotif(message, userId);
     if (userTarget) {
@@ -77,8 +78,11 @@ io.on("connection", (socket) => {
   });
 
   socket.on("remove friend", async ({ friendID }) => {
-    const userTarget = onlineUsers.get(socket.user.id);
     const result = await friend.removeFriend(socket.user.id, friendID);
+    const userTarget = onlineUsers.get(friendID);
+    if (userTarget) {
+      io.to(userTarget).emit("delete friend", [socket.user.id]);
+    }
   });
 
   socket.on("disconnect", () => {

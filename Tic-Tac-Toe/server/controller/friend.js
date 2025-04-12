@@ -10,6 +10,6 @@ export default new (class {
       { _id: friend },
       { $pull: { friends: user } }
     );
-    return "Friend was remove"
+    return "Friend Was Remove"
   }
 })();

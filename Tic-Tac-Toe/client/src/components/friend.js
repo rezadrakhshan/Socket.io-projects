@@ -1,10 +1,9 @@
-import { showToast } from "./invite.js";
+import { showToast, socket } from "./invite.js";
 
 const sidebar = document.getElementById("friend-sidebar");
 const toggleFriendBtn = document.getElementById("toggle-friend");
 const closeSidebar = document.getElementById("close-sidebar");
 const overlay = document.getElementById("overlay");
-let socket = io();
 
 document.addEventListener("DOMContentLoaded", () => {
   const openSidebar = () => {
@@ -35,7 +34,15 @@ sidebar.addEventListener("click", async (e) => {
       friendID: friendId,
     });
     e.target.parentElement.remove();
-    showToast("Friend was remove")
+    showToast("Friend was remove");
   }
 });
 
+socket.on("delete friend", (data) => {
+  const friendElement = document.querySelector(
+    `#friend-list li[data="${data[0]}"]`
+  );
+  if (friendElement) {
+    friendElement.remove();
+  }
+});

@@ -1,7 +1,8 @@
 const form = document.getElementsByClassName("modal-content")[0];
 const userId = document.getElementById("userID").value;
 const notificationList = document.querySelector("#notification-list");
-let socket = io();
+const friendList = document.getElementById("friend-list");
+export let socket = io();
 
 socket.emit("register", userId);
 
@@ -27,6 +28,18 @@ function addNotif(data) {
       <span>${data[0]}</span>
     </div>`;
   notificationList.appendChild(li);
+}
+
+function ShowNewFriend(data) {
+  const li = document.createElement("li");
+  li.setAttribute("data", data._id);
+  li.innerHTML = `
+            <div>
+              <img src=${data.profile}>
+            <span>${data.username}</span>
+            </div>
+            <button class="notif-btn reject" data-id="">Remove</button>`;
+  friendList.appendChild(li);
 }
 
 export function showToast(message, type = "success") {
@@ -115,16 +128,19 @@ notificationList.addEventListener("click", async (e) => {
       return;
     }
     const acceptResult = await acceptResponse.json();
-    console.log(acceptResult.receiver.username)
-    showToast("Invite Accepted");
-    e.target.parentElement.parentElement.remove()
+    e.target.parentElement.parentElement.remove();
     socket.emit("accept invite", {
-      userId: acceptResult.sender,
+      userId: acceptResult.sender._id,
       message: `${acceptResult.receiver.username} accepted your invite`,
     });
+    showToast("Invite Accepted");
+    ShowNewFriend(acceptResult.sender);
   }
 });
 
 socket.on("notif", (data) => {
   addNotif(data);
+  ShowNewFriend(data[1])
 });
+
+
