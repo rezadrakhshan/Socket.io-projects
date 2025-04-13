@@ -7,12 +7,10 @@ import config from "./start/config.js";
 import logging from "./start/logging.js";
 import db from "./start/db.js";
 import router from "./routes/index.js";
-import user from "./middleware/user.js";
-import User from "./models/user.js";
-import jwt from "jsonwebtoken";
-import c from "config";
-import notif from "./controller/notif.js";
-import friend from "./controller/friend.js";
+import userMiddle from "./middleware/user.js";
+import authentication from "./socketHandlers/authentication.js";
+import friend from "./socketHandlers/friend.js";
+import invite from "./socketHandlers/invite.js";
 
 const app = e();
 const port = process.env.PORT || 3000;
@@ -25,65 +23,21 @@ config(e, app);
 logging();
 db();
 
-app.use("/", user, router);
+app.use("/", userMiddle, router);
 
 const onlineUsers = new Map();
 
-io.use(async (socket, next) => {
-  const token = socket.handshake.headers.cookie
-    .split("; ")
-    .find((row) => row.startsWith("token="))
-    ?.split("=")[1];
-
-  if (token) {
-    jwt.verify(token, c.get("jwt_key"), async (err, decoded) => {
-      if (err) return next(new Error("Authentication error"));
-      socket.user = await User.findById(decoded._id);
-      next();
-    });
-  } else {
-    next(new Error("Authentication error"));
-  }
-});
+authentication(io);
 
 io.on("connection", (socket) => {
   log("a user connected");
-
   socket.on("register", (userId) => {
     onlineUsers.set(userId, socket.id);
     log(`User ${userId} connected with socket ${socket.id}`);
   });
 
-  socket.on("invite", ({ toUserId, inviteId, message }) => {
-    const targetSocketId = onlineUsers.get(toUserId);
-    if (targetSocketId) {
-      io.to(targetSocketId).emit("invite", [message, socket.user, inviteId]);
-    }
-  });
-
-  socket.on("reject invite", async ({ userId, message }) => {
-    const userTarget = onlineUsers.get(userId);
-    await notif.createNotif(message, userId);
-    if (userTarget) {
-      io.to(userTarget).emit("notif", [message, socket.user]);
-    }
-  });
-  socket.on("accept invite", async ({ userId, message }) => {
-
-    const userTarget = onlineUsers.get(userId);
-    await notif.createNotif(message, userId);
-    if (userTarget) {
-      io.to(userTarget).emit("notif", [message, socket.user]);
-    }
-  });
-
-  socket.on("remove friend", async ({ friendID }) => {
-    const result = await friend.removeFriend(socket.user.id, friendID);
-    const userTarget = onlineUsers.get(friendID);
-    if (userTarget) {
-      io.to(userTarget).emit("delete friend", [socket.user.id]);
-    }
-  });
+  friend(socket, onlineUsers,io);
+  invite(socket, onlineUsers,io);
 
   socket.on("disconnect", () => {
     log("user disconnected");
