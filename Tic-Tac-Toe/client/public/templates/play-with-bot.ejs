@@ -15,50 +15,55 @@
   </head>
   <body>
     <div class="container">
+      <header>
         <h1><%= user.username %> VS AI</h1>
-      <div class="content">
+      </header>
+      <main class="content">
         <table class="table_overlay">
-          <tr>
-            <td id="square_one_text" class="text"></td>
-            <td id="square_two_text" class="text"></td>
-            <td id="square_three_text" class="text"></td>
-          </tr>
-          <tr>
-            <td id="square_four_text" class="text"></td>
-            <td id="square_five_text" class="text"></td>
-            <td id="square_six_text" class="text"></td>
-          </tr>
-          <tr>
-            <td id="square_seven_text" class="text"></td>
-            <td id="square_eight_text" class="text"></td>
-            <td id="square_nine_text" class="text"></td>
-          </tr>
+          <tbody>
+            <tr>
+              <td class="cell text" data-cell-index="0"></td>
+              <td class="cell text" data-cell-index="1"></td>
+              <td class="cell text" data-cell-index="2"></td>
+            </tr>
+            <tr>
+              <td class="cell text" data-cell-index="3"></td>
+              <td class="cell text" data-cell-index="4"></td>
+              <td class="cell text" data-cell-index="5"></td>
+            </tr>
+            <tr>
+              <td class="cell text" data-cell-index="6"></td>
+              <td class="cell text" data-cell-index="7"></td>
+              <td class="cell text" data-cell-index="8"></td>
+            </tr>
+          </tbody>
         </table>
         <div class="board">
           <table>
-            <tr>
-              <td id="square_one"></td>
-
-              <td id="square_two"></td>
-
-              <td id="square_three"></td>
-            </tr>
-            <tr>
-              <td id="square_four"></td>
-              <td id="square_five"></td>
-              <td id="square_six"></td>
-            </tr>
-            <tr>
-              <td id="square_seven"></td>
-              <td id="square_eight"></td>
-              <td id="square_nine"></td>
-            </tr>
+            <tbody>
+              <tr>
+                <td class="cell" data-cell-index="0"></td>
+                <td class="cell" data-cell-index="1"></td>
+                <td class="cell" data-cell-index="2"></td>
+              </tr>
+              <tr>
+                <td class="cell" data-cell-index="3"></td>
+                <td class="cell" data-cell-index="4"></td>
+                <td class="cell" data-cell-index="5"></td>
+              </tr>
+              <tr>
+                <td class="cell" data-cell-index="6"></td>
+                <td class="cell" data-cell-index="7"></td>
+                <td class="cell" data-cell-index="8"></td>
+              </tr>
+            </tbody>
           </table>
         </div>
-      </div>
+      </main>
     </div>
     <audio id="background-music" autoplay loop>
       <source src="/public/music/bg-music.mp3" type="audio/mpeg" />
     </audio>
+    <script src="/src/components/game-bot.js"></script>
   </body>
 </html>
