@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tic-Tac-Toe</title>
+    <link rel="stylesheet" href="public/style/bot-game.css" />
+    <link rel="stylesheet" href="public/style/style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bungee+Tint&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="container">
+        <h1><%= user.username %> VS AI</h1>
+      <div class="content">
+        <table class="table_overlay">
+          <tr>
+            <td id="square_one_text" class="text"></td>
+            <td id="square_two_text" class="text"></td>
+            <td id="square_three_text" class="text"></td>
+          </tr>
+          <tr>
+            <td id="square_four_text" class="text"></td>
+            <td id="square_five_text" class="text"></td>
+            <td id="square_six_text" class="text"></td>
+          </tr>
+          <tr>
+            <td id="square_seven_text" class="text"></td>
+            <td id="square_eight_text" class="text"></td>
+            <td id="square_nine_text" class="text"></td>
+          </tr>
+        </table>
+        <div class="board">
+          <table>
+            <tr>
+              <td id="square_one"></td>
+
+              <td id="square_two"></td>
+
+              <td id="square_three"></td>
+            </tr>
+            <tr>
+              <td id="square_four"></td>
+              <td id="square_five"></td>
+              <td id="square_six"></td>
+            </tr>
+            <tr>
+              <td id="square_seven"></td>
+              <td id="square_eight"></td>
+              <td id="square_nine"></td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+    <audio id="background-music" autoplay loop>
+      <source src="/public/music/bg-music.mp3" type="audio/mpeg" />
+    </audio>
+  </body>
+</html>

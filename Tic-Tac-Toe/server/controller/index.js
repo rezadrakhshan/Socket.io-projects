@@ -15,4 +15,7 @@ export default new (class {
       friends: req.user.friends,
     });
   }
+  async playWithBot(req, res) {
+    res.render("play-with-bot",{user:req.user});
+  }
 })();

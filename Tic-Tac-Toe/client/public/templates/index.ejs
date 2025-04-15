@@ -6,6 +6,7 @@
     <title>Tic-Tac-Toe</title>
     <link rel="stylesheet" href="public/style/style.css" />
     <link rel="stylesheet" href="public/style/friend.css" />
+    <link rel="stylesheet" href="public/style/loading.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -14,6 +15,13 @@
     />
   </head>
   <body>
+    <div id="bot-loading" class="bot-loading hidden">
+      <div class="slide left-slide"></div>
+      <div class="slide right-slide"></div>
+      <div class="logo-container">
+        <img src="/public/image/logo.png" alt="logo" class="logo-spin" />
+      </div>
+    </div>    
     <div id="overlay" class="hidden"></div>
     <div class="custom-cursor"></div>
     <div class="container">
@@ -48,8 +56,8 @@
       <div class="content">
         <div class="menu">
           <img src="/public/image/logo.png" alt="" />
-          <a href="">Play With Friend</a>
-          <a href="">Play With Bot</a>
+          <a href="">Play Rank</a>
+          <a id="play-with-bot">Play With Bot</a>
           <a href="#add-friend" id="open-modal-btn">Add Friend</a>
         </div>
   
@@ -86,7 +94,10 @@
               <img src=<%= user.friends[i].profile %>>
             <span><%= user.friends[i].username %></span>
             </div>
-            <button class="notif-btn reject" data-id="">Remove</button>
+            <div>
+              <button class="notif-btn reject" data-id="">Remove</button>
+              <button class="notif-btn accept" data-id="">Play</button>
+            </div>
           </li>
         <% } %>
       </ul>

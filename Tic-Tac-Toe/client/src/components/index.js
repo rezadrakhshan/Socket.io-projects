@@ -4,6 +4,8 @@ const modal = document.getElementById("friend-modal");
 const modalContent = modal.querySelector(".modal-content");
 const notifBtn = document.getElementById("toggle-notif");
 const notifBox = document.getElementById("notification-box");
+const playWithBotBtn = document.getElementById("play-with-bot");
+const botLoadingScreen = document.getElementById("bot-loading");
 
 window.addEventListener(
   "click",
@@ -56,4 +58,15 @@ window.addEventListener("click", (e) => {
   if (!notifBox.contains(e.target) && !notifBtn.contains(e.target)) {
     notifBox.classList.add("hidden");
   }
+});
+
+
+
+
+playWithBotBtn.addEventListener("click", () => {
+  botLoadingScreen.classList.remove("hidden");
+
+  setTimeout(() => {
+    window.location.href = "/play-with-bot";
+  }, 5000)
 });

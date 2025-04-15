@@ -1,0 +1,49 @@
+.container{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: column;
+    height: 60vh;
+}
+
+
+.container h1{
+    text-align: center;
+}
+
+td {
+  background-color: white;
+  border-radius: 25%;
+  opacity: 0.2;
+  width: 50px;
+  height: 50px;
+  text-align: center;
+  font-family: "Roboto", sans-serif;
+  color: white;
+}
+
+.text {
+  color: white;
+  opacity: 1;
+  background-color: transparent;
+  border: none;
+}
+
+td:hover {
+  opacity: 0.4;
+}
+
+
+table {
+  width: 300px;
+  height: 300px;
+}
+
+.table_overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 300px;
+  height: 300px;
+}
