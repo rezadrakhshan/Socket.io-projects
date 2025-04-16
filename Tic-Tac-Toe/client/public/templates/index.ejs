@@ -14,14 +14,7 @@
       rel="stylesheet"
     />
   </head>
-  <body>
-    <div id="bot-loading" class="bot-loading hidden">
-      <div class="slide left-slide"></div>
-      <div class="slide right-slide"></div>
-      <div class="logo-container">
-        <img src="/public/image/logo.png" alt="logo" class="logo-spin" />
-      </div>
-    </div>    
+  <body>    
     <div id="overlay" class="hidden"></div>
     <div class="custom-cursor"></div>
     <div class="container">
@@ -102,7 +95,13 @@
         <% } %>
       </ul>
     </div>
-    
+    <div id="bot-loading" class="bot-loading bot-hidden">
+      <div class="slide left-slide"></div>
+      <div class="slide right-slide"></div>
+      <div class="logo-container">
+        <img src="/public/image/logo.png" alt="logo" class="logo-spin" />
+      </div>
+    </div>
     <input type="hidden" id="userID" value="<%= user._id %>">
     <div id="toast-container"></div>
     <audio id="background-music" autoplay muted loop>

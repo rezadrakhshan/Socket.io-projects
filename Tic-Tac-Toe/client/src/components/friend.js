@@ -5,6 +5,7 @@ const toggleFriendBtn = document.getElementById("toggle-friend");
 const closeSidebar = document.getElementById("close-sidebar");
 const overlay = document.getElementById("overlay");
 
+
 document.addEventListener("DOMContentLoaded", () => {
   const openSidebar = () => {
     sidebar.classList.add("show");

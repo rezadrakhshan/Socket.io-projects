@@ -64,7 +64,7 @@ window.addEventListener("click", (e) => {
 
 
 playWithBotBtn.addEventListener("click", () => {
-  botLoadingScreen.classList.remove("hidden");
+  botLoadingScreen.classList.remove("bot-hidden");
 
   setTimeout(() => {
     window.location.href = "/play-with-bot";
