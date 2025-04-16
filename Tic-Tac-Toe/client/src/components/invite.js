@@ -2,6 +2,7 @@ const form = document.getElementsByClassName("modal-content")[0];
 const userId = document.getElementById("userID").value;
 const notificationList = document.querySelector("#notification-list");
 const friendList = document.getElementById("friend-list");
+const gameInviteBtn = document.querySelector(".play-btn");
 export let socket = io();
 
 socket.emit("register", userId);
@@ -15,6 +16,20 @@ function addInviteNotification(data) {
     </div>
     <div style="margin-top: 0.5rem; display: flex; justify-content: flex-end; gap: 0.5rem;">
       <button class="notif-btn accept" data-id="">Accept</button>
+      <button class="notif-btn reject" data-id="">Reject</button>
+    </div> 
+  `;
+
+  notificationList.appendChild(li);
+}
+function addRequestNotification(data) {
+  const li = document.createElement("li");
+  li.innerHTML = `
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+      <span><strong>${data.username}</strong> sent you a game request</span>
+    </div>
+    <div style="margin-top: 0.5rem; display: flex; justify-content: flex-end; gap: 0.5rem;">
+      <button class="notif-btn accept" data-id="">Play</button>
       <button class="notif-btn reject" data-id="">Reject</button>
     </div> 
   `;
@@ -140,7 +155,20 @@ notificationList.addEventListener("click", async (e) => {
 
 socket.on("notif", (data) => {
   addNotif(data);
-  ShowNewFriend(data[1])
+  ShowNewFriend(data[1]);
 });
 
+gameInviteBtn.addEventListener("click", (e) => {
+  socket.emit("play request", {
+    userId: e.target.parentElement.parentElement.getAttribute("data"),
+  });
+});
 
+socket.on("play request", (data) => {
+  addRequestNotification(data[0]);
+  showToast("You have new game request");
+});
+
+socket.on("friend offline", () => {
+  showToast("Your Friend is offline", "error");
+});

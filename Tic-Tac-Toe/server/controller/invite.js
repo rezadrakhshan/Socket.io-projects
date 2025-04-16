@@ -42,7 +42,9 @@ export default new (class {
     try {
       const invite = await Invite.findByIdAndDelete(req.params.id, {
         new: true,
-      }).populate("receiver").populate("sender");
+      })
+        .populate("receiver")
+        .populate("sender");
       const user = await User.findById(req.user.id);
       const sender = await User.findById(invite.sender);
       user.friends.push(invite.sender);
@@ -53,5 +55,9 @@ export default new (class {
     } catch (error) {
       console.log(error);
     }
+  }
+  async getUserInfo(id) {
+    const user = await User.findById(id);
+    return user;
   }
 })();
