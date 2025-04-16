@@ -1,35 +1,42 @@
 document.addEventListener("DOMContentLoaded", () => {
   const cells = document.querySelectorAll(".board .cell");
+  const turnStatus = document.getElementById("current-turn");
+  const resetBtn = document.getElementById("reset-btn");
+  const gameStatus = document.getElementById("game-status");
+
   let board = Array(9).fill(null);
   const human = "X";
   const ai = "O";
 
   const evaluateWinner = (b) => {
     const wins = [
-      [0,1,2],[3,4,5],[6,7,8],
-      [0,3,6],[1,4,7],[2,5,8],
-      [0,4,8],[2,4,6] 
+      [0, 1, 2],
+      [3, 4, 5],
+      [6, 7, 8],
+      [0, 3, 6],
+      [1, 4, 7],
+      [2, 5, 8],
+      [0, 4, 8],
+      [2, 4, 6],
     ];
-
-    for (let [a,b1,c] of wins) {
+    for (let [a, b1, c] of wins) {
       if (b[a] && b[a] === b[b1] && b[a] === b[c]) {
-        return b[a];
+        return { winner: b[a], line: [a, b1, c] };
       }
     }
-
-    if (!b.includes(null)) return "tie";
+    if (!b.includes(null)) return { winner: "tie" };
     return null;
   };
 
-  const minimax = (newBoard, depth, isMaximizing, alpha, beta) => {
+  const minimax = (newBoard, depth, isMax, alpha, beta) => {
     const result = evaluateWinner(newBoard);
-    if (result !== null) {
-      if (result === ai) return 10 - depth;
-      if (result === human) return depth - 10;
+    if (result) {
+      if (result.winner === ai) return 10 - depth;
+      if (result.winner === human) return depth - 10;
       return 0;
     }
 
-    if (isMaximizing) {
+    if (isMax) {
       let maxEval = -Infinity;
       for (let i = 0; i < 9; i++) {
         if (newBoard[i] === null) {
@@ -72,32 +79,64 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       }
     }
-    board[move] = ai;
-    cells[move].innerHTML = `<span class="icon">${ai}</span>`;
-    checkGameEnd();
+    if (move !== undefined) {
+      setTimeout(() => {
+        board[move] = ai;
+        cells[move].innerHTML = `<span class="icon">${ai}</span>`;
+        nextTurn();
+      }, 400);
+    }
   };
 
-  const checkGameEnd = () => {
-    let result = evaluateWinner(board);
-    if (result === human) {
-      setTimeout(() => alert("🎉You win"), 200);
-    } else if (result === ai) {
-      setTimeout(() => alert("🤖 AI Win"), 200);
-    } else if (result === "tie") {
-      setTimeout(() => alert("😐 Tie"), 200);
+  const showEndGame = (result) => {
+    if (result.winner === human) {
+      turnStatus.innerText = "You";
+      gameStatus.innerText = "You Wins";
+    } else if (result.winner === ai) {
+      turnStatus.innerText = "AI";
+      result.line.forEach((i) => {
+        cells[i].classList.add("winning");
+      });
+      gameStatus.innerText = "AI Wins";
+    } else if (result.winner === "tie") {
+      gameStatus.innerText = "Tie";
+    }
+  };
+
+  const nextTurn = () => {
+    const result = evaluateWinner(board);
+    if (result) {
+      showEndGame(result);
+      return;
+    }
+
+    const isHumanTurn = board.filter((v) => v !== null).length % 2 === 0;
+    turnStatus.innerText = isHumanTurn ? "You" : "AI";
+
+    if (!isHumanTurn) {
+      bestMove();
     }
   };
 
   cells.forEach((cell, idx) => {
     cell.addEventListener("click", () => {
-      if (board[idx] === null && evaluateWinner(board) === null) {
+      if (board[idx] === null && !evaluateWinner(board)) {
         board[idx] = human;
         cell.innerHTML = `<span class="icon">${human}</span>`;
-        checkGameEnd();
-        if (evaluateWinner(board) === null) {
-          setTimeout(bestMove, 300);
-        }
+        nextTurn();
       }
     });
   });
+
+  resetBtn.addEventListener("click", () => {
+    board = Array(9).fill(null);
+    cells.forEach((c) => {
+      c.innerHTML = "";
+      c.classList.remove("winning");
+    });
+    turnStatus.innerText = "You";
+    gameStatus.innerText = "In Progress";
+  });
+
+  nextTurn();
 });
