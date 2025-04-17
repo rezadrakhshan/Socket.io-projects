@@ -81,18 +81,33 @@
         <span id="close-sidebar">&times;</span>
       </div>
       <ul id="friend-list">
-        <% for (let i = 0; i < user.friends.length; i++) { %>
-          <li data=<%= user.friends[i]._id %>>
+        <% if(onlineFriends.length){ %>
+        <p>Online Friends</p>
+        <% for (let i = 0; i < onlineFriends.length; i++) { %>
+          <li data=<%= onlineFriends[i]._id %>>
             <div>
-              <img src=<%= user.friends[i].profile %>>
-            <span><%= user.friends[i].username %></span>
+              <img src=<%= onlineFriends[i].profile %>>
+            <span><%= onlineFriends[i].username %></span>
             </div>
             <div>
               <button class="notif-btn reject" data-id="">Remove</button>
               <button class="notif-btn accept play-btn" data-id="">Play</button>
             </div>
           </li>
-        <% } %>
+        <% } %><% } %>
+        <% if(offlineFriends.length){ %>
+        <p>Offline Friends</p>
+        <% for (let i = 0; i < offlineFriends.length; i++) { %>
+          <li data=<%= offlineFriends[i]._id %>>
+            <div>
+              <img src=<%= offlineFriends[i].profile %>>
+            <span><%= offlineFriends[i].username %></span>
+            </div>
+            <div>
+              <button class="notif-btn reject" data-id="">Remove</button>
+            </div>
+          </li>
+        <% } %><% } %>
       </ul>
     </div>
     <div id="bot-loading" class="bot-loading bot-hidden">
@@ -111,6 +126,7 @@
     <script type="module" src="/src/components/invite.js"></script>
     <script type="module" src="/src/components/index.js"></script>
     <script type="module" src="/src/components/friend.js"></script>
+    <script type="module" src="/src/components/game.js"></script>
     <script src="/src/services/notif.js"></script>
   </body>
 </html>

@@ -11,6 +11,7 @@ import userMiddle from "./middleware/user.js";
 import authentication from "./socketHandlers/authentication.js";
 import friend from "./socketHandlers/friend.js";
 import invite from "./socketHandlers/invite.js";
+import game from "./socketHandlers/game.js";
 
 const app = e();
 const port = process.env.PORT || 3000;
@@ -25,7 +26,8 @@ db();
 
 app.use("/", userMiddle, router);
 
-const onlineUsers = new Map();
+export const onlineUsers = new Map();
+const games = new Map();
 
 authentication(io);
 
@@ -36,8 +38,9 @@ io.on("connection", (socket) => {
     log(`User ${userId} connected with socket ${socket.id}`);
   });
 
-  friend(socket, onlineUsers,io);
-  invite(socket, onlineUsers,io);
+  friend(socket, onlineUsers, io);
+  invite(socket, onlineUsers, io);
+  game(socket, onlineUsers, io, games);
 
   socket.on("disconnect", () => {
     log("user disconnected");

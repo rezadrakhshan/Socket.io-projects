@@ -1,6 +1,7 @@
-import { __dirname } from "../server.js";
+import { __dirname, onlineUsers } from "../server.js";
 import Invite from "../models/invite.js";
 import Notification from "../models/notif.js";
+import User from "../models/user.js";
 
 export default new (class {
   async homePage(req, res) {
@@ -8,14 +9,23 @@ export default new (class {
       "sender"
     );
     const notifs = await Notification.find({ user: req.user.id });
+    const friends = await User.find({ _id: { $in: req.user.friends } });
+
+    const onlineFriends = friends.filter((f) =>
+      onlineUsers.has(f._id.toString())
+    );
+    const offlineFriends = friends.filter(
+      (f) => !onlineUsers.has(f._id.toString())
+    );
     res.render("index", {
       user: req.user,
       invites: invites,
       notif: notifs,
-      friends: req.user.friends,
+      onlineFriends,
+      offlineFriends,
     });
   }
   async playWithBot(req, res) {
-    res.render("play-with-bot",{user:req.user});
+    res.render("play-with-bot", { user: req.user });
   }
 })();

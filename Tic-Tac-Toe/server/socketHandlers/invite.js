@@ -25,11 +25,9 @@ export default function (socket, onlineUsers, io) {
   });
   socket.on("play request", async ({ userId }) => {
     const userTarget = onlineUsers.get(userId);
-    const userSender = onlineUsers.get(socket.user.id)
-    if (!userTarget) {
-      io.to(userSender).emit("friend offline");
-    } else {
-      io.to(userTarget).emit("play request", [await invite.getUserInfo(socket.user.id)]);
-    }
+    const userSender = onlineUsers.get(socket.user.id);
+    io.to(userTarget).emit("play request", [
+      await invite.getUserInfo(socket.user.id),
+    ]);
   });
 }

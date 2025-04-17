@@ -5,7 +5,7 @@ const modalContent = modal.querySelector(".modal-content");
 const notifBtn = document.getElementById("toggle-notif");
 const notifBox = document.getElementById("notification-box");
 const playWithBotBtn = document.getElementById("play-with-bot");
-const botLoadingScreen = document.getElementById("bot-loading");
+export const botLoadingScreen = document.getElementById("bot-loading");
 
 window.addEventListener(
   "click",

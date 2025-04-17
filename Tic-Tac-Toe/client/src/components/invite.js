@@ -1,3 +1,5 @@
+import { botLoadingScreen } from "./index.js";
+
 const form = document.getElementsByClassName("modal-content")[0];
 const userId = document.getElementById("userID").value;
 const notificationList = document.querySelector("#notification-list");
@@ -24,13 +26,14 @@ function addInviteNotification(data) {
 }
 function addRequestNotification(data) {
   const li = document.createElement("li");
+  li.setAttribute("data", data._id);
   li.innerHTML = `
     <div style="display: flex; justify-content: space-between; align-items: center;">
       <span><strong>${data.username}</strong> sent you a game request</span>
     </div>
     <div style="margin-top: 0.5rem; display: flex; justify-content: flex-end; gap: 0.5rem;">
-      <button class="notif-btn accept" data-id="">Play</button>
-      <button class="notif-btn reject" data-id="">Reject</button>
+      <button class="notif-btn accept game" data-id="">Play</button>
+      <button class="notif-btn reject game" data-id="">Reject</button>
     </div> 
   `;
 
@@ -117,23 +120,29 @@ socket.on("invite", (data) => {
 
 notificationList.addEventListener("click", async (e) => {
   if (e.target.classList.contains("reject")) {
-    const inviteId = e.target.parentElement.parentElement.getAttribute("data");
-    const rejectResponse = await fetch(`/api/reject-invite/${inviteId}`, {
-      method: "DELETE",
-    });
-    if (!rejectResponse.ok) {
-      showToast("Server Error", "error");
-      return;
+    if (!e.target.classList.contains("reject")) {
+      const inviteId =
+        e.target.parentElement.parentElement.getAttribute("data");
+      const rejectResponse = await fetch(`/api/reject-invite/${inviteId}`, {
+        method: "DELETE",
+      });
+      if (!rejectResponse.ok) {
+        showToast("Server Error", "error");
+        return;
+      }
+      const result = await rejectResponse.json();
+      showToast("Invite Rejected");
+      socket.emit("reject invite", {
+        userId: result.sender,
+        message: `${result.receiver.username} rejected your invite`,
+      });
     }
-    const result = await rejectResponse.json();
-    showToast("Invite Rejected");
     e.target.parentElement.parentElement.remove();
-    socket.emit("reject invite", {
-      userId: result.sender,
-      message: `${result.receiver.username} rejected your invite`,
-    });
   }
-  if (e.target.classList.contains("accept")) {
+  if (
+    e.target.classList.contains("accept") &&
+    !e.target.classList.contains("game")
+  ) {
     const inviteId = e.target.parentElement.parentElement.getAttribute("data");
     const acceptResponse = await fetch(`/api/accept-invite/${inviteId}`, {
       method: "DELETE",
@@ -158,17 +167,31 @@ socket.on("notif", (data) => {
   ShowNewFriend(data[1]);
 });
 
-gameInviteBtn.addEventListener("click", (e) => {
-  socket.emit("play request", {
-    userId: e.target.parentElement.parentElement.getAttribute("data"),
+if (gameInviteBtn) {
+  gameInviteBtn.addEventListener("click", (e) => {
+    botLoadingScreen.classList.remove("bot-hidden");
+    document.querySelector(
+      ".logo-container"
+    ).innerHTML += `<p>waiting for Opponent</p><button class="cancel-btn">Cancel</button>`;
+    socket.emit("play request", {
+      userId: e.target.parentElement.parentElement.getAttribute("data"),
+    });
   });
-});
+}
+
+function playGame() {
+  const acceptBtn = document.querySelectorAll(".accept.game");
+  acceptBtn.forEach((e) => {
+    e.addEventListener("click", (e) => {
+      socket.emit("request accept", {
+        userID: e.target.parentElement.parentElement.getAttribute("data"),
+      });
+    });
+  });
+}
 
 socket.on("play request", (data) => {
   addRequestNotification(data[0]);
   showToast("You have new game request");
-});
-
-socket.on("friend offline", () => {
-  showToast("Your Friend is offline", "error");
+  playGame();
 });
