@@ -1,9 +1,9 @@
 import { showToast, socket } from "./invite.js";
 
-const sidebar = document.getElementById("friend-sidebar");
+export const sidebar = document.getElementById("friend-sidebar");
 const toggleFriendBtn = document.getElementById("toggle-friend");
 const closeSidebar = document.getElementById("close-sidebar");
-const overlay = document.getElementById("overlay");
+export const overlay = document.getElementById("overlay");
 
 
 document.addEventListener("DOMContentLoaded", () => {

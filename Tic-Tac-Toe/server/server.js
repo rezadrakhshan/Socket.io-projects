@@ -32,10 +32,8 @@ const games = new Map();
 authentication(io);
 
 io.on("connection", (socket) => {
-  log("a user connected");
   socket.on("register", (userId) => {
     onlineUsers.set(userId, socket.id);
-    log(`User ${userId} connected with socket ${socket.id}`);
   });
 
   friend(socket, onlineUsers, io);
@@ -43,7 +41,6 @@ io.on("connection", (socket) => {
   game(socket, onlineUsers, io, games);
 
   socket.on("disconnect", () => {
-    log("user disconnected");
     for (let [userId, id] of onlineUsers.entries()) {
       if (id === socket.id) {
         onlineUsers.delete(userId);
