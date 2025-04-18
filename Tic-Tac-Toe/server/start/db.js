@@ -5,7 +5,7 @@ import winston from "winston";
 
 export default function () {
   mongoose
-    .connect(c.get("db.address"))
+    .connect(process.env.MONGODB_URI)
     .then(() => {
       log("app connected to mongodb");
     })

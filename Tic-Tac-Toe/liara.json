@@ -1,0 +1,6 @@
+{
+    "platform": "node",
+    "app": "tic-tac-toe",
+    "port": 3000
+  }
+  
