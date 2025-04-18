@@ -1,4 +1,4 @@
-import { socket } from "./invite.js";
+import { socket, id } from "./invite.js";
 import { showToast } from "./invite.js";
 import { botLoadingScreen } from "./index.js";
 import { sidebar, overlay } from "./friend.js";
@@ -16,22 +16,20 @@ socket.on("game start", (data) => {
     ).innerHTML += `<link rel="stylesheet" href="public/style/bot-game.css" />`;
     container.innerHTML = "";
     container.appendChild(generateGameBoard(data));
-    container.innerHTML += `<hr color="#FFDDAB" />
-      <div class="right-panel">
-        <div class="info-box">
-          <h2>Game Info</h2>
-          <p><strong>Player:</strong> ${data.playerOne._doc.username}</p>
-          <p><strong>Opponent:</strong> ${data.playerTwo._doc.username}</p>
-          <p>
-            <strong>Current Turn:</strong> <span id="current-turn">You</span>
-          </p>
-          <p>
-            <strong>Status:</strong> <span id="game-status">In Progress</span>
-          </p>
-          <button id="reset-btn">Restart</button>
-        </div>
-      </div>`;
+    const chatContainer = document.createElement("div");
+    chatContainer.classList.add("chat-container");
+    chatContainer.innerHTML = `  <h1 class="chat-title">Chat with opponent</h1>
+  
+  <div class="chat-messages">
+  </div>
+  
+  <form class="chat-form">
+    <input name="message" required type="text" placeholder="Type a message..." />
+    <button type="submit">Send</button>
+  </form>`;
+    container.appendChild(chatContainer);
     setUpGameEvent(data);
+    chatEvent(data.roomID);
   }, 2000);
 });
 
@@ -40,9 +38,10 @@ function generateGameBoard(data) {
   leftSide.classList.add("left-panel");
   const boardHtml = document.createElement("div");
   boardHtml.className = "board";
-  boardHtml.innerHTML = `<h1 class="title">${data.playerOne._doc.username} VS ${data.playerTwo._doc.username}</h1>`;
+  boardHtml.innerHTML = `<h1 class="title">${data.playerOne._doc.username}(${data.playerOne.symbol}) VS ${data.playerTwo._doc.username}(${data.playerTwo.symbol})</h1>`;
 
   const table = document.createElement("table");
+  table.style.marginLeft = "10%";
   const tbody = document.createElement("tbody");
 
   for (let i = 0; i < 3; i++) {
@@ -99,19 +98,16 @@ socket.on("player move", (data) => {
   const cell = document.querySelector(`[data-cell-index="${data.index}"]`);
   cell.innerHTML = `<span class="icon">${data.symbol}</span>`;
 
-  const currentBoard = Array.from(document.querySelectorAll(".cell")).map((cell) =>
-    cell.textContent.trim() === "" ? null : cell.textContent.trim()
+  const currentBoard = Array.from(document.querySelectorAll(".cell")).map(
+    (cell) => (cell.textContent.trim() === "" ? null : cell.textContent.trim())
   );
 
   const result = evaluateWinner(currentBoard);
 
   if (result) {
-    const statusElement = document.getElementById("game-status");
     if (result.winner === "tie") {
-      statusElement.textContent = "Draw!";
       showToast("It's a tie!");
     } else {
-      statusElement.textContent = `${result.winner} wins!`;
       showToast(`${result.winner} wins!`);
 
       result.line.forEach((i) => {
@@ -119,6 +115,36 @@ socket.on("player move", (data) => {
         winCell.classList.add("winner");
       });
     }
+    let sec = 5;
+    const reloadTime = setInterval(() => {
+      if (sec > 0) {
+        showToast(`Redirect to home page in ${sec}`);
+        sec--;
+      } else {
+        clearInterval(reloadTime);
+        window.location.reload();
+      }
+    }, 1000);
   }
 });
 
+function chatEvent(roomId) {
+  document.querySelector(".chat-form").addEventListener("submit", (e) => {
+    e.preventDefault();
+    socket.emit("chat message", {
+      message: e.target.message.value,
+      room: roomId,
+      sender: id,
+    });
+    e.target.message.value = ""
+  });
+}
+
+socket.on("chat message", (data) => {
+  const messageList = document.querySelector(".chat-messages");
+  if (data.sender == id) {
+    messageList.innerHTML += `<div class="message user"><span class="label"></span>${data.message}</div>`;
+  } else {
+    messageList.innerHTML += `<div class="message bot"><span class="label"></span>${data.message}</div>`;
+  }
+});

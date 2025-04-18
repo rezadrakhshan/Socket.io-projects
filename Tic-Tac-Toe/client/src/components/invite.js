@@ -6,8 +6,12 @@ const notificationList = document.querySelector("#notification-list");
 const friendList = document.getElementById("friend-list");
 const gameInviteBtn = document.querySelector(".play-btn");
 export let socket = io();
+export let id;
 
 socket.emit("register", userId);
+socket.on("connect", () => {
+  id = socket.id;
+});
 
 function addInviteNotification(data) {
   const li = document.createElement("li");

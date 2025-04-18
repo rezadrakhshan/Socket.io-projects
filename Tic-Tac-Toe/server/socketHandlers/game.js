@@ -42,4 +42,10 @@ export default function (socket, onlineUsers, io, games) {
       }
     }
   });
+  socket.on("chat message", ({ message, room, sender }) => {
+    io.to(room).emit("chat message", {
+      message: message,
+      sender: sender,
+    });
+  });
 }
