@@ -1,3 +1,7 @@
+body{
+  background-image: url("/public/image/bg.gif");
+}
+
 .container {
   display: flex;
   justify-content: space-between;

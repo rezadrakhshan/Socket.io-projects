@@ -1,11 +1,18 @@
 body {
   margin: 0;
-  background-image: url("/public/image/loading-bg.png");
   background-size: cover;
   font-family: 'Poppins', sans-serif;
   overflow: hidden;
   color: #e6f5dc;
   position: relative;
+}
+
+.loading-bg{
+  background-image: url("/public/image/loading-bg.png");
+}
+
+.display-none{
+  display: none;
 }
 
 .background-overlay {

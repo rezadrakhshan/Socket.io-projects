@@ -41,14 +41,9 @@ setTimeout(() => {
 }, 3000);
 
 
-button.addEventListener("click", (e) => {
-    loader.classList.add("fade-out");
-  
-    setTimeout(() => {
-      loader.remove();
-      bgOverlay.remove();
-      container.style.display = "block";
-      document.querySelector("body").style.backgroundImage = "url('/public/image/bg.gif')";
-    }, 600);
-  });
-  
+button.addEventListener("click",(e)=>{
+    loader.remove()
+    bgOverlay.remove()
+    container.classList.remove("display-none")
+    document.querySelector("body").style.backgroundImage = "url('/public/image/bg.gif')";
+})
