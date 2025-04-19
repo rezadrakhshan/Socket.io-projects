@@ -8,8 +8,6 @@ html {
   padding: 3%;
 }
 body {
-  background-image: url("/public/image/bg.gif");
-  background-size: cover;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -29,6 +27,7 @@ body {
 }
 
 .container {
+  display: none;
   color: white;
   width: 100%;
   padding: 5%;
@@ -391,3 +390,17 @@ hr {
 }
 
 
+@keyframes fadeUpOut {
+  0% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+}
+
+.loader-screen.fade-out {
+  animation: fadeUpOut 0.6s ease forwards;
+}
