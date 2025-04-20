@@ -65,7 +65,7 @@ playWithBotBtn.addEventListener("click", () => {
 
   setTimeout(() => {
     window.location.href = "/play-with-bot";
-  }, 5000);
+  }, 3000);
 });
 
 const contextMenu = document.getElementById("contextMenu");
@@ -95,8 +95,9 @@ document.addEventListener("click", () => {
 
 
 document.querySelector("#edit-profile").addEventListener("click", async (e) => {
-  console.log(1)
-  const response = await fetch("/api/update");
-  const data = await response.json();
-  console.log(data);
+  botLoadingScreen.classList.remove("bot-hidden");
+
+  setTimeout(() => {
+    window.location.href = "/profile"
+  }, 3000);
 });

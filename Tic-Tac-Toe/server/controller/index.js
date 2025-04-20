@@ -28,4 +28,7 @@ export default new (class {
   async playWithBot(req, res) {
     res.render("play-with-bot", { user: req.user });
   }
+  async profile(req, res) {
+    res.render("profile", { user: req.user });
+  }
 })();

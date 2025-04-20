@@ -7,6 +7,7 @@ const router = e.Router();
 
 router.get("/", controller.homePage);
 router.get("/play-with-bot", controller.playWithBot);
+router.get("/profile", controller.profile);
 router.use("/api", inviteRouter);
 router.use("/api", profileRouter);
 
