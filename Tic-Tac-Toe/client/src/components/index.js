@@ -60,13 +60,43 @@ window.addEventListener("click", (e) => {
   }
 });
 
-
-
-
 playWithBotBtn.addEventListener("click", () => {
   botLoadingScreen.classList.remove("bot-hidden");
 
   setTimeout(() => {
     window.location.href = "/play-with-bot";
-  }, 5000)
+  }, 5000);
+});
+
+const contextMenu = document.getElementById("contextMenu");
+
+document.addEventListener("contextmenu", (e) => {
+  e.preventDefault();
+
+  const menuWidth = contextMenu.offsetWidth;
+  const menuHeight = contextMenu.offsetHeight;
+  const pageWidth = window.innerWidth;
+  const pageHeight = window.innerHeight;
+
+  let posX = e.clientX;
+  let posY = e.clientY;
+
+  if (posX + menuWidth > pageWidth) posX = pageWidth - menuWidth - 5;
+  if (posY + menuHeight > pageHeight) posY = pageHeight - menuHeight - 5;
+
+  contextMenu.style.top = `${posY}px`;
+  contextMenu.style.left = `${posX}px`;
+  contextMenu.style.display = "block";
+});
+
+document.addEventListener("click", () => {
+  contextMenu.style.display = "none";
+});
+
+
+document.querySelector("#edit-profile").addEventListener("click", async (e) => {
+  console.log(1)
+  const response = await fetch("/api/update");
+  const data = await response.json();
+  console.log(data);
 });
