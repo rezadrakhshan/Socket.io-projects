@@ -1,11 +1,81 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Kingdom</title>
-</head>
-<body>
-    
-</body>
+    <link rel="stylesheet" href="public/style/style.css" />
+    <link rel="stylesheet" href="public/style/room.css" />
+  </head>
+  <body>
+    <div class="container" id="mainContainer">
+      <h1>Kingdom</h1>
+
+      <div class="username-section">
+        <label for="username">Username:</label>
+        <input type="text" id="username" placeholder="Enter your username" />
+      </div>
+
+      <div class="button-container">
+        <button class="btn btn-primary" id="createRoom">Create Room</button>
+        <button class="btn" id="joinRoom">Join Room</button>
+      </div>
+    </div>
+
+    <div class="room-container" id="roomContainer" style="display: none">
+      <div class="room-header">
+        <div class="room-id">Room ID: <span id="currentRoomId"></span></div>
+        <button class="ready-btn" id="readyBtn">Ready</button>
+      </div>
+
+      <div class="chat-container">
+        <h3 class="chat-header">Public Chat</h3>
+        <div class="messages" id="publicMessages"></div>
+        <div class="message-input">
+          <input
+            type="text"
+            id="publicMessageInput"
+            placeholder="Type your message..."
+          />
+          <button id="sendPublicMessage">Send</button>
+        </div>
+      </div>
+
+      <div class="chat-container">
+        <h3 class="chat-header">Private Chat</h3>
+        <div class="messages" id="privateMessages"></div>
+        <div class="message-input">
+          <input
+            type="text"
+            id="privateMessageInput"
+            placeholder="Type your message..."
+          />
+          <button id="sendPrivateMessage">Send</button>
+        </div>
+      </div>
+
+      <div class="users-list">
+        <h3 class="chat-header">Users</h3>
+        <div id="usersList"></div>
+      </div>
+    </div>
+
+    <div class="modal" id="joinRoomModal">
+      <div class="modal-content">
+        <span class="close-modal">&times;</span>
+        <h2>Join Room</h2>
+        <div class="modal-body">
+          <div class="input-group">
+            <label for="roomId">Room ID:</label>
+            <input type="text" id="roomId" placeholder="Enter room ID" />
+          </div>
+          <button class="btn btn-primary" id="confirmJoin">Join</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script type="module" src="src/components/index.js"></script>
+    <script type="module" src="src/service/room.js"></script>
+  </body>
 </html>
