@@ -1,9 +1,20 @@
-import { updateWaitingUsersList } from "../components/index.js";
+import {
+  updateWaitingUsersList,
+  renderCountries,
+} from "../components/index.js";
 
 const roomID = document.querySelector("#waitingRoomId");
+const selectCountryBtn = document.querySelector("#selectCountry");
 const readyBtn = document.querySelector(".ready-btn");
 export let socket = io();
 export let id;
+let users;
+
+
+selectCountryBtn.addEventListener("click", () => {
+  countryModal.style.display = "block";
+  renderCountries(users);
+});
 
 socket.on("connect", () => {
   id = socket.id;
@@ -12,6 +23,7 @@ socket.on("connect", () => {
 
 socket.on("create room", (data) => {
   roomID.innerText = data.roomID;
+  users = data.users
   if (data.owner == id) {
     readyBtn.remove();
     const startBtn = document.createElement("button");
@@ -19,10 +31,11 @@ socket.on("create room", (data) => {
     startBtn.innerText = "Start";
     document.querySelector(".waiting-controls").appendChild(startBtn);
   }
-  updateWaitingUsersList(data.users);
+  updateWaitingUsersList(users);
 });
 
-socket.on("update users", (users) => {
+socket.on("update users", (updatedUsers) => {
+  users = updatedUsers;
   document.querySelectorAll(".country-item").forEach((item) => {
     item.classList.remove("selected");
   });

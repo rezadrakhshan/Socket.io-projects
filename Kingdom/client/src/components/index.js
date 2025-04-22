@@ -2,7 +2,6 @@ import { socket, id } from "../service/room.js";
 
 const joinRoomBtn = document.querySelector("#joinRoom");
 const createRoomBtn = document.querySelector("#createRoom");
-const selectCountryBtn = document.querySelector("#selectCountry");
 const mainContainer = document.querySelector("#mainContainer");
 const closeModalBtn = document.querySelector(".close-modal");
 const waitingRoom = document.querySelector("#waitingRoom");
@@ -24,12 +23,6 @@ const countries = [
   { code: "jp", name: "Japan" },
 ];
 
-let selectedCountry = null;
-
-selectCountryBtn.addEventListener("click", () => {
-  countryModal.style.display = "block";
-  renderCountries();
-});
 
 document.querySelectorAll(".close-modal").forEach((btn) => {
   btn.addEventListener("click", () => {
@@ -43,12 +36,14 @@ window.addEventListener("click", (event) => {
   }
 });
 
-function renderCountries() {
+
+
+export function renderCountries(users) {
   countriesGrid.innerHTML = "";
   countries.forEach((country) => {
     const countryElement = document.createElement("div");
     countryElement.className = `country-item ${
-      selectedCountry === country.code ? "selected" : ""
+      users.some((user) => user.flag == country.code) ? "selected" : ""
     }`;
     countryElement.dataset.code = country.code;
 
@@ -67,9 +62,12 @@ function renderCountries() {
     countriesGrid.appendChild(countryElement);
 
     countryElement.addEventListener("click", () => {
-      const flagCode = countryElement.getAttribute("data-code");
-      const roomID = document.querySelector("#waitingRoomId").innerText;
-      socket.emit("choose flag", { id: id, code: flagCode, room: roomID });
+      if (!countryElement.classList.contains("selected")) {
+        console.log(1)
+        const flagCode = countryElement.getAttribute("data-code");
+        const roomID = document.querySelector("#waitingRoomId").innerText;
+        socket.emit("choose flag", { id: id, code: flagCode, room: roomID });
+      }
     });
   });
 }
