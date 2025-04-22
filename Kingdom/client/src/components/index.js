@@ -1,10 +1,78 @@
-import { socket } from "../service/room.js";
-
 const usernameInput = document.querySelector("#username");
 const joinRoomBtn = document.querySelector("#joinRoom");
 const createRoomBtn = document.querySelector("#createRoom");
+const selectCountryBtn = document.querySelector("#selectCountry");
 const mainContainer = document.querySelector("#mainContainer");
-const closeModalBtn = document.querySelector(".close-modal")
+const closeModalBtn = document.querySelector(".close-modal");
+const waitingRoom = document.querySelector("#waitingRoom");
+const waitingRoomId = document.querySelector("#waitingRoomId");
+const waitingUsersList = document.querySelector("#waitingUsersList");
+const waitingReadyBtn = document.querySelector("#waitingReadyBtn");
+const countryModal = document.querySelector("#countryModal");
+const countriesGrid = document.querySelector("#countriesGrid");
+
+const countries = [
+  { code: "ir", name: "Iran" },
+  { code: "us", name: "America" },
+  { code: "gb", name: "England" },
+  { code: "de", name: "German" },
+  { code: "fr", name: "France" },
+  { code: "it", name: "Italy" },
+  { code: "es", name: "Spain" },
+  { code: "ru", name: "Russia" },
+  { code: "cn", name: "China" },
+  { code: "jp", name: "Japan" }
+];
+
+
+let selectedCountry = null;
+
+selectCountryBtn.addEventListener("click", () => {
+  countryModal.style.display = "block";
+  renderCountries();
+});
+
+document.querySelectorAll(".close-modal").forEach(btn => {
+  btn.addEventListener("click", () => {
+    countryModal.style.display = "none";
+  });
+});
+
+
+window.addEventListener("click", (event) => {
+  if (event.target === countryModal) {
+    countryModal.style.display = "none";
+  }
+});
+
+function renderCountries() {
+  countriesGrid.innerHTML = "";
+  countries.forEach(country => {
+    const countryElement = document.createElement("div");
+    countryElement.className = `country-item ${selectedCountry === country.code ? "selected" : ""}`;
+    countryElement.dataset.code = country.code;
+    
+    const flagElement = document.createElement("img");
+    flagElement.className = "country-flag";
+    flagElement.src = `/public/image/flags/${country.code}.png`;
+    flagElement.alt = country.name;
+    
+    const nameElement = document.createElement("span");
+    nameElement.className = "country-name";
+    nameElement.textContent = country.name;
+    
+    countryElement.appendChild(flagElement);
+    countryElement.appendChild(nameElement);
+    
+    countryElement.addEventListener("click", () => {
+      selectedCountry = country.code;
+      renderCountries();
+      updateWaitingUsersList(sampleUsers);
+    });
+    
+    countriesGrid.appendChild(countryElement);
+  });
+}
 
 joinRoomBtn.addEventListener("click", () => {
   joinRoomModal.style.display = "block";
@@ -21,8 +89,46 @@ window.addEventListener("click", (event) => {
 });
 
 createRoomBtn.addEventListener("click", () => {
-  const username = usernameInput.value.trim();
-  roomContainer.style.display = "grid";
+  waitingRoom.style.display = "flex";
   mainContainer.remove();
-  socket.emit("create room")
 });
+
+waitingReadyBtn.addEventListener("click", () => {
+  waitingReadyBtn.classList.toggle("ready");
+});
+
+function updateWaitingUsersList(users) {
+  waitingUsersList.innerHTML = "";
+  users.forEach(user => {
+    const userElement = document.createElement("div");
+    userElement.className = "waiting-user-item";
+    
+    const flagElement = document.createElement("img");
+    flagElement.className = "waiting-user-flag";
+    flagElement.src = `/public/image/flags/${user.country}.png`;
+    flagElement.alt = user.country;
+    
+    const nameElement = document.createElement("span");
+    nameElement.className = "waiting-user-name";
+    nameElement.textContent = user.name;
+    
+    const statusElement = document.createElement("div");
+    statusElement.className = `waiting-user-status ${user.ready ? "ready" : ""}`;
+    
+    userElement.appendChild(flagElement);
+    userElement.appendChild(nameElement);
+    userElement.appendChild(statusElement);
+    
+    waitingUsersList.appendChild(userElement);
+  });
+}
+
+
+const sampleUsers = [
+  { name: "کاربر 1", country: "ir", ready: true },
+  { name: "کاربر 2", country: "us", ready: false },
+  { name: "کاربر 3", country: "gb", ready: true }
+];
+
+
+updateWaitingUsersList(sampleUsers);

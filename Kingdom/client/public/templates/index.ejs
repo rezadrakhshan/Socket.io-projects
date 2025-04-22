@@ -11,14 +11,36 @@
     <div class="container" id="mainContainer">
       <h1>Kingdom</h1>
 
-      <div class="username-section">
-        <label for="username">Username:</label>
-        <input type="text" id="username" placeholder="Enter your username" />
-      </div>
-
       <div class="button-container">
         <button class="btn btn-primary" id="createRoom">Create Room</button>
         <button class="btn" id="joinRoom">Join Room</button>
+      </div>
+    </div>
+
+    <div class="modal" id="countryModal">
+      <div class="modal-content">
+        <span class="close-modal">&times;</span>
+        <h2>Select Your Country</h2>
+        <div class="modal-body">
+          <div class="countries-grid" id="countriesGrid"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="waiting-room" id="waitingRoom" style="display: none">
+      <div class="waiting-header">
+        <div class="room-id">Room ID: <span id="waitingRoomId"></span></div>
+        <h2>Waiting Room</h2>
+        <button class="btn" id="selectCountry">Select Country</button>
+      </div>
+      
+      <div class="waiting-users">
+        <h3>Players</h3>
+        <div id="waitingUsersList"></div>
+      </div>
+
+      <div class="waiting-controls">
+        <button class="ready-btn" id="waitingReadyBtn">Ready</button>
       </div>
     </div>
 

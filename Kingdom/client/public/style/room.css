@@ -128,3 +128,178 @@
 .user-name {
     color: white;
 }
+
+.waiting-room {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem;
+    background-color: #121212;
+    min-height: 100vh;
+    color: white;
+}
+
+.waiting-header {
+    text-align: center;
+    margin-bottom: 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 1rem;
+    width: 800px;
+}
+
+.waiting-header h2 {
+    color: #3498db;
+    margin-bottom: 0;
+}
+
+.waiting-header .btn {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.waiting-header .btn:hover {
+    background-color: #2980b9;
+}
+
+.waiting-users {
+    width: 100%;
+    max-width: 600px;
+    background-color: #1e1e1e;
+    border-radius: 10px;
+    padding: 1rem;
+    margin-bottom: 2rem;
+}
+
+.waiting-users h3 {
+    color: #3498db;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #444;
+}
+
+.waiting-user-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.75rem;
+    background-color: #2d2d2d;
+    border-radius: 5px;
+    margin-bottom: 0.5rem;
+}
+
+.waiting-user-flag {
+    width: 24px;
+    height: 16px;
+    border-radius: 3px;
+}
+
+.waiting-user-name {
+    flex-grow: 1;
+    color: white;
+}
+
+.waiting-user-status {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: #7f8c8d;
+}
+
+.waiting-user-status.ready {
+    background-color: #2ecc71;
+}
+
+.waiting-controls {
+    margin-top: 1rem;
+}
+
+.waiting-controls .ready-btn {
+    padding: 0.75rem 2rem;
+    font-size: 1.1rem;
+}
+
+.countries-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    gap: 1rem;
+    padding: 1rem;
+}
+
+.country-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.country-item:hover {
+    background-color: #2d2d2d;
+}
+
+.country-item.selected {
+    background-color: #2d2d2d;
+}
+
+.country-item.selected .country-flag {
+    filter: grayscale(100%);
+}
+
+.country-flag {
+    width: 48px;
+    height: 32px;
+    border-radius: 3px;
+    object-fit: cover;
+}
+
+.country-name {
+    font-size: 0.8rem;
+    color: white;
+    text-align: center;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 1000;
+}
+
+.modal-content {
+    background-color: #1e1e1e;
+    margin: 10% auto;
+    padding: 20px;
+    border-radius: 10px;
+    width: 80%;
+    max-width: 600px;
+    position: relative;
+}
+
+.close-modal {
+    position: absolute;
+    right: 20px;
+    top: 10px;
+    font-size: 28px;
+    font-weight: bold;
+    color: white;
+    cursor: pointer;
+}
+
+.modal h2 {
+    color: #3498db;
+    margin-bottom: 1rem;
+}
