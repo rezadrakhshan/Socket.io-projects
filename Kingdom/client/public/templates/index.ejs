@@ -86,11 +86,11 @@
         <span class="close-modal">&times;</span>
         <h2>Join Room</h2>
         <div class="modal-body">
-          <div class="input-group">
+          <form class="input-group">
             <label for="roomId">Room ID:</label>
-            <input type="text" id="roomId" placeholder="Enter room ID" />
-          </div>
-          <button class="btn btn-primary" id="confirmJoin">Join</button>
+            <input type="text" name="roomId" placeholder="Enter room ID" required />
+            <button class="btn btn-primary" id="confirmJoin" type="submit">Join</button>
+          </form>
         </div>
       </div>
     </div>

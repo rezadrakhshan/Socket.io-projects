@@ -2,9 +2,9 @@ import { socket, id } from "../service/room.js";
 
 const joinRoomBtn = document.querySelector("#joinRoom");
 const createRoomBtn = document.querySelector("#createRoom");
-const mainContainer = document.querySelector("#mainContainer");
+export const mainContainer = document.querySelector("#mainContainer");
 const closeModalBtn = document.querySelector(".close-modal");
-const waitingRoom = document.querySelector("#waitingRoom");
+export const waitingRoom = document.querySelector("#waitingRoom");
 const waitingUsersList = document.querySelector("#waitingUsersList");
 const waitingReadyBtn = document.querySelector("#waitingReadyBtn");
 const countryModal = document.querySelector("#countryModal");
@@ -23,7 +23,6 @@ const countries = [
   { code: "jp", name: "Japan" },
 ];
 
-
 document.querySelectorAll(".close-modal").forEach((btn) => {
   btn.addEventListener("click", () => {
     countryModal.style.display = "none";
@@ -35,8 +34,6 @@ window.addEventListener("click", (event) => {
     countryModal.style.display = "none";
   }
 });
-
-
 
 export function renderCountries(users) {
   countriesGrid.innerHTML = "";
@@ -63,7 +60,7 @@ export function renderCountries(users) {
 
     countryElement.addEventListener("click", () => {
       if (!countryElement.classList.contains("selected")) {
-        console.log(1)
+        console.log(1);
         const flagCode = countryElement.getAttribute("data-code");
         const roomID = document.querySelector("#waitingRoomId").innerText;
         socket.emit("choose flag", { id: id, code: flagCode, room: roomID });
@@ -74,6 +71,12 @@ export function renderCountries(users) {
 
 joinRoomBtn.addEventListener("click", () => {
   joinRoomModal.style.display = "block";
+  document.querySelector(".input-group").addEventListener("submit", (e) => {
+    e.preventDefault();
+    const value = e.target.roomId.value;
+    socket.emit("join room", value);
+    joinRoomModal.style.display = "none";
+  });
 });
 
 closeModalBtn.addEventListener("click", () => {
