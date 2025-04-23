@@ -4,6 +4,8 @@ import {
   mainContainer,
   waitingRoom,
   renderRoomInfo,
+  renderPublicMessage,
+  submitPublicForm,
 } from "../components/index.js";
 
 const roomID = document.querySelector("#waitingRoomId");
@@ -93,5 +95,10 @@ socket.on("ready", (data) => {
 socket.on("game start", () => {
   waitingRoom.remove();
   roomContainer.style.display = "grid";
-  renderRoomInfo(users)
+  renderRoomInfo(users);
+  submitPublicForm()
+});
+
+socket.on("public message", (data) => {
+  renderPublicMessage(data);
 });

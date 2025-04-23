@@ -131,7 +131,7 @@ export function updateWaitingUsersList(users) {
 
 export function renderRoomInfo(users) {
   const userList = document.querySelector("#usersList");
-  userList.innerHTML = '';
+  userList.innerHTML = "";
   users.forEach((user) => {
     userList.innerHTML += `
     <div class="user-item">
@@ -140,4 +140,57 @@ export function renderRoomInfo(users) {
     </div>
     `;
   });
+
+}
+
+export function submitPublicForm() {
+  const oldForm = document.querySelector("#publicForm");
+  const newForm = oldForm.cloneNode(true);
+  oldForm.parentNode.replaceChild(newForm, oldForm);
+
+  newForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    socket.emit("public message", {
+      message: e.target.message.value,
+      id: id,
+      room: parseInt(roomID.innerText),
+    });
+    newForm.reset();
+  });
+}
+
+
+export function renderPublicMessage(data) {
+  console.log(3)
+  const messageList = document.querySelector("#publicMessages");
+  const newMessage = document.createElement("div");
+  newMessage.classList.add("message");
+  
+  if (data.user.id == id) {
+    newMessage.classList.add("my-message");
+  }
+
+  if (data.user.id == id) {
+    newMessage.innerHTML = `
+      <div class="message-content">
+        <div class="message-text">${data.message}</div>
+      </div>
+      <div class="message-avatar">
+        <img src="/public/image/flags/${data.user.flag}.png" alt="${data.user.flag}" class="message-flag">
+      </div>
+    `;
+  } else {
+    newMessage.innerHTML = `
+      <div class="message-avatar">
+        <img src="/public/image/flags/${data.user.flag}.png" alt="${data.user.flag}" class="message-flag">
+      </div>
+      <div class="message-content">
+        <div class="message-text">${data.message}</div>
+      </div>
+    `;
+  }
+
+  messageList.appendChild(newMessage);
+  
+  messageList.scrollTop = messageList.scrollHeight;
 }

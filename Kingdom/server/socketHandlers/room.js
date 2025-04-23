@@ -57,4 +57,9 @@ export default function (socket, onlineUsers, io, games) {
     const game = games.get(data);
     io.to(data).emit("game start");
   });
+  socket.on("public message", ({ message, id, room }) => {
+    const game = games.get(room);
+    const user = game.users.find((user) => user.id == id);
+    io.to(room).emit("public message", { message: message, user: user });
+  });
 }
