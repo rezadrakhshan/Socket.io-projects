@@ -30,7 +30,7 @@
     <div class="waiting-room" id="waitingRoom" style="display: none">
       <div class="waiting-header">
         <div class="room-id">Room ID: <span id="waitingRoomId"></span></div>
-        <h2>Waiting Room</h2>
+        <h2 id="title" >Waiting Room</h2>
         <button class="btn" id="selectCountry">Select Country</button>
       </div>
       
@@ -46,21 +46,9 @@
 
     <div class="room-container" id="roomContainer" style="display: none">
       <div class="room-header">
-        <div class="room-id">Room ID: <span id="currentRoomId"></span></div>
+        <div class="room-id">Round 1 : 10:00</div>
       </div>
 
-      <div class="chat-container">
-        <h3 class="chat-header">Public Chat</h3>
-        <div class="messages" id="publicMessages"></div>
-        <div class="message-input">
-          <input
-            type="text"
-            id="publicMessageInput"
-            placeholder="Type your message..."
-          />
-          <button id="sendPublicMessage">Send</button>
-        </div>
-      </div>
 
       <div class="chat-container">
         <h3 class="chat-header">Private Chat</h3>
@@ -74,10 +62,23 @@
           <button id="sendPrivateMessage">Send</button>
         </div>
       </div>
+      <div class="chat-container">
+        <h3 class="chat-header">Public Chat</h3>
+        <div class="messages" id="publicMessages"></div>
+        <div class="message-input">
+          <input
+            type="text"
+            id="publicMessageInput"
+            placeholder="Type your message..."
+          />
+          <button id="sendPublicMessage">Send</button>
+        </div>
+      </div>
 
       <div class="users-list">
         <h3 class="chat-header">Users</h3>
-        <div id="usersList"></div>
+        <div id="usersList">
+        </div>
       </div>
     </div>
 

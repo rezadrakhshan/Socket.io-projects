@@ -9,6 +9,7 @@ const waitingUsersList = document.querySelector("#waitingUsersList");
 const waitingReadyBtn = document.querySelector("#waitingReadyBtn");
 const countryModal = document.querySelector("#countryModal");
 const countriesGrid = document.querySelector("#countriesGrid");
+const roomID = document.querySelector("#waitingRoomId");
 
 const countries = [
   { code: "ir", name: "Iran" },
@@ -60,7 +61,6 @@ export function renderCountries(users) {
 
     countryElement.addEventListener("click", () => {
       if (!countryElement.classList.contains("selected")) {
-        console.log(1);
         const flagCode = countryElement.getAttribute("data-code");
         const roomID = document.querySelector("#waitingRoomId").innerText;
         socket.emit("choose flag", { id: id, code: flagCode, room: roomID });
@@ -97,6 +97,7 @@ createRoomBtn.addEventListener("click", () => {
 
 waitingReadyBtn.addEventListener("click", () => {
   waitingReadyBtn.classList.toggle("ready");
+  socket.emit("ready", { id: id, room: parseInt(roomID.innerText) });
 });
 
 export function updateWaitingUsersList(users) {
@@ -125,5 +126,18 @@ export function updateWaitingUsersList(users) {
     }
 
     waitingUsersList.appendChild(userElement);
+  });
+}
+
+export function renderRoomInfo(users) {
+  const userList = document.querySelector("#usersList");
+  userList.innerHTML = '';
+  users.forEach((user) => {
+    userList.innerHTML += `
+    <div class="user-item">
+        <div class="country-flag" style="background-image: url('/public/image/flags/${user.flag}.png')"></div>
+        <button class="action-btn" data=${user.id}>Send Message</button>
+    </div>
+    `;
   });
 }

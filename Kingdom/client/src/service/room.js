@@ -3,11 +3,14 @@ import {
   renderCountries,
   mainContainer,
   waitingRoom,
+  renderRoomInfo,
 } from "../components/index.js";
 
 const roomID = document.querySelector("#waitingRoomId");
 const selectCountryBtn = document.querySelector("#selectCountry");
-const readyBtn = document.querySelector(".ready-btn");
+const title = document.querySelector("#title");
+const roomContainer = document.querySelector("#roomContainer");
+
 export let socket = io();
 export let id;
 let users;
@@ -25,13 +28,6 @@ socket.on("connect", () => {
 socket.on("create room", (data) => {
   roomID.innerText = data.roomID;
   users = data.users;
-  if (data.owner == id) {
-    readyBtn.remove();
-    const startBtn = document.createElement("button");
-    startBtn.classList.add("ready-btn");
-    startBtn.innerText = "Start";
-    document.querySelector(".waiting-controls").appendChild(startBtn);
-  }
   updateWaitingUsersList(users);
 });
 
@@ -64,4 +60,38 @@ socket.on("room find", (data) => {
   roomID.innerText = data.roomID;
   waitingRoom.style.display = "flex";
   mainContainer.remove();
+});
+
+socket.on("ready", (data) => {
+  users = data.users;
+  if (data.starting) {
+    if (window.gameTimer) {
+      clearInterval(window.gameTimer);
+    }
+
+    let timer = 5;
+    window.gameTimer = setInterval(() => {
+      if (timer > 0) {
+        title.innerText = `Game starting in ${timer}`;
+        timer--;
+      } else {
+        clearInterval(window.gameTimer);
+        window.gameTimer = null;
+        socket.emit("game start", parseInt(roomID.innerText));
+      }
+    }, 1000);
+  } else {
+    if (window.gameTimer) {
+      clearInterval(window.gameTimer);
+      window.gameTimer = null;
+    }
+    title.innerText = "Waiting Room";
+  }
+  updateWaitingUsersList(users);
+});
+
+socket.on("game start", () => {
+  waitingRoom.remove();
+  roomContainer.style.display = "grid";
+  renderRoomInfo(users)
 });

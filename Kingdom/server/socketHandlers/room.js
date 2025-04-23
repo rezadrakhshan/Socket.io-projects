@@ -37,7 +37,24 @@ export default function (socket, onlineUsers, io, games) {
       flag: "",
       isReady: false,
     });
-    socket.emit("room find", {roomID: room});
+    socket.emit("room find", { roomID: room });
     io.to(parseInt(room)).emit("new user", game.users);
+  });
+  socket.on("ready", ({ id, room }) => {
+    const game = games.get(room);
+    const user = game.users.find((user) => user.id == id);
+    if (user) {
+      user.isReady = !user.isReady;
+      const haveNotReady = game.users.find((user) => user.isReady == false);
+      if (haveNotReady) {
+        io.to(room).emit("ready", { users: game.users });
+      } else {
+        io.to(room).emit("ready", { users: game.users, starting: true });
+      }
+    }
+  });
+  socket.on("game start", (data) => {
+    const game = games.get(data);
+    io.to(data).emit("game start");
   });
 }
