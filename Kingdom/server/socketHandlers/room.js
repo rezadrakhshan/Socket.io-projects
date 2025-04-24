@@ -8,6 +8,7 @@ export default function (socket, onlineUsers, io, games) {
           id: socket.id,
           flag: "",
           isReady: false,
+          privateChats: [],
         },
       ],
       isStarted: false,
@@ -36,6 +37,7 @@ export default function (socket, onlineUsers, io, games) {
       id: socket.id,
       flag: "",
       isReady: false,
+      privateChats: [],
     });
     socket.emit("room find", { roomID: room });
     io.to(parseInt(room)).emit("new user", game.users);
@@ -61,5 +63,19 @@ export default function (socket, onlineUsers, io, games) {
     const game = games.get(room);
     const user = game.users.find((user) => user.id == id);
     io.to(room).emit("public message", { message: message, user: user });
+  });
+  socket.on("private chat", ({ otherUserID, room }) => {
+    const game = games.get(room);
+    const target = game.users.find((user) => user.id == otherUserID);
+    console.log(game.users)
+    console.log(otherUserID)
+    console.log(target)
+    if (!target.privateChats.find((chat) => chat.otherUserId == otherUserID)) {
+      target.privateChats.push({
+        otherUserId: otherUserID,
+        chatHistory: [],
+      });
+    }
+    io.to(socket.id).to(otherUserID).emit("private chat", target);
   });
 }

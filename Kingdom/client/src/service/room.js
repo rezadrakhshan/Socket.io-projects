@@ -6,6 +6,7 @@ import {
   renderRoomInfo,
   renderPublicMessage,
   submitPublicForm,
+  renderPrivateChat,
 } from "../components/index.js";
 
 const roomID = document.querySelector("#waitingRoomId");
@@ -96,9 +97,13 @@ socket.on("game start", () => {
   waitingRoom.remove();
   roomContainer.style.display = "grid";
   renderRoomInfo(users);
-  submitPublicForm()
+  submitPublicForm();
 });
 
 socket.on("public message", (data) => {
   renderPublicMessage(data);
+});
+
+socket.on("private chat", (data) => {
+  renderPrivateChat(data);
 });

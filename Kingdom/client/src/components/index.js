@@ -87,6 +87,13 @@ window.addEventListener("click", (event) => {
   if (event.target === joinRoomModal) {
     joinRoomModal.style.display = "none";
   }
+  if (event.target.classList.contains("action-btn")) {
+    const id = event.target.getAttribute("data");
+    socket.emit("private chat", {
+      otherUserID: id,
+      room: parseInt(roomID.innerText),
+    });
+  }
 });
 
 createRoomBtn.addEventListener("click", () => {
@@ -136,11 +143,11 @@ export function renderRoomInfo(users) {
     userList.innerHTML += `
     <div class="user-item">
         <div class="country-flag" style="background-image: url('/public/image/flags/${user.flag}.png')"></div>
+        <span id="unread-message">0</span>
         <button class="action-btn" data=${user.id}>Send Message</button>
     </div>
     `;
   });
-
 }
 
 export function submitPublicForm() {
@@ -159,13 +166,12 @@ export function submitPublicForm() {
   });
 }
 
-
 export function renderPublicMessage(data) {
-  console.log(3)
+  console.log(3);
   const messageList = document.querySelector("#publicMessages");
   const newMessage = document.createElement("div");
   newMessage.classList.add("message");
-  
+
   if (data.user.id == id) {
     newMessage.classList.add("my-message");
   }
@@ -191,6 +197,28 @@ export function renderPublicMessage(data) {
   }
 
   messageList.appendChild(newMessage);
-  
+
   messageList.scrollTop = messageList.scrollHeight;
+}
+
+export function renderPrivateChat(data) {
+  document.querySelector(
+    "#private-header"
+  ).innerHTML = `Private Chat : <img src="/public/image/flags/${data.flag}.png" alt="${data.flag}" class="message-flag">`;
+  const chatHistory = data.privateChats.find(
+    (user) => user.otherUserId == id
+  ).chatHistory;
+  chatHistory.forEach((msg) => {
+    const newMsg = document.createElement("div");
+    newMsg.classList.add("message");
+    if (chatHistory.senderId == id) newMsg.classList.add("my-message");
+    const content = document.createElement("div");
+    content.classList.add("message-content");
+    const text = document.createElement("div");
+    text.classList.add("message-text");
+    text.innerText = msg.message;
+    content.appendChild(text);
+    newMsg.appendChild(content);
+    document.querySelector("#privateMessages").appendChild(newMsg);
+  });
 }
