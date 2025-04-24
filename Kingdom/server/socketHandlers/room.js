@@ -67,9 +67,6 @@ export default function (socket, onlineUsers, io, games) {
   socket.on("private chat", ({ otherUserID, room }) => {
     const game = games.get(room);
     const target = game.users.find((user) => user.id == otherUserID);
-    console.log(game.users)
-    console.log(otherUserID)
-    console.log(target)
     if (!target.privateChats.find((chat) => chat.otherUserId == otherUserID)) {
       target.privateChats.push({
         otherUserId: otherUserID,

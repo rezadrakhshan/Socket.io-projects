@@ -140,13 +140,24 @@ export function renderRoomInfo(users) {
   const userList = document.querySelector("#usersList");
   userList.innerHTML = "";
   users.forEach((user) => {
-    userList.innerHTML += `
-    <div class="user-item">
-        <div class="country-flag" style="background-image: url('/public/image/flags/${user.flag}.png')"></div>
-        <span id="unread-message">0</span>
-        <button class="action-btn" data=${user.id}>Send Message</button>
-    </div>
-    `;
+    if (user.id == id) {
+      userList.innerHTML += `
+      <div class="user-item">
+          <div class="country-flag" style="background-image: url('/public/image/flags/${user.flag}.png')"></div>
+          <span id="unread-message">0</span>
+      </div>
+      `;
+    }
+    else{
+      userList.innerHTML += `
+      <div class="user-item">
+          <div class="country-flag" style="background-image: url('/public/image/flags/${user.flag}.png')"></div>
+          <span id="unread-message">0</span>
+          <button class="action-btn" data=${user.id}>Send Message</button>
+      </div>
+      `;
+
+    }
   });
 }
 
