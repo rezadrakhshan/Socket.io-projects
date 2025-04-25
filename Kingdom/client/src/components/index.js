@@ -87,13 +87,6 @@ window.addEventListener("click", (event) => {
   if (event.target === joinRoomModal) {
     joinRoomModal.style.display = "none";
   }
-  if (event.target.classList.contains("action-btn")) {
-    const id = event.target.getAttribute("data");
-    socket.emit("private chat", {
-      otherUserID: id,
-      room: parseInt(roomID.innerText),
-    });
-  }
 });
 
 createRoomBtn.addEventListener("click", () => {
@@ -147,17 +140,33 @@ export function renderRoomInfo(users) {
           <span id="unread-message">0</span>
       </div>
       `;
-    }
-    else{
+    } else {
       userList.innerHTML += `
       <div class="user-item">
           <div class="country-flag" style="background-image: url('/public/image/flags/${user.flag}.png')"></div>
           <span id="unread-message">0</span>
-          <button class="action-btn" data=${user.id}>Send Message</button>
+          <button class="action-btn" data-user-id="${user.id}">Send Message</button>
       </div>
       `;
-
     }
+  });
+
+  document.querySelectorAll(".action-btn").forEach((button) => {
+    button.addEventListener("click", (e) => {
+      const userId = e.target.getAttribute("data-user-id");
+      const chatContainers = document.querySelectorAll(".private-chat");
+      chatContainers.forEach((container) => {
+        const chatId = container.getAttribute("data-chat-id");
+        if (chatId.includes(userId)) {
+          container.style.display = "flex";
+          container.style.flexDirection = "column";
+          container.style.height = "calc(100vh - 100px)";
+          container.style.overflowY = 'auto';
+        } else {
+          container.style.display = "none";
+        }
+      });
+    });
   });
 }
 
@@ -213,23 +222,73 @@ export function renderPublicMessage(data) {
 }
 
 export function renderPrivateChat(data) {
-  document.querySelector(
-    "#private-header"
-  ).innerHTML = `Private Chat : <img src="/public/image/flags/${data.flag}.png" alt="${data.flag}" class="message-flag">`;
-  const chatHistory = data.privateChats.find(
-    (user) => user.otherUserId == id
-  ).chatHistory;
-  chatHistory.forEach((msg) => {
-    const newMsg = document.createElement("div");
-    newMsg.classList.add("message");
-    if (chatHistory.senderId == id) newMsg.classList.add("my-message");
-    const content = document.createElement("div");
-    content.classList.add("message-content");
-    const text = document.createElement("div");
-    text.classList.add("message-text");
-    text.innerText = msg.message;
-    content.appendChild(text);
-    newMsg.appendChild(content);
-    document.querySelector("#privateMessages").appendChild(newMsg);
+  data.forEach((chat) => {
+    if (chat.user1 == id || chat.user2 == id) {
+      if (document.querySelector(`[data-chat-id="${chat.id}"]`)) {
+        return;
+      }
+      const chatContainer = document.createElement("div");
+      chatContainer.className = "private-chat";
+      chatContainer.style.display = "none";
+      chatContainer.dataset.chatId = chat.id;
+
+      chatContainer.innerHTML = `
+        <h3 class="chat-header" id="private-header">Private Chat</h3>
+        <div class="messages" id="privateMessages-${chat.id}">
+        </div>
+        <form class="message-input" id="privateForm-${chat.id}">
+          <input
+            type="text"
+            id="privateMessageInput-${chat.id}"
+            placeholder="Type your message..."
+          />
+          <button type="submit">Send</button>
+        </form>
+      `;
+
+      document.querySelector(".chat-container").appendChild(chatContainer);
+
+      const form = chatContainer.querySelector(`#privateForm-${chat.id}`);
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const input = chatContainer.querySelector(
+          `#privateMessageInput-${chat.id}`
+        );
+        const message = input.value;
+        if (message.trim()) {
+          socket.emit("private message", {
+            message: message,
+            chatId: chat.id,
+            senderId: id,
+            room: parseInt(roomID.innerText),
+          });
+          input.value = "";
+        }
+      });
+    }
   });
+}
+
+export function renderPrivateMessage(data) {
+  const messagesContainer = document.querySelector(
+    `#privateMessages-${data.chatId}`
+  );
+  if (messagesContainer) {
+    const messageElement = document.createElement("div");
+    messageElement.className = `message ${
+      data.message.sender.id === id ? "my-message" : ""
+    }`;
+
+    messageElement.innerHTML = `
+      <div class="message-avatar">
+        <img src="/public/image/flags/${data.message.sender.flag}.png" alt="${data.message.sender.flag}" class="message-flag">
+      </div>
+      <div class="message-content">
+        <div class="message-text">${data.message.message}</div>
+      </div>
+    `;
+
+    messagesContainer.appendChild(messageElement);
+    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+  }
 }

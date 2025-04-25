@@ -8,10 +8,10 @@ export default function (socket, onlineUsers, io, games) {
           id: socket.id,
           flag: "",
           isReady: false,
-          privateChats: [],
         },
       ],
       isStarted: false,
+      privateChats: [],
     });
     socket.emit("create room", {
       roomID: roomId,
@@ -37,7 +37,6 @@ export default function (socket, onlineUsers, io, games) {
       id: socket.id,
       flag: "",
       isReady: false,
-      privateChats: [],
     });
     socket.emit("room find", { roomID: room });
     io.to(parseInt(room)).emit("new user", game.users);
@@ -57,22 +56,36 @@ export default function (socket, onlineUsers, io, games) {
   });
   socket.on("game start", (data) => {
     const game = games.get(data);
-    io.to(data).emit("game start");
+    game.privateChats = [];
+    for (let i = 0; i < game.users.length; i++) {
+      for (let j = i + 1; j < game.users.length; j++) {
+        game.privateChats.push({
+          id: `${game.users[i].id}-${game.users[j].id}`,
+          user1: game.users[i].id,
+          user2: game.users[j].id,
+          messages: [],
+        });
+      }
+    }
+    io.to(data).emit("game start", game);
   });
   socket.on("public message", ({ message, id, room }) => {
     const game = games.get(room);
     const user = game.users.find((user) => user.id == id);
     io.to(room).emit("public message", { message: message, user: user });
   });
-  socket.on("private chat", ({ otherUserID, room }) => {
+  socket.on("private message", ({ message, chatId, senderId, room }) => {
     const game = games.get(room);
-    const target = game.users.find((user) => user.id == otherUserID);
-    if (!target.privateChats.find((chat) => chat.otherUserId == otherUserID)) {
-      target.privateChats.push({
-        otherUserId: otherUserID,
-        chatHistory: [],
-      });
+    const chat = game.privateChats.find(chat => chat.id === chatId);
+    if (chat) {
+      const sender = game.users.find(user => user.id === senderId);
+      const messageObj = {
+        sender: sender,
+        message: message,
+        timestamp: new Date()
+      };
+      chat.messages.push(messageObj);
+      io.to(room).emit("private message", { chatId, message: messageObj });
     }
-    io.to(socket.id).to(otherUserID).emit("private chat", target);
   });
 }
