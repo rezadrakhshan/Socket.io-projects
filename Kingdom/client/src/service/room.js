@@ -7,7 +7,8 @@ import {
   renderPublicMessage,
   submitPublicForm,
   renderPrivateChat,
-  renderPrivateMessage
+  renderPrivateMessage,
+  renderTimer,
 } from "../components/index.js";
 
 const roomID = document.querySelector("#waitingRoomId");
@@ -17,7 +18,7 @@ const roomContainer = document.querySelector("#roomContainer");
 
 export let socket = io();
 export let id;
-let users;
+export let users;
 
 selectCountryBtn.addEventListener("click", () => {
   countryModal.style.display = "block";
@@ -99,7 +100,8 @@ socket.on("game start", (data) => {
   roomContainer.style.display = "grid";
   renderRoomInfo(users);
   submitPublicForm();
-  renderPrivateChat(data.privateChats)
+  renderPrivateChat(data.privateChats);
+  renderTimer();
 });
 
 socket.on("public message", (data) => {
@@ -108,4 +110,14 @@ socket.on("public message", (data) => {
 
 socket.on("private message", (data) => {
   renderPrivateMessage(data);
+});
+
+socket.on("vote result", (newUsers) => {
+  users = newUsers;
+  console.log(users)
+});
+
+socket.on("lose", () => {
+  alert("You Lose 😔 Returning to home...");
+  window.location = "/";
 });

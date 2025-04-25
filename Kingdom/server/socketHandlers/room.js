@@ -1,4 +1,5 @@
 export default function (socket, onlineUsers, io, games) {
+  let votes = [];
   socket.on("create room", (owner) => {
     const roomId = Math.floor(Math.random() * 10000);
     socket.join(roomId);
@@ -12,6 +13,7 @@ export default function (socket, onlineUsers, io, games) {
       ],
       isStarted: false,
       privateChats: [],
+      votes: [],
     });
     socket.emit("create room", {
       roomID: roomId,
@@ -76,16 +78,45 @@ export default function (socket, onlineUsers, io, games) {
   });
   socket.on("private message", ({ message, chatId, senderId, room }) => {
     const game = games.get(room);
-    const chat = game.privateChats.find(chat => chat.id === chatId);
+    const chat = game.privateChats.find((chat) => chat.id === chatId);
     if (chat) {
-      const sender = game.users.find(user => user.id === senderId);
+      const sender = game.users.find((user) => user.id === senderId);
       const messageObj = {
         sender: sender,
         message: message,
-        timestamp: new Date()
+        timestamp: new Date(),
       };
       chat.messages.push(messageObj);
       io.to(room).emit("private message", { chatId, message: messageObj });
     }
+  });
+  socket.on("new vote", ({ vote, room }) => {
+    const game = games.get(room);
+    game.votes.push(vote);
+  });
+  socket.on("vote result", (room) => {
+    const game = games.get(room);
+    const countMap = {};
+    for (const id of game.votes) {
+      countMap[id] = (countMap[id] || 0) + 1;
+    }
+
+    let mostFrequentId = null;
+    let maxCount = 0;
+    for (const id in countMap) {
+      if (countMap[id] > maxCount) {
+        mostFrequentId = id;
+        maxCount = countMap[id];
+      }
+    }
+
+    game.users = game.users.filter((user) => user.id !== mostFrequentId);
+
+    const targetSocket = io.sockets.sockets.get(mostFrequentId);
+    if (targetSocket) {
+      targetSocket.leave(room);
+      targetSocket.emit("lose");
+    }
+    io.to(room).emit("vote result", game.users);
   });
 }
