@@ -1,9 +1,9 @@
 import e from "express";
-import profile from "../controller/profile.js";
+import { upload } from "../middleware/upload.js";
+import controller from "../controller/profile.js";
 
 const router = e.Router();
 
-router.post("/update", profile.updateProfile);
+router.post("/upload-avatar", upload.single("avatar"), controller.updateAvatar);
 
-
-export default router
+export default router;

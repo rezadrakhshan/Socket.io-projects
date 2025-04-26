@@ -29,7 +29,7 @@
 
     <div class="card">
       <h2>Update Profile</h2>
-      <form action="/api/update" method="POST" enctype="multipart/form-data">
+      <form id="ProfileForm">
         <div class="avatar-preview">
           <img src="<%= user.profile %>" id="preview" alt="Avatar Preview" />
         </div>
@@ -40,26 +40,15 @@
         </label>
 
         <input type="text" name="username" value="<%= user.username %>" />
+        <% if(!user.password){ %>
         <input type="password" name="password" placeholder="Set Password" />
+        <% } %>
 
         <button type="submit">Save Changes</button>
       </form>
     </div>
     
   </div>
-
-  <script>
-    const avatarInput = document.getElementById('avatarInput');
-    const preview = document.getElementById('preview');
-
-    avatarInput.addEventListener('change', function () {
-      const file = this.files[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = () => { preview.src = reader.result };
-        reader.readAsDataURL(file);
-      }
-    });
-  </script>
+  <script type="module" src="/src/components/profile.js"></script>
 </body>
 </html>

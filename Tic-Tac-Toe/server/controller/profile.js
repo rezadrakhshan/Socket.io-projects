@@ -1,10 +1,12 @@
-import User from "../models/user.js";
-import _ from "lodash";
-
 export default new (class {
-  async updateProfile(req, res) {
-    const data = _.pick(req.body, ["username", "profile", "password"]);
-    const user = await User.findByIdAndUpdate(req.user.id, data, { new: true });
-    return res.json(user);
+  async updateAvatar(req, res) {
+    if (!req.file) {
+      return res
+        .status(400)
+        .json({ success: false, message: "No file uploaded" });
+    }
+
+    const profilePath = "/public/image/users/" + req.file.filename;
+    res.json({ success: true, profilePath });
   }
 })();
