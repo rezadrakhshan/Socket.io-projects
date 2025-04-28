@@ -7,21 +7,20 @@ export default new (class {
   async updateAvatar(req, res) {
     try {
       const data = _.pick(req.body, ["username", "password"]);
-      const user = await User.findById(req.user.id);
-
+  
       if (req.file) {
-        data.profile = `/public/image/users/${req.file.filename}`;
+        data.profile = req.file.path;
       }
-
+  
       if (data.password) {
         const salt = await bcrypt.genSalt(10);
         data.password = await bcrypt.hash(data.password, salt);
       }
-
+  
       const result = await User.findByIdAndUpdate(req.user.id, data, {
         new: true,
       });
-
+  
       return res.json(result);
     } catch (error) {
       if (error.code === 11000 && error.keyPattern?.username) {
@@ -30,4 +29,5 @@ export default new (class {
       return res.status(500).json({ message: error.message });
     }
   }
+  
 })();
