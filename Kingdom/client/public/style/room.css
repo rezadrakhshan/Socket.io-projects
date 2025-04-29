@@ -405,3 +405,36 @@
   color: #3498db;
   margin-bottom: 1rem;
 }
+
+#contractModal select,
+#contractModal input {
+  width: 100%;
+  padding: 0.5rem;
+  border-radius: 5px;
+  border: 1px solid #444;
+  background-color: #2d2d2d;
+  color: white;
+  margin-bottom: 10px;
+}
+
+#targetDisplay {
+  width: 32px;
+  height: 24px;
+  background-size: cover;
+  margin-top: 10px;
+}
+
+.select-with-flag {
+  display: flex;
+  align-items: center;
+  gap: 8px; 
+}
+
+.flag-icon {
+  width: 32px;
+  height: 24px;
+  background-size: cover;
+  background-position: center;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}

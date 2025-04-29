@@ -47,7 +47,39 @@
     <div class="room-container" id="roomContainer" style="display: none">
       <div class="room-header">
         <div class="room-id"><span id="timeStatus">Round</span> <span id="round"> 1</span> : <span id="timer"></span></div>
+        <button class="action-btn" id="openContractModal">Create Contract</button>
       </div>
+      <!-- Contract Button -->
+
+    <!-- Contract Modal -->
+    <div class="modal" id="contractModal">
+      <div class="modal-content">
+        <span class="close-modal" id="closeContractModal">&times;</span>
+        <h2>Create Contract</h2>
+
+        <form id="contractForm">
+          <label for="fromFlag" style="color: white;">From Country:</label>
+          <div class="select-with-flag">
+            <select id="fromFlag">
+            </select>
+            <div id="fromFlagDisplay" class="flag-icon"></div>
+          </div>
+          
+          <label for="contractAmount" style="color: white; margin-top: 1rem;">Amount:</label>
+          <input type="number" id="contractAmount" required style="width: 100%; padding: 0.5rem; border-radius: 5px; border: 1px solid #444; background-color: #2d2d2d; color: white;" />
+
+          <label for="toFlag" style="color: white; margin-top: 1rem;">Vote:</label>
+          <div class="select-with-flag">
+            <select id="toFlag">
+            </select>
+            <div id="toFlagDisplay" class="flag-icon"></div>
+          </div>
+          
+
+          <button type="submit" class="ready-btn" style="margin-top: 1rem;">Submit</button>
+        </form>
+      </div>
+    </div>
 
 
       <div class="chat-container">
@@ -95,9 +127,11 @@
         </div>
       </div>
     </div>
+    
 
     <script src="/socket.io/socket.io.js"></script>
     <script type="module" src="src/components/index.js"></script>
     <script type="module" src="src/service/room.js"></script>
+    <script type="module" src="src/components/contract.js"></script>
   </body>
 </html>

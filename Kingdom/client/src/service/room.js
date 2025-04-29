@@ -25,6 +25,8 @@ selectCountryBtn.addEventListener("click", () => {
   renderCountries(users);
 });
 
+
+
 socket.on("connect", () => {
   id = socket.id;
   socket.emit("register", id);
@@ -121,3 +123,8 @@ socket.on("lose", () => {
   alert("You Lose 😔 Returning to home...");
   window.location = "/";
 });
+
+export function getUsers() {
+  return users;
+}
+

@@ -9,6 +9,7 @@ export default function (socket, onlineUsers, io, games) {
           id: socket.id,
           flag: "",
           isReady: false,
+          oil: 5,
         },
       ],
       isStarted: false,
@@ -39,6 +40,7 @@ export default function (socket, onlineUsers, io, games) {
       id: socket.id,
       flag: "",
       isReady: false,
+      oil: 5,
     });
     socket.emit("room find", { roomID: room });
     io.to(parseInt(room)).emit("new user", game.users);

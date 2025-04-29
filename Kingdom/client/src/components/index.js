@@ -10,6 +10,14 @@ const waitingReadyBtn = document.querySelector("#waitingReadyBtn");
 const countryModal = document.querySelector("#countryModal");
 const countriesGrid = document.querySelector("#countriesGrid");
 const roomID = document.querySelector("#waitingRoomId");
+const fromFlagSelect = document.getElementById("fromFlag");
+const toFlagSelect = document.getElementById("toFlag");
+const fromTargetDisplay = document.getElementById("fromFlagDisplay");
+const toTargetDisplay = document.getElementById("toFlagDisplay");
+
+
+
+
 let round = 1;
 let timerStarted = false;
 let clickBlocker = null;
@@ -133,6 +141,18 @@ export function updateWaitingUsersList(users) {
 }
 
 export function renderRoomInfo(users, isVote = false) {
+  users.forEach((user) => {
+    if (user.id != id) {
+      const option1 = document.createElement("option");
+      option1.value = user.flag;
+      option1.innerText = user.flag;
+  
+      const option2 = option1.cloneNode(true);
+  
+      fromFlagSelect.appendChild(option1);
+      toFlagSelect.appendChild(option2);
+    }
+  });
   if (isVote) {
     const userList = document.querySelector("#usersList");
     userList.innerHTML = "";
@@ -201,7 +221,7 @@ export function renderTimer() {
   timerStarted = true;
 
   const timerSpan = document.querySelector("#timer");
-  let time = 60;
+  let time = 300;
 
   const intervalId = setInterval(() => {
     time--;
@@ -241,12 +261,12 @@ function voteTimer(timerSpan) {
     if (time <= 0) {
       clearInterval(intervalId);
       socket.emit("vote result", parseInt(roomID.innerText));
-      console.log(users)
+      console.log(users);
       enableClicks();
       timerStarted = false;
       round++;
       document.querySelector("#round").innerText = round;
-      renderRoomInfo(users,false);
+      renderRoomInfo(users, false);
       renderTimer();
     }
   }, 1000);
@@ -277,9 +297,7 @@ function enableClicks() {
     clickBlocker = null;
   }
 
-  const chatOverlay = document.querySelectorAll(
-    ".chat-overlay"
-  );
+  const chatOverlay = document.querySelectorAll(".chat-overlay");
   chatOverlay.forEach((over) => {
     over.classList.add("hidden");
   });
@@ -421,3 +439,12 @@ export function renderPrivateMessage(data) {
     messagesContainer.scrollTop = messagesContainer.scrollHeight;
   }
 }
+
+fromFlagSelect.addEventListener("change", () => {
+  const selectedCode = fromFlagSelect.value;
+  fromTargetDisplay.style.backgroundImage = `url('/public/image/flags/${selectedCode}.png')`;
+});
+toFlagSelect.addEventListener("change", () => {
+  const selectedCode = toFlagSelect.value;
+  toTargetDisplay.style.backgroundImage = `url('/public/image/flags/${selectedCode}.png')`;
+});
