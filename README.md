@@ -8,7 +8,7 @@ This repository contains two real-time web application projects built with **Soc
 
 A classic multiplayer Tic-Tac-Toe (XO) game built with Socket.IO. Two players can join and play in real-time. The game state is synchronized between clients via WebSockets.
 
-🔗 **Live Demo**: https://tic-tac-toe.liara.run/  
+🔗 **Live Demo**: https://tictacfun.liara.run/  
 <!-- Example: https://tic-tac-toe-demo.vercel.app -->
 
 ### 2. WhatsApp Clonner
