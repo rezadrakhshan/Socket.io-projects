@@ -147,3 +147,13 @@ h1 {
     outline: none;
     border-color: #3498db;
 }
+
+.my-popup-class {
+    background-color: #121212;
+    border: 2px solid #333;
+    color: white;
+}
+.my-confirm-button-class {
+    background-color: #3498db;
+    color: white;
+}

@@ -17,7 +17,6 @@ const toTargetDisplay = document.getElementById("toFlagDisplay");
 
 
 
-
 let round = 1;
 let timerStarted = false;
 let clickBlocker = null;
@@ -221,7 +220,7 @@ export function renderTimer() {
   timerStarted = true;
 
   const timerSpan = document.querySelector("#timer");
-  let time = 300;
+  let time = 30;
 
   const intervalId = setInterval(() => {
     time--;

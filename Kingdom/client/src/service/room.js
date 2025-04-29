@@ -25,8 +25,6 @@ selectCountryBtn.addEventListener("click", () => {
   renderCountries(users);
 });
 
-
-
 socket.on("connect", () => {
   id = socket.id;
   socket.emit("register", id);
@@ -116,15 +114,25 @@ socket.on("private message", (data) => {
 
 socket.on("vote result", (newUsers) => {
   users = newUsers;
-  console.log(users)
+  console.log(users);
 });
 
 socket.on("lose", () => {
-  alert("You Lose 😔 Returning to home...");
-  window.location = "/";
+  Swal.fire({
+    title: "You Lose 😔",
+    icon: "error",
+    allowOutsideClick: false,
+    allowEscapeKey: false,   
+    confirmButtonText: "Accept",
+    customClass: {
+      popup: "my-popup-class",
+      title: "my-title-class",
+      confirmButton: "my-confirm-button-class",
+      cancelButton: "my-cancel-button-class",
+    },
+  }).then((result) => {
+    if (result.isConfirmed) {
+      window.location.reload();
+    }
+  });
 });
-
-export function getUsers() {
-  return users;
-}
-
