@@ -9,7 +9,7 @@ export default function (socket, onlineUsers, io, games) {
           id: socket.id,
           flag: "",
           isReady: false,
-          oil: 5,
+          amount: 100,
         },
       ],
       isStarted: false,
@@ -40,7 +40,7 @@ export default function (socket, onlineUsers, io, games) {
       id: socket.id,
       flag: "",
       isReady: false,
-      oil: 5,
+      amount: 100,
     });
     socket.emit("room find", { roomID: room });
     io.to(parseInt(room)).emit("new user", game.users);
@@ -120,5 +120,9 @@ export default function (socket, onlineUsers, io, games) {
       targetSocket.emit("lose");
     }
     io.to(room).emit("vote result", game.users);
+  });
+  socket.on("new contract", ({ id, detail }) => {
+    const targetUser = io.sockets.sockets.get(id);
+    targetUser.emit("receive contract", detail);
   });
 }

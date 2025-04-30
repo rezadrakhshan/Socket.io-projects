@@ -136,3 +136,39 @@ socket.on("lose", () => {
     }
   });
 });
+
+
+socket.on("receive contract",(data)=>{
+  Swal.fire({
+    title: "You have new offer",
+    html: `
+    <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+      <strong>From:</strong>
+      <img src="/public/image/flags/${data.from}.png" alt="From" style="width: 40px; height: 40px; border-radius: 50%;">
+    </div>
+    <div style="margin-bottom: 10px;">
+      <strong>Amount:</strong> ${data.amount} $
+    </div>
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <strong>Vote:</strong>
+      <img src="/public/image/flags/${data.vote}.png" alt="Vote" style="width: 40px; height: 40px;">
+    </div>
+  `,
+    icon: "info",
+    allowOutsideClick: false,
+    allowEscapeKey: false, 
+    showCancelButton: true,  
+    confirmButtonText: "Accept",
+    cancelButtonText: "reject",
+    customClass: {
+      popup: "my-popup-class",
+      title: "my-title-class",
+      confirmButton: "my-confirm-button-class",
+      cancelButton: "my-cancel-button-class",
+    },
+  }).then((result) => {
+    if (result.isConfirmed) {
+      console.log(1)
+    }
+  });
+})
