@@ -47,12 +47,13 @@
       </div>
 
       <div class="waiting-controls">
-        <button class="ready-btn" id="waitingReadyBtn">Ready</button>
+        <button class="ready-btn" id="waitingReadyBtn" style="display: none;">Ready</button>
       </div>
     </div>
 
     <div class="room-container" id="roomContainer" style="display: none">
       <div class="room-header">
+        <span>Amount : <span id="amount"></span></span>
         <div class="room-id"><span id="timeStatus">Round</span> <span id="round"> 1</span> : <span id="timer"></span></div>
         <button class="action-btn" id="openContractModal">Create Contract</button>
       </div>
@@ -68,6 +69,7 @@
           <label for="fromFlag" style="color: white;">From Country:</label>
           <div class="select-with-flag">
             <select id="fromFlag" name="fromFlag">
+              <option value="" disabled selected hidden>Choose Country</option>
             </select>
             <div id="fromFlagDisplay" class="flag-icon"></div>
           </div>
@@ -75,9 +77,9 @@
           <label for="contractAmount" style="color: white; margin-top: 1rem;">Amount:</label>
           <input type="number" name="contractAmount" id="contractAmount" required style="width: 100%; padding: 0.5rem; border-radius: 5px; border: 1px solid #444; background-color: #2d2d2d; color: white;" />
 
-          <label for="toFlag" style="color: white; margin-top: 1rem;">Vote:</label>
           <div class="select-with-flag">
             <select id="toFlag" name="toFlag">
+              <option value="" disabled selected hidden>Choose Vote</option>
             </select>
             <div id="toFlagDisplay" class="flag-icon"></div>
           </div>

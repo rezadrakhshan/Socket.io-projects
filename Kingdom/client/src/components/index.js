@@ -15,8 +15,6 @@ const toFlagSelect = document.getElementById("toFlag");
 const fromTargetDisplay = document.getElementById("fromFlagDisplay");
 const toTargetDisplay = document.getElementById("toFlagDisplay");
 
-
-
 let round = 1;
 let timerStarted = false;
 let clickBlocker = null;
@@ -74,6 +72,9 @@ export function renderCountries(users) {
         const flagCode = countryElement.getAttribute("data-code");
         const roomID = document.querySelector("#waitingRoomId").innerText;
         socket.emit("choose flag", { id: id, code: flagCode, room: roomID });
+        if (users.length >= 3) {
+          document.querySelector("#waitingReadyBtn").style.display = "block";
+        }
       }
     });
   });
@@ -140,14 +141,18 @@ export function updateWaitingUsersList(users) {
 }
 
 export function renderRoomInfo(users, isVote = false) {
+  const me = users.find((user) => user.id == id);
+  document.getElementById("amount").innerText = me.amount + "$";
+  document.getElementById("timeStatus").innerText = "Round";
+  document.querySelector("#openContractModal").style.display = "block";
   users.forEach((user) => {
     if (user.id != id) {
       const option1 = document.createElement("option");
       option1.value = user.flag;
       option1.innerText = user.flag;
-  
+
       const option2 = option1.cloneNode(true);
-  
+
       fromFlagSelect.appendChild(option1);
       toFlagSelect.appendChild(option2);
     }
@@ -160,14 +165,12 @@ export function renderRoomInfo(users, isVote = false) {
         userList.innerHTML += `
         <div class="user-item">
             <div class="country-flag" style="background-image: url('/public/image/flags/${user.flag}.png')"></div>
-            <span id="unread-message">0</span>
         </div>
         `;
       } else {
         userList.innerHTML += `
         <div class="user-item">
             <div class="country-flag" style="background-image: url('/public/image/flags/${user.flag}.png')"></div>
-            <span id="unread-message">0</span>
             <button class="action-btn" id="vote" data-user-id="${user.id}">Vote</button>
         </div>
         `;
@@ -181,14 +184,12 @@ export function renderRoomInfo(users, isVote = false) {
         userList.innerHTML += `
         <div class="user-item">
             <div class="country-flag" style="background-image: url('/public/image/flags/${user.flag}.png')"></div>
-            <span id="unread-message">0</span>
         </div>
         `;
       } else {
         userList.innerHTML += `
         <div class="user-item">
             <div class="country-flag" style="background-image: url('/public/image/flags/${user.flag}.png')"></div>
-            <span id="unread-message">0</span>
             <button class="action-btn msg" data-user-id="${user.id}">Send Message</button>
         </div>
         `;

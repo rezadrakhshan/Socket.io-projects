@@ -58,7 +58,11 @@ socket.on("update users", (updatedUsers) => {
 
 socket.on("new user", (data) => {
   users = data;
+  const me = users.find((user) => user.id == id);
   updateWaitingUsersList(users);
+  if (users.length >= 3 && me.flag != "") {
+    document.querySelector("#waitingReadyBtn").style.display = "block";
+  }
 });
 
 socket.on("room find", (data) => {
@@ -122,7 +126,7 @@ socket.on("lose", () => {
     icon: "error",
     allowOutsideClick: false,
     allowEscapeKey: false,
-    confirmButtonText: "Accept",
+    confirmButtonText: "Ok",
     customClass: {
       popup: "my-popup-class",
       title: "my-title-class",
@@ -136,9 +140,69 @@ socket.on("lose", () => {
   });
 });
 
-socket.on("user have contract",()=>{
+socket.on("win", () => {
+  Swal.fire({
+    title: "You Win ",
+    icon: "success",
+    allowOutsideClick: false,
+    allowEscapeKey: false,
+    confirmButtonText: "Ok",
+    customClass: {
+      popup: "my-popup-class",
+      title: "my-title-class",
+      confirmButton: "my-confirm-button-class",
+      cancelButton: "my-cancel-button-class",
+    },
+  }).then((result) => {
+    if (result.isConfirmed) {
+      window.location.reload();
+    }
+  });
+});
+
+socket.on("game over", (data) => {
+  Swal.fire({
+    title: "Game over",
+    icon: "info",
+    allowOutsideClick: false,
+    allowEscapeKey: false,
+    confirmButtonText: "Ok",
+    customClass: {
+      popup: "my-popup-class",
+      title: "my-title-class",
+      confirmButton: "my-confirm-button-class",
+      cancelButton: "my-cancel-button-class",
+    },
+  }).then((result) => {
+    if (result.isConfirmed) {
+      window.location.reload();
+    }
+  });
+});
+
+socket.on("game draw", (data) => {
+  Swal.fire({
+    title: "Game Draw",
+    icon: "info",
+    allowOutsideClick: false,
+    allowEscapeKey: false,
+    confirmButtonText: "Ok",
+    customClass: {
+      popup: "my-popup-class",
+      title: "my-title-class",
+      confirmButton: "my-confirm-button-class",
+      cancelButton: "my-cancel-button-class",
+    },
+  }).then((result) => {
+    if (result.isConfirmed) {
+      window.location.reload();
+    }
+  });
+});
+
+socket.on("user have contract", () => {
   toastr.error("Target have contract");
-})
+});
 
 socket.on("receive contract", (data) => {
   Swal.fire({
@@ -189,6 +253,6 @@ socket.on("receive contract", (data) => {
   });
 });
 
-socket.on("target accept contract",()=>{
-  toastr.success("Target accept contract")
-})
+socket.on("target accept contract", () => {
+  toastr.success("Target accept contract");
+});
