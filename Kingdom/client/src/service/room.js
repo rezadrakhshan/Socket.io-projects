@@ -114,7 +114,6 @@ socket.on("private message", (data) => {
 
 socket.on("vote result", (newUsers) => {
   users = newUsers;
-  console.log(users);
 });
 
 socket.on("lose", () => {
@@ -122,7 +121,7 @@ socket.on("lose", () => {
     title: "You Lose 😔",
     icon: "error",
     allowOutsideClick: false,
-    allowEscapeKey: false,   
+    allowEscapeKey: false,
     confirmButtonText: "Accept",
     customClass: {
       popup: "my-popup-class",
@@ -137,29 +136,35 @@ socket.on("lose", () => {
   });
 });
 
+socket.on("user have contract",()=>{
+  toastr.error("Target have contract");
+})
 
-socket.on("receive contract",(data)=>{
+socket.on("receive contract", (data) => {
   Swal.fire({
-    title: "You have new offer",
+    title: "You have a new offer",
     html: `
-    <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
-      <strong>From:</strong>
-      <img src="/public/image/flags/${data.from}.png" alt="From" style="width: 40px; height: 40px; border-radius: 50%;">
-    </div>
-    <div style="margin-bottom: 10px;">
-      <strong>Amount:</strong> ${data.amount} $
-    </div>
-    <div style="display: flex; align-items: center; gap: 10px;">
-      <strong>Vote:</strong>
-      <img src="/public/image/flags/${data.vote}.png" alt="Vote" style="width: 40px; height: 40px;">
-    </div>
-  `,
+      <div style="display: flex; flex-direction: column; align-items: center; gap: 16px; font-size: 16px;">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <strong>From:</strong>
+          <img src="/public/image/flags/${data.detail.sender.flag}.png" alt="From" style="width: 40px; height: 40px; border-radius: 8px; object-fit: cover; box-shadow: 0 0 4px rgba(0,0,0,0.2);">
+        </div>
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <strong>Amount:</strong>
+          <span>${data.detail.amount} $</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <strong>Vote:</strong>
+          <img src="/public/image/flags/${data.detail.vote}.png" alt="Vote" style="width: 40px; height: 40px; border-radius: 8px; object-fit: cover; box-shadow: 0 0 4px rgba(0,0,0,0.2);">
+        </div>
+      </div>
+    `,
     icon: "info",
     allowOutsideClick: false,
-    allowEscapeKey: false, 
-    showCancelButton: true,  
+    allowEscapeKey: false,
+    showCancelButton: true,
     confirmButtonText: "Accept",
-    cancelButtonText: "reject",
+    cancelButtonText: "Reject",
     customClass: {
       popup: "my-popup-class",
       title: "my-title-class",
@@ -168,7 +173,22 @@ socket.on("receive contract",(data)=>{
     },
   }).then((result) => {
     if (result.isConfirmed) {
-      console.log(1)
+      const vote = users.find((user) => user.flag == data.detail.vote);
+      socket.emit("new vote", {
+        vote: vote.id,
+        room: parseInt(roomID.innerText),
+      });
+      socket.emit("contract accept", {
+        detail: data.detail,
+        room: parseInt(roomID.innerText),
+      });
+      document
+        .querySelector(".users-list .chat-overlay")
+        .classList.remove("hidden");
     }
   });
+});
+
+socket.on("target accept contract",()=>{
+  toastr.success("Target accept contract")
 })

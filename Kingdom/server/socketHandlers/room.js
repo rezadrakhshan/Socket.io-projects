@@ -10,6 +10,7 @@ export default function (socket, onlineUsers, io, games) {
           flag: "",
           isReady: false,
           amount: 100,
+          haveContract: false,
         },
       ],
       isStarted: false,
@@ -121,8 +122,23 @@ export default function (socket, onlineUsers, io, games) {
     }
     io.to(room).emit("vote result", game.users);
   });
-  socket.on("new contract", ({ id, detail }) => {
+  socket.on("new contract", ({ id, detail, room }) => {
+    const game = games.get(room);
+    const target = game.users.find((user) => user.id == id);
+    if (target.haveContract) {
+      io.to(socket.id).emit("user have contract")
+    }
+    target.haveContract = !target.haveContract;
     const targetUser = io.sockets.sockets.get(id);
-    targetUser.emit("receive contract", detail);
+    targetUser.emit("receive contract", { detail: detail, room: room });
+  });
+  socket.on("contract accept", ({ detail, room }) => {
+    const game = games.get(room);
+    const me = game.users.find((user) => user.id == socket.id);
+    me.amount += Number(detail.amount);
+    const sender = game.users.find((user) => user.id == detail.sender.id);
+    sender.amount -= Number(detail.amount);
+    const senderSocket = io.sockets.sockets.get(sender.id);
+    senderSocket.emit("target accept contract");
   });
 }
