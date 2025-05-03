@@ -29,6 +29,10 @@ export default new (class {
     res.render("play-with-bot", { user: req.user });
   }
   async profile(req, res) {
-    res.render("profile", { user: req.user });
+    const invites = await Invite.find({ receiver: req.user.id }).populate(
+      "sender"
+    );
+    const notifs = await Notification.find({ user: req.user.id });
+    res.render("profile", { user: req.user, invites: invites, notif: notifs });
   }
 })();

@@ -221,7 +221,7 @@ export function renderTimer() {
   timerStarted = true;
 
   const timerSpan = document.querySelector("#timer");
-  let time = 30;
+  let time = 300;
 
   const intervalId = setInterval(() => {
     time--;

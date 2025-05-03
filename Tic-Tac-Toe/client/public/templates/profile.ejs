@@ -23,11 +23,11 @@
         <li>Change Password</li>
         <li>Link Google Account</li>
         <li>Notifications</li>
-        <li>Logout</li>
+        <li>Switch Acount</li>
       </ul>
     </div>
 
-    <div class="card">
+    <div class="card active-box">
       <h2>Update Profile</h2>
       <form id="ProfileForm">
         <div class="avatar-preview">
@@ -48,8 +48,34 @@
       </form>
     </div>
     
+    <div class="card notification-card">
+      <h2>Notifications</h2>
+      <% for (let i = 0; i < invites.length; i++) { %>
+        <div class="notification" data=<%= invites[i]._id %>>
+          <img src="<%= invites[i].sender.profile %>" alt="User Avatar" class="notif-avatar" />
+            <p><strong><%= invites[i].sender.username %></strong> sent you an invite</p>
+            <div class="notif-actions">
+              <button class="accept-btn">Accept</button>
+              <button class="reject-btn">Delete</button>
+            </div>
+        </div>
+    <% } %>
+    <% for (let i = 0; i < notif.length; i++) { %>
+      <div class="notification" data=<%= notif[i]._id %>>
+          <p><%= notif[i].text %></p>
+          <div class="notif-actions">
+            <button class="reject-btn">Remove</button>
+          </div>
+      </div>
+      <li>
+  <% } %>
+    </div>
   </div>
+  
   <div id="toast-container"></div>
+  <audio id="background-music" autoplay loop>
+    <source src="/public/music/bg-music.m4a" type="audio/mpeg" />
+  </audio>
   <script type="module" src="/src/components/profile.js"></script>
 </body>
 </html>

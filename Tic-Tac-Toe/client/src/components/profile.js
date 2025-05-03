@@ -1,6 +1,7 @@
 const form = document.querySelector("#ProfileForm");
 const avatarInput = document.getElementById("avatarInput");
 const preview = document.getElementById("preview");
+const sidebarOption = document.querySelectorAll("li");
 
 avatarInput.addEventListener("change", () => {
   const file = avatarInput.files[0];
@@ -12,7 +13,6 @@ avatarInput.addEventListener("change", () => {
     reader.readAsDataURL(file);
   }
 });
-
 
 export function showToast(message, type = "success") {
   const toast = document.createElement("div");
@@ -43,10 +43,35 @@ form.addEventListener("submit", async (e) => {
   });
   const data = await response.json();
   if (response.ok) {
-    showToast("Profile Updated")
-  }
-  else{
-    showToast(data.message,"error")
+    showToast("Profile Updated");
+  } else {
+    showToast(data.message, "error");
   }
 });
 
+sidebarOption.forEach((item) => {
+  item.addEventListener("click", () => {
+    document.querySelector(".active").classList.remove("active");
+    item.classList.add("active");
+    document.querySelector(".active-box").style.display = "none";
+    switch (item.innerText) {
+      case "Edit Profile":
+        break;
+      case "Change Password":
+        break;
+      case "Link Google Account":
+        break;
+      case "Notifications":
+        renderNotifictionBox()
+        break;
+      case "Switch Acount":
+        break;
+      default:
+        break;
+    }
+  });
+});
+
+function renderNotifictionBox() {
+  document.querySelector(".notification-card").style.display = "block"
+}
