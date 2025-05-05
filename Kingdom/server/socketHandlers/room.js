@@ -74,19 +74,21 @@ export default function (socket, onlineUsers, io, games) {
     room = parseInt(room);
     const game = games.get(room);
     if (!game) return;
-
-    game.privateChats = [];
-    for (let i = 0; i < game.users.length; i++) {
-      for (let j = i + 1; j < game.users.length; j++) {
-        game.privateChats.push({
-          id: `${game.users[i].id}-${game.users[j].id}`,
-          user1: game.users[i].id,
-          user2: game.users[j].id,
-          messages: [],
-        });
+    if (!game.isStarted) {
+      game.privateChats = [];
+      for (let i = 0; i < game.users.length; i++) {
+        for (let j = i + 1; j < game.users.length; j++) {
+          game.privateChats.push({
+            id: `${game.users[i].id}-${game.users[j].id}`,
+            user1: game.users[i].id,
+            user2: game.users[j].id,
+            messages: [],
+          });
+        }
       }
+      game.isStarted = true;
+      io.to(room).emit("game start", game);
     }
-    io.to(room).emit("game start", game);
   });
 
   socket.on("public message", ({ message, id, room }) => {
@@ -215,6 +217,17 @@ export default function (socket, onlineUsers, io, games) {
     const senderSocket = io.sockets.sockets.get(sender.id);
     if (senderSocket) {
       senderSocket.emit("target accept contract");
+      io.to(room).emit("contract update users", game.users);
+    }
+  });
+  socket.on("disconnecting", () => {
+    for (const room of socket.rooms) {
+      if (room === socket.id) continue;
+
+      const game = games.get(room);
+      game.users = game.users.filter((user) => user.id != socket.id);
+
+      socket.to(room).emit("user-left", game.users);
     }
   });
 }

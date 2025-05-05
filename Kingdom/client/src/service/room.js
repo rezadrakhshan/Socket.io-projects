@@ -102,7 +102,7 @@ socket.on("ready", (data) => {
 socket.on("game start", (data) => {
   waitingRoom.remove();
   roomContainer.style.display = "grid";
-  renderRoomInfo(users);
+  renderRoomInfo(data.users);
   submitPublicForm();
   renderPrivateChat(data.privateChats);
   renderTimer();
@@ -256,3 +256,13 @@ socket.on("receive contract", (data) => {
 socket.on("target accept contract", () => {
   toastr.success("Target accept contract");
 });
+
+socket.on("contract update users", (data) => {
+  users = data;
+});
+
+
+socket.on("user-left",(data)=>{
+  users = data
+  updateWaitingUsersList(users)
+})
