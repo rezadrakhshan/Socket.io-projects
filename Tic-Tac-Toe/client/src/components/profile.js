@@ -1,7 +1,7 @@
 const form = document.querySelector("#ProfileForm");
 const avatarInput = document.getElementById("avatarInput");
 const preview = document.getElementById("preview");
-const sidebarOption = document.querySelectorAll("li");
+const passswordForm = document.querySelector("#PasswordForm");
 
 avatarInput.addEventListener("change", () => {
   const file = avatarInput.files[0];
@@ -37,6 +37,13 @@ form.addEventListener("submit", async (e) => {
   if (password) {
     document.querySelector("#password").remove();
     formData.append("password", password);
+    const changePasswordOption = document.createElement("li");
+    changePasswordOption.innerText = "Change Password";
+    const sidebarList = document.querySelector(".sidebar ul");
+    const allOptions = sidebarList.querySelectorAll("li");
+    const editProfileItem = allOptions[0];
+    sidebarList.insertBefore(changePasswordOption, editProfileItem.nextSibling);
+    bindSidebarEvents();
   }
   if (avatarFile) formData.append("avatar", avatarFile);
 
@@ -52,24 +59,76 @@ form.addEventListener("submit", async (e) => {
   }
 });
 
-sidebarOption.forEach((item) => {
-  item.addEventListener("click", () => {
-    document.querySelector(".active").classList.remove("active");
-    item.classList.add("active");
-    document.querySelector(".active-box").style.display = "none";
-    switch (item.innerText) {
-      case "Edit Profile":
-        break;
-      case "Change Password":
-        break;
-      case "Link Google Account":
-        break;
-      case "Notifications":
-        break;
-      case "Switch Acount":
-        break;
-      default:
-        break;
-    }
+passswordForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const data = {
+    currentPassword: e.target.currentPassword.value,
+    newPassword: e.target.newPassword.value,
+    confirmPassword: e.target.confirmPassword.value,
+  };
+  if (data.newPassword != data.confirmPassword) {
+    showToast("Passwords do not match", "error");
+    return;
+  }
+  const response = await fetch("/api/change-password", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
   });
+  const result = await response.json();
+  if (response.ok) {
+    showToast("Password updated successfully");
+    e.target.reset();
+  } else {
+    showToast(result.message || "Error updating password", "error");
+    return;
+  }
 });
+
+function bindSidebarEvents() {
+  const sidebarOption = document.querySelectorAll("li");
+  sidebarOption.forEach((item) => {
+    item.addEventListener("click", () => {
+      document.querySelector(".active").classList.remove("active");
+      item.classList.add("active");
+      switch (item.innerText) {
+        case "Edit Profile":
+          ShowEditProfileSection();
+          break;
+        case "Change Password":
+          ShowChangePasswordSection();
+          break;
+        case "Link Google Account":
+          break;
+        case "Switch Acount":
+          break;
+        default:
+          break;
+      }
+    });
+  });
+}
+
+function ShowEditProfileSection() {
+  const card = document.querySelector(".card");
+  if (!card.classList.contains("active-box")) {
+    const activeBox = document.querySelector(".active-box");
+    activeBox.style.display = "none";
+    activeBox.classList.remove("active-box");
+    card.classList.add("active-box");
+    card.style.display = "block";
+  }
+}
+
+function ShowChangePasswordSection() {
+  const box = document.querySelector(".show-password");
+  if (!box.classList.contains("active-box")) {
+    const activeBox = document.querySelector(".active-box");
+    activeBox.style.display = "none";
+    activeBox.classList.remove("active-box");
+    box.classList.add("active-box");
+    box.style.display = "block";
+  }
+}
+
+bindSidebarEvents();
