@@ -47,29 +47,6 @@
         <button type="submit">Save Changes</button>
       </form>
     </div>
-    
-    <div class="card notification-card">
-      <h2>Notifications</h2>
-      <% for (let i = 0; i < invites.length; i++) { %>
-        <div class="notification" data=<%= invites[i]._id %>>
-          <img src="<%= invites[i].sender.profile %>" alt="User Avatar" class="notif-avatar" />
-            <p><strong><%= invites[i].sender.username %></strong> sent you an invite</p>
-            <div class="notif-actions">
-              <button class="accept-btn">Accept</button>
-              <button class="reject-btn">Delete</button>
-            </div>
-        </div>
-    <% } %>
-    <% for (let i = 0; i < notif.length; i++) { %>
-      <div class="notification" data=<%= notif[i]._id %>>
-          <p><%= notif[i].text %></p>
-          <div class="notif-actions">
-            <button class="reject-btn">Remove</button>
-          </div>
-      </div>
-      <li>
-  <% } %>
-    </div>
   </div>
   
   <div id="toast-container"></div>

@@ -261,8 +261,7 @@ socket.on("contract update users", (data) => {
   users = data;
 });
 
-
-socket.on("user-left",(data)=>{
-  users = data
-  updateWaitingUsersList(users)
-})
+socket.on("user-left", (data) => {
+  users = data;
+  updateWaitingUsersList(users);
+});

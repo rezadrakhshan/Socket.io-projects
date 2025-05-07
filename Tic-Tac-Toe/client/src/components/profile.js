@@ -34,7 +34,10 @@ form.addEventListener("submit", async (e) => {
 
   const formData = new FormData();
   formData.append("username", username);
-  if (password) formData.append("password", password);
+  if (password) {
+    document.querySelector("#password").remove();
+    formData.append("password", password);
+  }
   if (avatarFile) formData.append("avatar", avatarFile);
 
   const response = await fetch("/api/upload-avatar", {
@@ -62,7 +65,6 @@ sidebarOption.forEach((item) => {
       case "Link Google Account":
         break;
       case "Notifications":
-        renderNotifictionBox()
         break;
       case "Switch Acount":
         break;
@@ -71,7 +73,3 @@ sidebarOption.forEach((item) => {
     }
   });
 });
-
-function renderNotifictionBox() {
-  document.querySelector(".notification-card").style.display = "block"
-}
