@@ -84,7 +84,7 @@ passswordForm.addEventListener("submit", async (e) => {
     return;
   }
 });
-
+ 
 function bindSidebarEvents() {
   const sidebarOption = document.querySelectorAll("li");
   sidebarOption.forEach((item) => {
@@ -99,6 +99,7 @@ function bindSidebarEvents() {
           ShowChangePasswordSection();
           break;
         case "Link Google Account":
+          ShowLinkGoogleSection()
           break;
         case "Switch Acount":
           break;
@@ -122,6 +123,17 @@ function ShowEditProfileSection() {
 
 function ShowChangePasswordSection() {
   const box = document.querySelector(".show-password");
+  if (!box.classList.contains("active-box")) {
+    const activeBox = document.querySelector(".active-box");
+    activeBox.style.display = "none";
+    activeBox.classList.remove("active-box");
+    box.classList.add("active-box");
+    box.style.display = "block";
+  }
+}
+
+function ShowLinkGoogleSection() {
+  const box = document.querySelector(".link-google");
   if (!box.classList.contains("active-box")) {
     const activeBox = document.querySelector(".active-box");
     activeBox.style.display = "none";

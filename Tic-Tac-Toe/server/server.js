@@ -7,6 +7,7 @@ import config from "./start/config.js";
 import logging from "./start/logging.js";
 import db from "./start/db.js";
 import router from "./routes/index.js";
+import authRoutes from "./routes/auth.js"
 import userMiddle from "./middleware/user.js";
 import authentication from "./socketHandlers/authentication.js";
 import friend from "./socketHandlers/friend.js";
@@ -20,11 +21,13 @@ const io = new Server(server);
 export const log = debug("app:main");
 export const __dirname = path.resolve();
 
-
 config(e, app);
 logging();
 db();
 
+
+
+app.use('/auth', authRoutes);
 app.use("/", userMiddle, router);
 
 export const onlineUsers = new Map();
