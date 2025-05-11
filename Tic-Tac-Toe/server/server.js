@@ -6,11 +6,9 @@ import path from "path";
 import config from "./start/config.js";
 import logging from "./start/logging.js";
 import db from "./start/db.js";
-import session from "express-session";
 import passport from "passport";
-import MongoStore from "connect-mongo";
-import c from "config";
 import router from "./routes/index.js";
+import session from "express-session";
 import authRoutes from "./routes/auth.js"
 import userMiddle from "./middleware/user.js";
 import authentication from "./socketHandlers/authentication.js";
@@ -29,13 +27,8 @@ config(e, app);
 logging();
 db();
 
-
 app.use(session({
-  store: MongoStore.create({
-    mongoUrl:c.get("db.address"), 
-    collectionName: "sessions",
-  }),
-  secret: c.get("session-secret"),
+  secret: "sajkdgkjadgfkjadfgjdkaad",
   resave: false,
   saveUninitialized: false,
 }));
