@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "set DEBUG=app:main && nodemon server/server.js"
+    "start": "set DEBUG=app:main && node server/server.js"
   },
   "type": "module",
   "keywords": [],
@@ -15,6 +15,7 @@
     "bcrypt": "^5.1.1",
     "cloudinary": "^2.6.0",
     "config": "^3.3.12",
+    "connect-mongo": "^5.1.0",
     "cookie-parser": "^1.4.7",
     "debug": "^4.4.0",
     "ejs": "^3.1.10",

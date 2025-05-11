@@ -8,6 +8,8 @@ import logging from "./start/logging.js";
 import db from "./start/db.js";
 import session from "express-session";
 import passport from "passport";
+import MongoStore from "connect-mongo";
+import c from "config";
 import router from "./routes/index.js";
 import authRoutes from "./routes/auth.js"
 import userMiddle from "./middleware/user.js";
@@ -27,12 +29,16 @@ config(e, app);
 logging();
 db();
 
+
 app.use(session({
-  secret: "your_session_secret",
+  store: MongoStore.create({
+    mongoUrl:c.get("db.address"), 
+    collectionName: "sessions",
+  }),
+  secret: c.get("session-secret"),
   resave: false,
   saveUninitialized: false,
 }));
-
 
 app.use(passport.initialize());
 app.use(passport.session());

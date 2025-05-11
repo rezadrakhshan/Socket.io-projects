@@ -6,12 +6,17 @@ import User from "../models/user.js";
 const GOOGLE_CLIENT_ID = c.get("google-auth.client-id");
 const GOOGLE_CLIENT_SECRET = c.get("google-auth.client-secret");
 
+const callbackBaseURL =
+  process.env.NODE_ENV === "production"
+    ? "https://tictacfun.liara.run"
+    : "http://127.0.0.1:3000";
+
 passport.use(
   new GoogleStrategy(
     {
       clientID: GOOGLE_CLIENT_ID,
       clientSecret: GOOGLE_CLIENT_SECRET,
-      callbackURL: "http://127.0.0.1:3000/auth/google/callback",
+      callbackURL: `${callbackBaseURL}/auth/google/callback`,
       passReqToCallback: true,
     },
     async (req, accessToken, refreshToken, profile, done) => {
