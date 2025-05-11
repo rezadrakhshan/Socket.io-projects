@@ -1,7 +1,7 @@
 import passport from "passport";
 import { Strategy as GoogleStrategy } from "passport-google-oauth20";
 import c from "config";
-import User from "../models/user.js"; // برای پیدا کردن و بروزرسانی کاربر موجود
+import User from "../models/user.js";
 
 const GOOGLE_CLIENT_ID = c.get("google-auth.client-id");
 const GOOGLE_CLIENT_SECRET = c.get("google-auth.client-secret");
@@ -11,20 +11,23 @@ passport.use(
     {
       clientID: GOOGLE_CLIENT_ID,
       clientSecret: GOOGLE_CLIENT_SECRET,
-      callbackURL: "/auth/google/callback",
+      callbackURL: "http://127.0.0.1:3000/auth/google/callback",
       passReqToCallback: true,
     },
     async (req, accessToken, refreshToken, profile, done) => {
       try {
-        let existingUser = await User.findById(req.user.id);
+        if (!req.user) return done(new Error("No logged-in user"));
 
-        if (existingUser) {
-          existingUser.googleId = profile.id;
-          await existingUser.save();
-          return done(null, existingUser);
+        const existingUser = await User.findOne({ googleId: profile.id });
+        if (existingUser && existingUser.id !== req.user.id) {
+          return done(new Error("Google account is already linked to another user."));
         }
 
-        done(null, null);
+        req.user.googleId = profile.id;
+        req.user.email = profile.emails?.[0]?.value || req.user.email;
+        await req.user.save();
+
+        done(null, req.user);
       } catch (err) {
         done(err);
       }
@@ -33,10 +36,11 @@ passport.use(
 );
 
 passport.serializeUser((user, done) => {
-  done(null, user);
+  done(null, user.id);
 });
 
-passport.deserializeUser((user, done) => {
+passport.deserializeUser(async (id, done) => {
+  const user = await User.findById(id);
   done(null, user);
 });
 

@@ -1,25 +1,37 @@
-import jwt from "jsonwebtoken";
-import c from "config";
 import User from "../models/user.js";
 import { generateUsername } from "unique-username-generator";
 
+const SKIP_PATHS = [
+  "/auth/google",
+  "/auth/google/callback"
+];
+
 export default async function (req, res, next) {
-  if (req.cookies.token) {
-    const decoded = jwt.verify(req.cookies.token, c.get("jwt_key"));
-    req.user = await User.findById(decoded._id).populate("friends");
-    next();
-  } else {
+  try {
+    if (req.user) {
+      req.session.userId = req.user.id;
+      return next();
+    }
+
+    if (req.session.userId) {
+      req.user = await User.findById(req.session.userId).populate("friends");
+      return next();
+    }
+
+    if (SKIP_PATHS.includes(req.path)) {
+      return next();
+    }
+
     const username = generateUsername("-", 0, 6);
-    const user = new User({ username: username });
+    const user = new User({ username });
     await user.save();
-    const token = jwt.sign({ _id: user.id }, c.get("jwt_key"));
-    res.cookie("token", token, {
-      httpOnly: true,
-      sameSite: "strict",
-      expires: new Date("2099-12-31"),
-      secure: process.env.NODE_ENV === "production",
-    });
+
+    req.session.userId = user.id;
     req.user = user;
+
+    next();
+  } catch (err) {
+    console.error("Error in user middleware:", err);
     next();
   }
 }

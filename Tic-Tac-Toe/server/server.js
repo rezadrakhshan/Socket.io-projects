@@ -6,6 +6,8 @@ import path from "path";
 import config from "./start/config.js";
 import logging from "./start/logging.js";
 import db from "./start/db.js";
+import session from "express-session";
+import passport from "passport";
 import router from "./routes/index.js";
 import authRoutes from "./routes/auth.js"
 import userMiddle from "./middleware/user.js";
@@ -25,10 +27,20 @@ config(e, app);
 logging();
 db();
 
+app.use(session({
+  secret: "your_session_secret",
+  resave: false,
+  saveUninitialized: false,
+}));
 
 
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.use(userMiddle);
 app.use('/auth', authRoutes);
-app.use("/", userMiddle, router);
+app.use("/", router);
+
 
 export const onlineUsers = new Map();
 const games = new Map();
