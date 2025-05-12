@@ -5,6 +5,7 @@ const modalContent = modal.querySelector(".modal-content");
 const notifBtn = document.getElementById("toggle-notif");
 const notifBox = document.getElementById("notification-box");
 const playWithBotBtn = document.getElementById("play-with-bot");
+const contextMenu = document.getElementById("contextMenu");
 export const botLoadingScreen = document.getElementById("bot-loading");
 
 window.addEventListener(
@@ -68,7 +69,6 @@ playWithBotBtn.addEventListener("click", () => {
   }, 3000);
 });
 
-const contextMenu = document.getElementById("contextMenu");
 
 document.addEventListener("contextmenu", (e) => {
   e.preventDefault();

@@ -8,12 +8,13 @@ const gameInviteBtn = document.querySelector(".play-btn");
 export let socket = io();
 export let id;
 
-socket.emit("register", userId);
 socket.on("connect", () => {
   id = socket.id;
+  socket.emit("register", userId);
 });
 
 function addInviteNotification(data) {
+  console.log(data)
   const li = document.createElement("li");
   li.setAttribute("data", data[2]);
   li.innerHTML = `
