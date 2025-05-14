@@ -2,6 +2,7 @@ const form = document.querySelector("#ProfileForm");
 const avatarInput = document.getElementById("avatarInput");
 const preview = document.getElementById("preview");
 const passswordForm = document.querySelector("#PasswordForm");
+const settingsForm = document.querySelector("#SettingsForm")
 
 avatarInput.addEventListener("change", () => {
   const file = avatarInput.files[0];
@@ -156,4 +157,9 @@ function ShowSettingsSection() {
   }
 }
 
+settingsForm.addEventListener("submit",(e=>{
+  e.preventDefault()
+  console.log(e.target.volume.value)
+}))
+ 
 bindSidebarEvents();

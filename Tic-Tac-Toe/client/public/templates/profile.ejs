@@ -92,33 +92,68 @@
       </div>
       <div class="card user-settings" style="display: none">
         <h2>User Settings</h2>
-        <form id="SettingsForm">
-          <label>
-            Game Volume:
-            <input type="range" name="volume" min="0" max="100" value="50" />
-          </label>
+        <form id="SettingsForm" class="settings-grid">
+          <div class="setting-item">
+            <label for="volume">Game Volume</label>
+            <input
+              type="range"
+              id="volume"
+              name="volume"
+              min="0"
+              max="1"
+              step="0.1"
+              value="0.5"
+            />
+          </div>
 
-          <br /><br />
-
-          <label>
-            Language:
-            <select name="language">
+          <div class="setting-item">
+            <label for="language">Language</label>
+            <select id="language" name="language">
               <option value="en">English</option>
               <option value="fa">فارسی</option>
             </select>
-          </label>
+          </div>
 
-          <br /><br />
+          <div class="setting-item">
+            <label>
+              <input type="checkbox" name="soundEffects" checked />
+              Enable Sound Effects
+            </label>
+          </div>
 
-          <label>
-            Enable Sound Effects:
-            <input type="checkbox" name="soundEffects" checked />
-          </label>
+          <div class="setting-item">
+            <label>
+              <input id="bgMusic" type="checkbox" name="music" checked />
+              Background Music
+            </label>
+          </div>
 
-          <br /><br />
+          <div class="setting-item">
+            <label for="theme">Game Theme</label>
+            <select id="theme" name="theme">
+              <option value="light">Light</option>
+              <option value="dark">Dark</option>
+              <option value="neon">Neon</option>
+            </select>
+          </div>
 
-          <button type="submit">Save Settings</button>
+          <div class="setting-item">
+            <label>
+              <input type="checkbox" name="avatars" checked />
+              Show Avatars
+            </label>
+          </div>
+
+          <div class="setting-item">
+            <label for="animationSpeed">Animation Speed</label>
+            <select id="animationSpeed" name="animationSpeed">
+              <option value="slow">Slow</option>
+              <option value="normal" selected>Normal</option>
+              <option value="fast">Fast</option>
+            </select>
+          </div>
         </form>
+        <button type="submit" form="SettingsForm">Save Settings</button>
       </div>
     </div>
 
@@ -127,6 +162,10 @@
       <source src="/public/music/bg-music.m4a" type="audio/mpeg" />
     </audio>
     <script type="module" src="/src/components/profile.js"></script>
-    <script src="/src/components/audio.js"></script>
+    <script type="module" src="/src/components/audio.js"></script>
+    <script
+      type="module"
+      src="/src/components/settingEventListener.js"
+    ></script>
   </body>
 </html>

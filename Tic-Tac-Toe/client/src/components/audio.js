@@ -1,12 +1,13 @@
-const audio = document.querySelector("#background-music");
+export const audio = document.querySelector("#background-music");
+const setting = JSON.parse(localStorage.getItem("settings"));
 
 
 window.addEventListener(
   "click",
   () => {
     if (audio.muted) {
-      audio.muted = false;
-      audio.volume = 0.0;
+      audio.muted = !setting.bgMusic;
+      audio.volume = setting.gameValue;
     }
     audio.play().catch((err) => {
       console.warn("Initial autoplay failed:", err);

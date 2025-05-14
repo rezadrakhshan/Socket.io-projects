@@ -7,6 +7,24 @@ const notifBox = document.getElementById("notification-box");
 const playWithBotBtn = document.getElementById("play-with-bot");
 const contextMenu = document.getElementById("contextMenu");
 export const botLoadingScreen = document.getElementById("bot-loading");
+const setting = localStorage.getItem("settings") || false;
+
+document.addEventListener("DOMContentLoaded", () => {
+  if (!setting) {
+    localStorage.setItem(
+      "settings",
+      JSON.stringify({
+        gameValue: 0.5,
+        lang: "en",
+        soundEffects: true,
+        bgMusic: true,
+        theme: "N",
+        showAvatar: true,
+        animationSpeed: "N",
+      })
+    );
+  }
+});
 
 toggleBtn.addEventListener("click", () => {
   audio.muted = !audio.muted;
