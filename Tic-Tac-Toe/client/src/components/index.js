@@ -8,20 +8,6 @@ const playWithBotBtn = document.getElementById("play-with-bot");
 const contextMenu = document.getElementById("contextMenu");
 export const botLoadingScreen = document.getElementById("bot-loading");
 
-window.addEventListener(
-  "click",
-  () => {
-    if (audio.muted) {
-      audio.muted = false;
-      audio.volume = 0.4;
-    }
-    audio.play().catch((err) => {
-      console.warn("Initial autoplay failed:", err);
-    });
-  },
-  { once: true }
-);
-
 toggleBtn.addEventListener("click", () => {
   audio.muted = !audio.muted;
   toggleBtn.textContent = audio.muted ? "🔇" : "🔊";
@@ -69,7 +55,6 @@ playWithBotBtn.addEventListener("click", () => {
   }, 3000);
 });
 
-
 document.addEventListener("contextmenu", (e) => {
   e.preventDefault();
 
@@ -93,11 +78,10 @@ document.addEventListener("click", () => {
   contextMenu.style.display = "none";
 });
 
-
 document.querySelector("#edit-profile").addEventListener("click", async (e) => {
   botLoadingScreen.classList.remove("bot-hidden");
 
   setTimeout(() => {
-    window.location.href = "/profile"
+    window.location.href = "/profile";
   }, 3000);
 });

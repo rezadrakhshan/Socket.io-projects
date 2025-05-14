@@ -101,6 +101,9 @@ function bindSidebarEvents() {
         case "Link Google Account":
           ShowLinkGoogleSection()
           break;
+        case "Settings":
+          ShowSettingsSection()
+          break;
         case "Switch Acount":
           break;
         default:
@@ -134,6 +137,16 @@ function ShowChangePasswordSection() {
 
 function ShowLinkGoogleSection() {
   const box = document.querySelector(".link-google");
+  if (!box.classList.contains("active-box")) {
+    const activeBox = document.querySelector(".active-box");
+    activeBox.style.display = "none";
+    activeBox.classList.remove("active-box");
+    box.classList.add("active-box");
+    box.style.display = "block";
+  }
+}
+function ShowSettingsSection() {
+  const box = document.querySelector(".user-settings");
   if (!box.classList.contains("active-box")) {
     const activeBox = document.querySelector(".active-box");
     activeBox.style.display = "none";

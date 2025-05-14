@@ -102,7 +102,9 @@ body::before {
 }
 
 input[type="text"],
-input[type="password"] {
+input[type="password"],
+input[type="range"],
+select{
   width: 80%;
   padding: 0.7rem 1rem;
   margin: 0.5rem 0;

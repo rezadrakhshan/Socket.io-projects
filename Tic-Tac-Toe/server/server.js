@@ -47,9 +47,7 @@ const games = new Map();
 authentication(io, sessionMiddleware);
 
 io.on("connection", (socket) => {
-  console.log("User connected");
   socket.on("register", (userId) => {
-    console.log("user registered");
     onlineUsers.set(userId, socket.id);
   });
   friend(socket, onlineUsers, io);
