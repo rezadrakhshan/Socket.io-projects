@@ -9,6 +9,8 @@ import db from "./start/db.js";
 import passport from "passport";
 import router from "./routes/index.js";
 import session from "express-session";
+import MongoStore from "connect-mongo";
+import c from "config";
 import authRoutes from "./routes/auth.js";
 import userMiddle from "./middleware/user.js";
 import authentication from "./socketHandlers/authentication.js";
@@ -31,6 +33,10 @@ const sessionMiddleware = session({
   secret: "sajkdgkjadgfkjadfgjdkaad",
   resave: false,
   saveUninitialized: false,
+  store: MongoStore.create({
+    mongoUrl: c.get("db.address"),
+    collectionName: "sessions",
+  }),
 });
 app.use(sessionMiddleware);
 
