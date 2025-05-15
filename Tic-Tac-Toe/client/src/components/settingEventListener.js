@@ -7,6 +7,6 @@ audioVolume.addEventListener("change", (e) => {
   audio.volume = e.target.value;
 });
 
-bgMusic.addEventListener("click", () => {
+bgMusic.addEventListener("click", () => { 
   audio.muted = !audio.muted;
 });

@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
     localStorage.setItem(
       "settings",
       JSON.stringify({
-        gameValue: 0.5,
+        gameVolume: 0.5,
         lang: "en",
         soundEffects: true,
         bgMusic: true,
