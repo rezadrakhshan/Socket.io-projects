@@ -3,6 +3,7 @@ import { createServer } from "http";
 import { Server } from "socket.io";
 import debug from "debug";
 import path from "path";
+import { setupI18n } from "./start/i18n.js";
 import config from "./start/config.js";
 import logging from "./start/logging.js";
 import db from "./start/db.js";
@@ -28,6 +29,16 @@ export const __dirname = path.resolve();
 config(e, app);
 logging();
 db();
+
+const i18nMiddleware = await setupI18n();
+app.use(i18nMiddleware);
+
+app.use((req, res, next) => {
+  res.locals.t = req.t;
+  res.locals.language = req.language;
+  res.locals.languageDir = req.i18n.dir();
+  next();
+});
 
 const sessionMiddleware = session({
   secret: "sajkdgkjadgfkjadfgjdkaad",

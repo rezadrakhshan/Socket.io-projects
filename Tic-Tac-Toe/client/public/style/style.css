@@ -7,6 +7,17 @@
 html {
   padding: 3%;
 }
+
+body[dir="rtl"] {
+  direction: rtl;
+  text-align: right;
+}
+
+body[dir="ltr"] {
+  direction: ltr;
+  text-align: left;
+}
+
 body {
   display: flex;
   justify-content: center;

@@ -103,20 +103,20 @@ function bindSidebarEvents() {
     item.addEventListener("click", () => {
       document.querySelector(".active").classList.remove("active");
       item.classList.add("active");
-      switch (item.innerText) {
-        case "Edit Profile":
+      switch (item.getAttribute("id")) {
+        case "edit-profile":
           ShowEditProfileSection();
           break;
-        case "Change Password":
+        case "set-password":
           ShowChangePasswordSection();
           break;
-        case "Link Google Account":
+        case "google":
           ShowLinkGoogleSection();
           break;
-        case "Settings":
+        case "settings":
           ShowSettingsSection();
           break;
-        case "Switch Acount":
+        case "switch-account":
           break;
         default:
           break;
@@ -168,18 +168,18 @@ function ShowSettingsSection() {
   }
 }
 
-settingsForm.addEventListener("submit", (e) => {
-  e.preventDefault();
-  const data = {
-    gameVolume: e.target.volume.value,
-    lang: e.target.language.value,
-    soundEffects: e.target.soundEffects.checked,
-    bgMusic: e.target.music.checked,
-    theme: e.target.theme.value,
-    showAvatar: e.target.avatars.value,
-    animationSpeed: e.target.animationSpeed.value,
-  };
-  localStorage.setItem("settings",JSON.stringify(data))
-});
+// settingsForm.addEventListener("submit", (e) => {
+//   e.preventDefault();
+//   const data = {
+//     gameVolume: e.target.volume.value,
+//     lang: e.target.language.value,
+//     soundEffects: e.target.soundEffects.checked,
+//     bgMusic: e.target.music.checked,
+//     theme: e.target.theme.value,
+//     showAvatar: e.target.avatars.value,
+//     animationSpeed: e.target.animationSpeed.value,
+//   };
+//   localStorage.setItem("settings",JSON.stringify(data))
+// });
 
 bindSidebarEvents();

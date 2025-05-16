@@ -1,0 +1,46 @@
+{
+    "profile":{
+        "sidebar":{
+            "header":"Settings",
+            "li-list":{
+                "1":"Edit Profile",
+                "2":"Change Password",
+                "3":"Link Google Account",
+                "4":"Settings",
+                "5":"Switch Acount"
+            }
+
+        },
+        "card":{
+            "header":"Update Profile", 
+            "profile-input":"Change Profile Picture",
+            "password-place-holder":"Set Password",
+            "submit-btn":"Save Changes"
+        },
+        "change-password":{
+            "header":"Change Password",
+            "placeholders":{
+                "1":"Current Password",
+                "2":"New Password",
+                "3":"Confirm New Password"
+            },
+            "submit-btn":"Change Password"
+        },
+        "google":{
+            "header":"Link google",
+            "p":"Link your account to google",
+            "btn":"Link"
+        },
+        "user-settings":{
+            "header":"User Settings",
+            "gv":"Game Volume",
+            "lang":"Language",
+            "ESE":"Enable Sound Effects",
+            "bm":"Background Music",
+            "gt":"Game Theme",
+            "sa":"Show Avatars",
+            "as":"Animation Speed",
+            "submit-btn":"Save Settings"
+        }
+    }
+} 

@@ -48,4 +48,14 @@ export default new (class {
       message: "Password was change",
     });
   }
+  async saveSettings(req, res) {
+    const { language } = req.body;
+
+    if (language) {
+      res.cookie("i18next", language);
+    }
+
+
+    res.redirect("/profile");
+  }
 })();
