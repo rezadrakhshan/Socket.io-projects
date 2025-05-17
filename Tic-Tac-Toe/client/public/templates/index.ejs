@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="<%= language %>" dir="<%= languageDir %>">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -14,6 +14,9 @@
       href="https://fonts.googleapis.com/css2?family=Bungee+Tint&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
       rel="stylesheet"
     />
+    <script src="https://unpkg.com/i18next@21.6.16/i18next.min.js"></script>
+<script src="https://unpkg.com/i18next-http-backend@1.4.2/i18nextHttpBackend.min.js"></script>
+<script src="https://unpkg.com/i18next-browser-languagedetector@6.1.4/i18nextBrowserLanguageDetector.min.js"></script>
   </head>
   <div class="custom-context-menu" id="contextMenu">
     <ul>
@@ -64,9 +67,9 @@
       <div class="content">
         <div class="menu">
           <img src="/public/image/logo.png" alt="" />
-          <a href="">Play Rank</a>
-          <a id="play-with-bot">Play With Bot</a>
-          <a href="#add-friend" id="open-modal-btn">Add Friend</a>
+          <a href=""><%= t("index.play-rank") %></a>
+          <a id="play-with-bot"><%= t("index.play-with-bot") %></a>
+          <a href="#add-friend" id="open-modal-btn"><%= t("index.add-friend") %></a>
         </div>
   
         <hr color="#FFDDAB" />
@@ -92,12 +95,12 @@
     </div>
     <div id="friend-sidebar" class="friend-sidebar hidden">
       <div class="sidebar-header">
-        <h3>Friend List</h3>
+        <h3><%= t("index.friend-sidebar.header") %></h3>
         <span id="close-sidebar">&times;</span>
       </div>
       <ul id="friend-list">
         <% if(onlineFriends.length){ %>
-        <p>Online Friends</p>
+        <p><%= t("index.friend-sidebar.online-header") %></p>
         <% for (let i = 0; i < onlineFriends.length; i++) { %>
           <li data=<%= onlineFriends[i]._id %>>
             <div>
@@ -105,13 +108,13 @@
             <span><%= onlineFriends[i].username %></span>
             </div>
             <div>
-              <button class="notif-btn reject" data-id="">Remove</button>
-              <button class="notif-btn accept play-btn" data-id="">Play</button>
+              <button class="notif-btn reject" data-id=""><%= t("index.friend-sidebar.btn.remove") %></button>
+              <button class="notif-btn accept play-btn" data-id=""><%= t("index.friend-sidebar.btn.play") %></button>
             </div>
           </li>
         <% } %><% } %>
         <% if(offlineFriends.length){ %>
-        <p>Offline Friends</p>
+        <p><%= t("index.friend-sidebar.offline-header") %></p>
         <% for (let i = 0; i < offlineFriends.length; i++) { %>
           <li data=<%= offlineFriends[i]._id %>>
             <div>
@@ -119,7 +122,7 @@
             <span><%= offlineFriends[i].username %></span>
             </div>
             <div>
-              <button class="notif-btn reject" data-id="">Remove</button>
+              <button class="notif-btn reject" data-id=""><%= t("index.friend-sidebar.btn.remove") %></button>
             </div>
           </li>
         <% } %><% } %>

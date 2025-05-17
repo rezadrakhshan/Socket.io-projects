@@ -11,6 +11,10 @@ export default function (e, app) {
     helmet.contentSecurityPolicy({
       directives: {
         defaultSrc: ["'self'"],
+        scriptSrc: [
+          "'self'",
+          "https://unpkg.com",
+        ],
         imgSrc: ["'self'", "data:", "https://res.cloudinary.com"],
       },
     })

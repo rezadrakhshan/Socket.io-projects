@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="<%= language %>" dir="<%= languageDir %>">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -16,7 +16,7 @@
   <body>
     <div class="container">
       <div class="left-panel">
-        <h1 class="title"><%= user.username %> VS AI</h1>
+        <h1 class="title"><%= user.username %> <%= t("play-with-bot.vs") %> <%= t("play-with-bot.AI") %></h1>
         <div class="board-container">
           <table class="table_overlay">
             <tbody>
@@ -47,16 +47,16 @@
       <hr color="#FFDDAB" />
       <div class="right-panel">
         <div class="info-box">
-          <h2>Game Info</h2>
-          <p><strong>Player:</strong> <%= user.username %></p>
-          <p><strong>Opponent:</strong> AI</p>
+          <h2><%= t("play-with-bot.game-info.header") %></h2>
+          <p><strong><%= t("play-with-bot.game-info.player") %>:</strong> <%= user.username %></p>
+          <p><strong><%= t("play-with-bot.game-info.opponent") %>:</strong> <%= t("play-with-bot.AI") %></p>
           <p>
-            <strong>Current Turn:</strong> <span id="current-turn">You</span>
+            <strong><%= t("play-with-bot.game-info.turn") %>:</strong> <span id="current-turn">You</span>
           </p>
           <p>
-            <strong>Status:</strong> <span id="game-status">In Progress</span>
+            <strong><%= t("play-with-bot.game-info.status") %>:</strong> <span id="game-status">In Progress</span>
           </p>
-          <button id="reset-btn">Restart</button>
+          <button id="reset-btn"><%= t("play-with-bot.game-info.restart-btn") %></button>
         </div>
       </div>
     </div>
