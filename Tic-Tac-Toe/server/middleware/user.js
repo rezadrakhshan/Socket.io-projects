@@ -1,10 +1,7 @@
 import User from "../models/user.js";
 import { generateUsername } from "unique-username-generator";
 
-const SKIP_PATHS = [
-  "/auth/google",
-  "/auth/google/callback"
-];
+const SKIP_PATHS = ["/auth/google", "/auth/google/callback"];
 
 export default async function (req, res, next) {
   try {

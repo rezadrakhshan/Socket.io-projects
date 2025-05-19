@@ -30,6 +30,25 @@ config(e, app);
 logging();
 db();
 
+const sessionMiddleware = session({
+  secret: "sajkdgkjadgfkjadfgjdkaad",
+  resave: false,
+  saveUninitialized: false,
+  store: MongoStore.create({
+    mongoUrl: c.get("db.address"),
+    collectionName: "sessions",
+    ttl: 60 * 60 * 2,
+    touchAfter: 60 * 60 * 1,
+  }),
+  cookie: {
+    maxAge: 24 * 3600,
+  },
+});
+app.use(sessionMiddleware);
+
+app.use(passport.initialize());
+app.use(passport.session());
+
 const i18nMiddleware = await setupI18n();
 app.use(i18nMiddleware);
 
@@ -40,23 +59,11 @@ app.use((req, res, next) => {
   next();
 });
 
-const sessionMiddleware = session({
-  secret: "sajkdgkjadgfkjadfgjdkaad",
-  resave: false,
-  saveUninitialized: false,
-  store: MongoStore.create({
-    mongoUrl: c.get("db.address"),
-    collectionName: "sessions",
-  }),
-});
-app.use(sessionMiddleware);
-
-app.use(passport.initialize());
-app.use(passport.session());
-
 app.use(userMiddle);
+
 app.use("/auth", authRoutes);
 app.use("/", router);
+
 
 export const onlineUsers = new Map();
 const games = new Map();
