@@ -78,5 +78,10 @@
         "tips6":"Tic-Tac-Toe: Simple rules, infinite possibilities.",
         "tips7":"Ready to outsmart your rival? Let's go!",
         "tips8":"A timeless game, now with a modern twist."
-    }
+    },
+    "contextMenu":{
+        "1":"Edit Profile"
+    },
+    "startBtn":"Start Game",
+    "notifications":"Notifications"
 } 
