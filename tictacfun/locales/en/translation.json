@@ -37,9 +37,23 @@
             "lang":"Language",
             "ESE":"Enable Sound Effects",
             "bm":"Background Music",
-            "gt":"Game Theme", 
+            "gt":{
+                "title":"Game Theme",
+                "options":{
+                    "light":"Light",
+                    "dark":"Dark",
+                    "neon":"neon"
+                }
+            }, 
             "sa":"Show Avatars",
-            "as":"Animation Speed",
+            "as":{
+                "title":"Animation Speed",
+                "options":{
+                    "slow":"Slow",
+                    "normal":"Normal",
+                    "fast":"Fast"
+                }
+            },
             "submit-btn":"Save Settings"
         }
     },

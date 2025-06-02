@@ -2,7 +2,6 @@ import _ from "lodash";
 import User from "../models/user.js";
 import { __dirname } from "../server.js";
 import bcrypt from "bcrypt";
-import user from "../middleware/user.js";
 
 export default new (class {
   async updateAvatar(req, res) {
@@ -49,13 +48,26 @@ export default new (class {
     });
   }
   async saveSettings(req, res) {
-    const { language } = req.body;
+    const data = {
+      gameValue: parseFloat(req.body.gameValue || 0.5),
+      language: req.body.language,
+      theme: req.body.theme,
+      animationSpeed: req.body.animationSpeed,
+      ESE: !!req.body.ESE,
+      backgroundMusic: !!req.body.backgroundMusic,
+      showAvatar: !!req.body.showAvatar,
+    };
 
-    if (language) {
-      res.cookie("i18next", language);
+    const user = await User.findById(req.user._id);
+    user.settings = data;
+    await user.save();
+    if (data.language) {
+      res.cookie("i18next", req.body.language);
     }
-
-
     res.redirect("/profile");
+  }
+
+  async getSettings(req, res) {
+    return res.send(req.user.settings);
   }
 })();

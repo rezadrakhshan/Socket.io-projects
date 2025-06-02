@@ -97,12 +97,12 @@
             <label for="volume"><%= t("profile.user-settings.gv") %></label>
             <input
               type="range"
-              id="volume"
-              name="volume"
+              id="gameValue"
+              name="gameValue"
               min="0"
               max="1"
               step="0.1"
-              value=""
+              value=<%= user.settings.gameValue %>
             />
           </div>
 
@@ -116,39 +116,39 @@
 
           <div class="setting-item">
             <label>
-              <input type="checkbox" id="soundEffects" name="soundEffects" checked />
+              <input type="checkbox" id="soundEffects" name="ESE" <%= user.settings.ESE ? "checked" : "" %> />
               <%= t("profile.user-settings.ESE") %>
             </label>
           </div>
 
           <div class="setting-item">
             <label>
-              <input id="bgMusic" type="checkbox" name="music" checked />
+              <input id="bgMusic" type="checkbox" name="backgroundMusic" <%= user.settings.backgroundMusic ? "checked" : "" %> />
               <%= t("profile.user-settings.bm") %>
             </label>
           </div>
 
           <div class="setting-item">
-            <label for="theme"><%= t("profile.user-settings.gt") %></label>
+            <label for="theme"><%= t("profile.user-settings.gt.title") %></label>
             <select id="theme" name="theme">
-              <option value="L">Light</option>
-              <option value="D">Dark</option>
-              <option value="N">Neon</option>
+              <option value="Light" <%= user.settings.theme === "Light" ? "selected" : "" %>><%= t("profile.user-settings.gt.options.light") %></option>
+              <option value="Dark" <%= user.settings.theme === "Dark" ? "selected" : "" %>><%= t("profile.user-settings.gt.options.dark") %></option>
+              <option value="Neon" <%= user.settings.theme === "Neon" ? "selected" : "" %>><%= t("profile.user-settings.gt.options.neon") %></option>
             </select>
           </div>
 
           <div class="setting-item">
             <label>
-              <input type="checkbox" id="avatars" name="avatars" checked /><%= t("profile.user-settings.sa") %>
+              <input type="checkbox" id="avatars" name="showAvatar" <%= user.settings.showAvatar ? "checked" : "" %> /><%= t("profile.user-settings.sa") %>
             </label>
           </div>
 
           <div class="setting-item">
-            <label for="animationSpeed"><%= t("profile.user-settings.as") %></label>
+            <label for="animationSpeed"><%= t("profile.user-settings.as.title") %></label>
             <select id="animationSpeed" name="animationSpeed">
-              <option value="S">Slow</option>
-              <option value="N" selected>Normal</option>
-              <option value="F">Fast</option>
+              <option value="Slow" <%= user.settings.animationSpeed === "Slow" ? "selected" : "" %>><%= t("profile.user-settings.as.options.slow") %></option>
+              <option value="Normal" <%= user.settings.animationSpeed === "Normal" ? "selected" : "" %>><%= t("profile.user-settings.as.options.normal") %></option>
+              <option value="Fast" <%= user.settings.animationSpeed === "Fast" ? "selected" : "" %>><%= t("profile.user-settings.as.options.fast") %></option>
             </select>
           </div>
         </form>
@@ -161,10 +161,6 @@
       <source src="/public/music/bg-music.m4a" type="audio/mpeg" />
     </audio>
     <script type="module" src="/src/components/profile.js"></script>
-    <script type="module" src="/src/components/audio.js"></script>
-    <script
-      type="module"
-      src="/src/components/settingEventListener.js"
-    ></script>
+    <script type="module" src="/src/components/setting.js"></script>
   </body>
 </html>

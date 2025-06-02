@@ -6,6 +6,7 @@ const router = e.Router();
 
 router.post("/upload-avatar", upload.single("avatar"), controller.updateAvatar);
 router.post("/change-password", controller.changePassword);
+router.get("/settings", controller.getSettings);
 router.post("/settings", controller.saveSettings);
 
 export default router;

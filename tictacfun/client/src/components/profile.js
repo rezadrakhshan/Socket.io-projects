@@ -2,18 +2,6 @@ const form = document.querySelector("#ProfileForm");
 const avatarInput = document.getElementById("avatarInput");
 const preview = document.getElementById("preview");
 const passswordForm = document.querySelector("#PasswordForm");
-const settingsForm = document.querySelector("#SettingsForm");
-const settingValues = JSON.parse(localStorage.getItem("settings"))
-
-window.addEventListener("DOMContentLoaded",()=>{
-  document.querySelector("#volume").value = settingValues.gameVolume
-  document.querySelector("#language").value = settingValues.lang
-  document.querySelector("#soundEffects").checked = settingValues.soundEffects
-  document.querySelector("#bgMusic").checked = settingValues.bgMusic
-  document.querySelector("#theme").value = settingValues.theme
-  document.querySelector("#avatars").checked = settingValues.showAvatar
-  document.querySelector("#animationSpeed").value = settingValues.animationSpeed
-})
 
 avatarInput.addEventListener("change", () => {
   const file = avatarInput.files[0];
@@ -167,19 +155,5 @@ function ShowSettingsSection() {
     box.style.display = "block";
   }
 }
-
-// settingsForm.addEventListener("submit", (e) => {
-//   e.preventDefault();
-//   const data = {
-//     gameVolume: e.target.volume.value,
-//     lang: e.target.language.value,
-//     soundEffects: e.target.soundEffects.checked,
-//     bgMusic: e.target.music.checked,
-//     theme: e.target.theme.value,
-//     showAvatar: e.target.avatars.value,
-//     animationSpeed: e.target.animationSpeed.value,
-//   };
-//   localStorage.setItem("settings",JSON.stringify(data))
-// });
 
 bindSidebarEvents();

@@ -1,7 +1,7 @@
-const button = document.querySelector(".start-btn")
-const loader = document.querySelector(".loader-screen")
-const bgOverlay = document.querySelector(".background-overlay")
-const container = document.querySelector(".container")
+const button = document.querySelector(".start-btn");
+const loader = document.querySelector(".loader-screen");
+const bgOverlay = document.querySelector(".background-overlay");
+const container = document.querySelector(".container");
 
 i18next
   .use(i18nextHttpBackend)
@@ -42,7 +42,7 @@ function startTypingTips() {
     typeText(message, tipText);
     index = (index + 1) % keys.length;
   }
-  
+
   updateMessage();
   setInterval(updateMessage, 4000);
 }
@@ -51,11 +51,10 @@ setTimeout(() => {
   button.classList.add("show");
 }, 3000);
 
-
-button.addEventListener("click",(e)=>{
-    loader.remove()
-    bgOverlay.remove()
-    container.classList.remove("display-none")
-    document.querySelector("body").style.backgroundImage = "url('/public/image/bg.gif')";
-})
-
+button.addEventListener("click", async (e) => {
+  loader.remove();
+  bgOverlay.remove();
+  container.classList.remove("display-none");
+  document.querySelector("body").style.backgroundImage =
+    "url('/public/image/bg.gif')";
+});
