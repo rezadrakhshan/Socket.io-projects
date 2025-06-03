@@ -8,7 +8,7 @@ const GOOGLE_CLIENT_SECRET = c.get("google-auth.client-secret");
 
 const callbackBaseURL =
   process.env.NODE_ENV === "production"
-    ? "https://tictacfun.liara.run"
+    ? "https://tictacfun.reza-derakhshan.ir"
     : "http://127.0.0.1:3000";
 
 passport.use(
