@@ -1,0 +1,22 @@
+{
+  "name": "univo",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "set DEBUG=app:main && nodemon server/server.js"
+  },
+  "type": "module",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "debug": "^4.4.1",
+    "ejs": "^3.1.10",
+    "express": "^5.1.0",
+    "helmet": "^8.1.0",
+    "lodash": "^4.17.21",
+    "socket.io": "^4.8.1",
+    "winston": "^3.17.0"
+  }
+}
