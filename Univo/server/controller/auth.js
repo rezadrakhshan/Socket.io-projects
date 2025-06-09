@@ -1,8 +1,6 @@
 import _ from "lodash";
 import User from "../models/user.js";
 import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
-import c from "config";
 
 export default new (class {
   async auth(req, res) {
@@ -20,10 +18,9 @@ export default new (class {
     data.password = await bcrypt.hash(data.password, saltRound);
     user = await new User(data);
     await user.save();
-    const payload = { id: user.id };
+    req.session.userID = user.id
     return res.json({
       msg: "user created",
-      token: jwt.sign(payload, c.get("jwt_secret")),
     });
   }
   async login(req, res) {
@@ -36,10 +33,9 @@ export default new (class {
     if (!isMatch) {
       return res.status(401).json({ msg: "Invalid email or password" });
     }
-    const payload = { id: user.id };
+    req.session.userID = user.id
     return res.json({
       msg: "login successfuly",
-      token: jwt.sign(payload, c.get("jwt_secret")),
     });
   }
 })();
