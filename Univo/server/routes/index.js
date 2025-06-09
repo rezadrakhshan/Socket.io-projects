@@ -1,8 +1,10 @@
 import e from "express";
-import authRouter from "./auth.js"
+import controller from "../controller/index.js";
+import authRouter from "./auth.js";
 
 const router = e.Router();
 
-router.use("/auth",authRouter)
+router.get("/", controller.home);
+router.use("/auth", authRouter);
 
 export default router;

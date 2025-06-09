@@ -18,10 +18,8 @@ export default new (class {
     data.password = await bcrypt.hash(data.password, saltRound);
     user = await new User(data);
     await user.save();
-    req.session.userID = user.id
-    return res.json({
-      msg: "user created",
-    });
+    req.session.userID = user.id;
+    return res.redirect("/");
   }
   async login(req, res) {
     const data = _.pick(req.body, ["email", "password"]);
@@ -33,9 +31,11 @@ export default new (class {
     if (!isMatch) {
       return res.status(401).json({ msg: "Invalid email or password" });
     }
-    req.session.userID = user.id
-    return res.json({
-      msg: "login successfuly",
-    });
+    req.session.userID = user.id;
+    return res.redirect("/");
+  }
+  async logout(req, res) {
+    req.session.destroy();
+    res.status(200).json({ message: "logged out" });
   }
 })();
