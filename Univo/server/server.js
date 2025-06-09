@@ -10,6 +10,7 @@ import logging from "./start/logging.js";
 import config from "./start/config.js";
 import db from "./start/db.js";
 import router from "./routes/index.js";
+import user from "./middleware/user.js";
 
 const app = e();
 const port = process.env.PORT || 3000;
@@ -38,6 +39,7 @@ logging();
 config(app, e);
 db();
 
+app.use(user)
 app.use("/", router);
 
 io.on("connection", (socket) => {
