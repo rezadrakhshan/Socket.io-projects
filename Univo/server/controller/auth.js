@@ -11,7 +11,7 @@ export default new (class {
     let user = await User.findOne({ email: data.email });
     if (user) {
       return res.status(400).json({
-        msg: "email taken",
+        msg: "Email taken",
       });
     }
     const saltRound = await bcrypt.genSalt(10);
@@ -19,7 +19,7 @@ export default new (class {
     user = await new User(data);
     await user.save();
     req.session.userID = user.id;
-    return res.redirect("/");
+    return res.status(200).json({ msg: "welcome" });
   }
   async login(req, res) {
     const data = _.pick(req.body, ["email", "password"]);
@@ -32,7 +32,7 @@ export default new (class {
       return res.status(401).json({ msg: "Invalid email or password" });
     }
     req.session.userID = user.id;
-    return res.redirect("/");
+    return res.status(200).json({ msg: "welcome" });
   }
   async logout(req, res) {
     req.session.destroy();

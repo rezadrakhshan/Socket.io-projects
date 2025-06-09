@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Univo</title>
     <link rel="stylesheet" href="public/style/auth.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"
+    />
   </head>
   <body>
     <div class="container">
@@ -13,7 +17,7 @@
         <div class="tab" id="register">Register</div>
       </div>
 
-      <form id="login-form" class="active" method="POST" action="/auth/login">
+      <form id="login-form" class="active" method="POST">
         <div class="form-group">
           <label for="login-email">Email</label>
           <input type="email" id="login-email" name="email" required />
@@ -25,7 +29,7 @@
         <button type="submit">Login</button>
       </form>
 
-      <form id="register-form" method="POST" action="/auth/register">
+      <form id="register-form" method="POST">
         <div class="form-group">
           <label for="reg-name">Full Name</label>
           <input type="text" id="reg-name" name="fullname" required />
@@ -46,6 +50,8 @@
       </form>
     </div>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script src="/src/components/auth.js"></script>
   </body>
 </html>
