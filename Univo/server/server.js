@@ -5,6 +5,7 @@ import debug from "debug";
 import path from "path";
 import logging from "./start/logging.js";
 import config from "./start/config.js";
+import db from "./start/db.js";
 import router from "./routes/index.js";
 
 const app = e();
@@ -16,6 +17,7 @@ export const __dirname = path.resolve();
 
 logging();
 config(app, e);
+db();
 
 app.use("/", router);
 
