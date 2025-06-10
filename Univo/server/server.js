@@ -11,7 +11,8 @@ import config from "./start/config.js";
 import db from "./start/db.js";
 import router from "./routes/index.js";
 import user from "./middleware/user.js";
-import NotFoundMiddleware from "./middleware/404.js"
+import NotFoundMiddleware from "./middleware/404.js";
+import room from "./socketHandlers/room.js";
 
 const app = e();
 const port = process.env.PORT || 3000;
@@ -21,7 +22,7 @@ export const log = debug("app:main");
 export const __dirname = path.resolve();
 
 const sessionMiddleware = session({
-  secret: "sajkdgkjadgfkjadfgjdkaad",
+  secret: c.get("session_key"),
   resave: false,
   saveUninitialized: false,
   store: MongoStore.create({
@@ -40,12 +41,13 @@ logging();
 config(app, e);
 db();
 
-app.use(user)
+app.use(user);
 app.use("/", router);
-app.use(NotFoundMiddleware)
+app.use(NotFoundMiddleware);``
 
 io.on("connection", (socket) => {
   log("user connected");
+  room(socket,io)
 });
 
 server.listen(port, () => log(`app running on port ${port}`));

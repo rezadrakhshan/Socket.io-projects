@@ -1,22 +1,38 @@
+const user = document.querySelector("#userID").value;
+const roomID = window.location.pathname.split("/").pop();
+const videoContainer = document.querySelector(".video-container");
 const video = document.getElementById("myVideo");
 const muteBtn = document.getElementById("muteBtn");
 const cameraBtn = document.getElementById("cameraBtn");
 const leaveBtn = document.getElementById("leaveBtn");
 let stream;
 
+export const socket = io("/");
 
-async function startVideo() {
-  try {
-    stream = await navigator.mediaDevices.getUserMedia({
-      video: true,
-      audio: true,
-    });
-    video.srcObject = stream;
-  } catch (err) {
-    alert("Could not access camera/microphone");
-    console.error(err);
-  }
+socket.on("connect", () => {
+  socket.emit("new user", { roomID: roomID, userID: user });
+});
+
+export function renderRoomUser(data) {
+  videoContainer.innerHTML = "";
+  data.forEach((item) => {
+    const newUser = document.createElement("video");
+    document.querySelector(".video-container").appendChild(newUser);
+  });
 }
+
+// async function startVideo() {
+//   try {
+//     stream = await navigator.mediaDevices.getUserMedia({
+//       video: true,
+//       audio: true,
+//     });
+//     video.srcObject = stream;
+//   } catch (err) {
+//     alert("Could not access camera/microphone");
+//     console.error(err);
+//   }
+// }
 
 muteBtn.onclick = () => {
   const audioTracks = stream.getAudioTracks();
@@ -40,5 +56,3 @@ leaveBtn.onclick = () => {
   }
   window.location.href = "/";
 };
-
-startVideo();

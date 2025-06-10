@@ -7,8 +7,9 @@
     <link rel="stylesheet" href="/public/style/room.css">
   </head>
   <body>
+    <input type="hidden" id="userID" value="<%= userID %>">
     <div class="video-container">
-      <video id="myVideo" autoplay muted playsinline></video>
+      <!-- <video id="myVideo" autoplay muted playsinline></video> -->
     </div>
 
     <div class="controls">
@@ -17,6 +18,8 @@
       <button class="leave-btn" id="leaveBtn">Leave</button>
     </div>
 
-    <script src="/src/components/room.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script type="module" src="/src/components/room.js"></script>
+    <script type="module" src="/src/service/room.js"></script>
   </body>
 </html>
