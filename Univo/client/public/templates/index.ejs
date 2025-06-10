@@ -7,14 +7,7 @@
     <link rel="stylesheet" href="public/style/style.css" />
   </head>
   <body>
-    <header class="navbar">
-      <div class="logo">Univo</div>
-      <nav class="nav-links">
-        <a href="/">Home</a>
-        <a href="#">About</a>
-        <a href="" id="logout">LogOut</a>
-      </nav>
-    </header>
+    <%- include('include/header') %>
 
     <main class="hero">
       <h1>Connect. Collaborate. Meet.</h1>
@@ -25,7 +18,8 @@
       <button>Start a Meeting</button>
     </main>
 
-    <footer class="footer">© 2025 Meetly. All rights reserved.</footer>
+    <%- include('include/footer') %>
+
     <script src="src/components/index.js"></script>
   </body>
 </html>
