@@ -11,4 +11,19 @@ export default function (socket, io) {
     socket.join(roomID);
     io.to(roomID).emit("user connected", roomInfo.users);
   });
+  socket.on("disconnecting", async () => {
+    const rooms = [...socket.rooms];
+
+    for (const room of rooms) {
+      if (room === socket.id) continue;
+
+      const target = await Room.findById(room);
+      if (!target) continue;
+
+      target.users = target.users.filter((id) => id !== socket.id);
+      await target.save();
+
+      socket.to(room).emit("user disconnected", target.users);
+    }
+  });
 }

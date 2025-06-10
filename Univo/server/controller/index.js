@@ -20,7 +20,7 @@ export default new (class {
     res.render("room", { userID: req.session.userID });
   }
   async createRoom(req, res) {
-    const newRoom = await new Room({ users: [req.session.userID] });
+    const newRoom = await new Room();
     await newRoom.save();
     return res.json(newRoom);
   }

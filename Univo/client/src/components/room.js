@@ -1,4 +1,3 @@
-const user = document.querySelector("#userID").value;
 const roomID = window.location.pathname.split("/").pop();
 const videoContainer = document.querySelector(".video-container");
 const video = document.getElementById("myVideo");
@@ -10,7 +9,7 @@ let stream;
 export const socket = io("/");
 
 socket.on("connect", () => {
-  socket.emit("new user", { roomID: roomID, userID: user });
+  socket.emit("new user", { roomID: roomID, userID: socket.id})
 });
 
 export function renderRoomUser(data) {
