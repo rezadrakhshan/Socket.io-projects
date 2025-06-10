@@ -6,8 +6,9 @@
 
 body {
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #000;
-  height: 100vh;
+  background-color: #f9fafc;
+  color: #333;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
 }
@@ -18,56 +19,134 @@ body {
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  gap: 10px;
-  padding: 20px;
+  gap: 15px;
+  padding: 30px;
+  background: linear-gradient(135deg, #f9fafc 80%, #e6f0fa 100%);
 }
 
 video {
   width: 100%;
   max-width: 480px;
   height: auto;
-  border-radius: 10px;
-  background-color: #111;
+  border-radius: 12px;
   object-fit: cover;
+  border: 2px solid #007bff;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+video:hover {
+  transform: scale(1.02);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
 }
 
 .controls {
   display: flex;
   justify-content: center;
-  padding: 20px;
-  background-color: #111;
+  padding: 25px;
+  background: linear-gradient(to right, #ffffff, #f1f5f9);
   gap: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  border-radius: 10px;
+  margin: 0 20px 20px;
 }
 
 .controls button {
-  padding: 14px 18px;
+  position: relative;
+  padding: 14px 28px;
   font-size: 16px;
   border: none;
-  border-radius: 8px;
+  border-radius: 10px;
   cursor: pointer;
-  font-weight: bold;
+  font-weight: 600;
   color: white;
-  transition: background-color 0.3s;
-}
-
-.mute-btn {
-  background-color: #007bff;
-}
-
-.camera-btn {
-  background-color: #28a745;
-}
-
-.leave-btn {
-  background-color: #dc3545;
+  transition: transform 0.2s, box-shadow 0.2s, opacity 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .controls button:hover {
-  opacity: 0.9;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  opacity: 0.95;
+}
+
+.mute-btn {
+  background: linear-gradient(45deg, #007bff, #40c4ff)
+}
+
+.camera-btn {
+  background: linear-gradient(45deg, #28a745, #66bb6a);
+}
+
+.leave-btn {
+  background: linear-gradient(45deg, #dc3545, #ef5350);
+}
+
+.mute-btn::before,
+.camera-btn::before,
+.leave-btn::before {
+  content: "";
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  background-size: cover;
+}
+
+.mute-btn::before {
+  background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" fill="white" viewBox="0 0 24 24"><path d="M12 4a8 8 0 00-8 8v4h16v-4a8 8 0 00-8-8z"/></svg>'); /* آیکون صوت */
+}
+
+.camera-btn::before {
+  background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" fill="white" viewBox="0 0 24 24"><path d="M18 8h-1l-2-3h-6l-2 3H6a2 2 0 00-2 2v8a2 2 0 002 2h12a2 2 0 002-2v-8a2 2 0 00-2-2zm-6 15a4 4 0 110-8 4 4 0 010 8z"/></svg>'); /* آیکون دوربین */
+}
+
+.leave-btn::before {
+  background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" fill="white" viewBox="0 0 24 24"><path d="M10 9V5l-7 7 7 7v-4h11v-6H10z"/></svg>'); /* آیکون خروج */
 }
 
 @media (max-width: 768px) {
   .video-container {
     flex-direction: column;
+    padding: 20px;
+    gap: 10px;
+  }
+
+  video {
+    max-width: 100%;
+    border-radius: 8px;
+  }
+
+  .controls {
+    padding: 15px;
+    margin: 0 10px 15px;
+    gap: 15px;
+    flex-wrap: wrap;
+  }
+
+  .controls button {
+    padding: 12px 20px;
+    font-size: 14px;
+  }
+
+  .controls button:hover {
+    transform: none;
+  }
+}
+
+@media (max-width: 600px) {
+  .video-container {
+    padding: 15px;
+  }
+
+  .controls {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .controls button {
+    width: 100%;
+    max-width: 200px;
   }
 }
