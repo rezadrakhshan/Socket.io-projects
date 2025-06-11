@@ -13,7 +13,20 @@ export default function (app, e) {
           "'self'",
           "https://cdn.jsdelivr.net",
           "https://cdnjs.cloudflare.com",
+          "https://unpkg.com",
         ],
+        connectSrc: [
+          "'self'",
+          "ws://localhost:3000",
+          "ws://127.0.0.1:3000",
+          "http://localhost:3000",
+          "http://127.0.0.1:3000",
+          "https://univo.reza-derakhshan.ir", 
+          "wss://univo.reza-derakhshan.ir",
+        ],
+        mediaSrc: ["'self'", "blob:", "data:"],
+        imgSrc: ["'self'", "data:"],
+        styleSrc: ["'self'", "'unsafe-inline'"],
       },
     })
   );

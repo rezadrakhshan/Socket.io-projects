@@ -6,6 +6,7 @@ import path from "path";
 import c from "config";
 import session from "express-session";
 import MongoStore from "connect-mongo";
+import { ExpressPeerServer } from "peer";
 import logging from "./start/logging.js";
 import config from "./start/config.js";
 import db from "./start/db.js";
@@ -42,12 +43,18 @@ config(app, e);
 db();
 
 app.use(user);
+app.use("/peerjs", ExpressPeerServer(server, { path: "/" }));
 app.use("/", router);
-app.use(NotFoundMiddleware);``
+app.use(NotFoundMiddleware);
+
+
+io.use((socket, next) => {
+  sessionMiddleware(socket.request, {}, next);
+});
 
 io.on("connection", (socket) => {
   log("user connected");
-  room(socket,io)
+  room(socket, io);
 });
 
 server.listen(port, () => log(`app running on port ${port}`));

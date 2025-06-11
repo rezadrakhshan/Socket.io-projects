@@ -1,49 +1,101 @@
 const roomID = window.location.pathname.split("/").pop();
 const videoContainer = document.querySelector(".video-container");
-const video = document.getElementById("myVideo");
 const muteBtn = document.getElementById("muteBtn");
 const cameraBtn = document.getElementById("cameraBtn");
 const leaveBtn = document.getElementById("leaveBtn");
+
 let stream;
 
 export const socket = io("/");
 
-socket.on("connect", () => {
-  socket.emit("new user", { roomID: roomID, userID: socket.id})
+
+const peer = new Peer(undefined, {
+  host: "127.0.0.1",
+  port: 3000,
+  path: "/peerjs",
 });
 
-export function renderRoomUser(data) {
-  videoContainer.innerHTML = "";
-  data.forEach((item) => {
-    const newUser = document.createElement("video");
-    document.querySelector(".video-container").appendChild(newUser);
+
+
+peer.on("open", (id) => {
+  socket.emit("new user", { roomID: roomID, userID: id });
+});
+
+navigator.mediaDevices
+  .getUserMedia({
+    video: true,
+    audio: true,
+  })
+  .then((localStream) => {
+    stream = localStream;
+
+    const myVideo = document.createElement("video");
+    myVideo.muted = true;
+    addVideoStream(myVideo, stream);
+
+    peer.on("call", (call) => {
+      call.answer(stream);
+      const video = document.createElement("video");
+      call.on("stream", (userVideoStream) => {
+        addVideoStream(video, userVideoStream);
+      });
+    });
+
+    socket.on("user connected", (users) => {
+      users
+        .filter((id) => id !== peer.id)
+        .forEach((userId) => {
+          connectToNewUser(userId, stream);
+        });
+    });
+
+    socket.on("user disconnected", (users) => {
+      clearVideoContainer();
+
+      users
+        .filter((id) => id !== peer.id)
+        .forEach((userId) => {
+          connectToNewUser(userId, stream);
+        });
+      addVideoStream(myVideo, stream);
+    });
+  })
+  .catch((err) => {
+    alert("Camera/Microphone access denied");
+    console.error(err);
+  });
+
+function connectToNewUser(userId, stream) {
+  const call = peer.call(userId, stream);
+  const video = document.createElement("video");
+  call.on("stream", (userVideoStream) => {
+    addVideoStream(video, userVideoStream);
   });
 }
 
-// async function startVideo() {
-//   try {
-//     stream = await navigator.mediaDevices.getUserMedia({
-//       video: true,
-//       audio: true,
-//     });
-//     video.srcObject = stream;
-//   } catch (err) {
-//     alert("Could not access camera/microphone");
-//     console.error(err);
-//   }
-// }
+function addVideoStream(video, stream) {
+  video.srcObject = stream;
+  video.addEventListener("loadedmetadata", () => {
+    video.play();
+  });
+  videoContainer.appendChild(video);
+}
+
+function clearVideoContainer() {
+  videoContainer.innerHTML = "";
+}
 
 muteBtn.onclick = () => {
-  const audioTracks = stream.getAudioTracks();
-  if (audioTracks.length > 0) {
+  const audioTracks = stream?.getAudioTracks();
+  if (audioTracks?.length > 0) {
     audioTracks[0].enabled = !audioTracks[0].enabled;
     muteBtn.textContent = audioTracks[0].enabled ? "Mute" : "Unmute";
   }
 };
 
 cameraBtn.onclick = () => {
-  const videoTracks = stream.getVideoTracks();
-  if (videoTracks.length > 0) {
+  const videoTracks = stream?.getVideoTracks();
+  if (videoTracks?.length > 0) {
     videoTracks[0].enabled = !videoTracks[0].enabled;
     cameraBtn.textContent = videoTracks[0].enabled ? "Camera Off" : "Camera On";
   }
