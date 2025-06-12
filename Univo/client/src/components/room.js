@@ -8,13 +8,11 @@ let stream;
 
 export const socket = io("/");
 
-
 const peer = new Peer(undefined, {
-  host: "127.0.0.1",
-  port: 3000,
+  host: "/",
+  port: 3001,
   path: "/peerjs",
 });
-
 
 
 peer.on("open", (id) => {
