@@ -9,9 +9,10 @@ let stream;
 export const socket = io("/");
 
 const peer = new Peer(undefined, {
-  host: "/",
-  port: 3001,
+  host: "peer.liara.run",
   path: "/peerjs",
+  port: 443,
+  secure: true,
 });
 
 
@@ -20,10 +21,7 @@ peer.on("open", (id) => {
 });
 
 navigator.mediaDevices
-  .getUserMedia({
-    video: true,
-    audio: true,
-  })
+  .getUserMedia({ video: true, audio: true })
   .then((localStream) => {
     stream = localStream;
 
@@ -37,6 +35,10 @@ navigator.mediaDevices
       call.on("stream", (userVideoStream) => {
         addVideoStream(video, userVideoStream);
       });
+    });
+
+    peer.on("open", (id) => {
+      socket.emit("new user", { roomID, userID: id });
     });
 
     socket.on("user connected", (users) => {
@@ -55,13 +57,11 @@ navigator.mediaDevices
         .forEach((userId) => {
           connectToNewUser(userId, stream);
         });
+
       addVideoStream(myVideo, stream);
     });
-  })
-  .catch((err) => {
-    alert("Camera/Microphone access denied");
-    console.error(err);
   });
+
 
 function connectToNewUser(userId, stream) {
   const call = peer.call(userId, stream);
