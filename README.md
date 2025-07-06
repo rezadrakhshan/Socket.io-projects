@@ -20,7 +20,7 @@ A simple real-time chat application inspired by WhatsApp. Users can join and sen
 
 In this simple yet strategic multiplayer game, players begin by choosing a country to represent. Once everyone has joined, the game starts, and diplomacy takes center stage. Players must negotiate, form alliances, and strategize to vote one country out of the game each round. In the end, the player whose country has accumulated the most wealth emerges as the ultimate winner.
 
-🔗 **Live Demo**: https://kingdom.liara.run 
+🔗 **Live Demo**: _Coming soon_
 
 ## Getting Started
 
